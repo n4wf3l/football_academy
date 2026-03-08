@@ -1,365 +1,455 @@
-# Football Academy - Centre de Formation d'Excellence
+# Football Academy - Plateforme de Centre de Formation
 
-Plateforme web professionnelle pour un centre de formation de football, avec une architecture **frontend/backend separee** :
-- **Backend** : Laravel 12 (API REST)
-- **Frontend** : React 19 + TypeScript + Tailwind CSS 4
+Plateforme web professionnelle pour un centre de formation de football. Elle sert de vitrine digitale pour attirer clubs europeens, recruteurs et partenaires, tout en permettant la gestion complete des joueurs, du staff, des entrainements et des evenements.
 
 ---
 
-## Objectif du projet
+## Table des matieres
 
-Ce site web sert de vitrine professionnelle pour un centre de formation de football africain qui souhaite :
-- Se presenter aux clubs europeens et aux scouts
-- Mettre en avant ses joueurs, son programme et ses infrastructures
-- Etablir des partenariats avec des clubs professionnels
-
----
-
-## Les 7 piliers du projet
-
-### 1. Dossier de presentation officiel du centre
-
-Le site fait office de dossier de presentation digital avec :
-
-- **Nom du centre de formation** et identite visuelle
-- **Localisation** et coordonnees de contact
-- **Vision et projet sportif** : former les joueurs et les hommes de demain
-- **Objectifs** :
-  - Formation technique et tactique de haut niveau
-  - Education et suivi scolaire obligatoire
-  - Developpement physique et mental des joueurs
-  - Placement des joueurs dans des clubs professionnels
-- **Age des joueurs formes** : U13, U15, U17, U19 (11 a 18 ans)
-- **Methodologie d'entrainement** :
-  - Technique individuelle (maitrise du ballon, dribble, passes, frappes)
-  - Tactique collective (systemes de jeu, pressing, transitions)
-  - Preparation physique (endurance, vitesse, force, coordination)
-  - Mental (concentration, confiance, esprit d'equipe)
-- **Encadrement** : entraineurs diplomes (Licence CAF A/B), preparateur physique, medecin sportif, educateurs
-- **Partenariats existants** : RSC Anderlecht, PSV Eindhoven, KRC Genk
-- **Infrastructures** : terrains, internat, salle de musculation, salle d'etude, bureau medical
-
-> Le contenu est disponible en francais. Une version anglaise est prevue (champs bilingues FR/EN dans la base de donnees).
-
-### 2. Photos et videos professionnelles
-
-La page **Galerie** (`/gallery`) permet de presenter :
-
-- Les terrains d'entrainement
-- L'internat (chambres, refectoire, salle d'etude)
-- La salle de musculation
-- Les seances d'entrainement
-- Les matchs des jeunes
-- La video de presentation du centre (2-3 minutes)
-
-> Systeme de filtrage par categorie (terrains, internat, entrainement, matchs) et par type (photo/video).
-
-### 3. Profils des meilleurs talents
-
-La section **Joueurs** (`/players`) presente des fiches joueurs completes :
-
-| Champ | Description |
-|-------|-------------|
-| Nom / Prenom | Identite du joueur |
-| Annee de naissance | Date de naissance complete |
-| Poste | Attaquant, Milieu, Defenseur, Gardien |
-| Taille / Poids | Mensurations du joueur |
-| Pied fort | Droit ou gauche |
-| Nationalite | Pays d'origine |
-| Categorie | U13, U15, U17, U19 |
-| Statistiques | Matchs joues, buts, passes decisives |
-| Video highlights | Lien vers la video YouTube/Vimeo |
-| Biographie | Texte de presentation (FR et EN) |
-
-> Chaque joueur a sa propre page de profil detaillee (`/players/{id}`).
-> Les joueurs "featured" apparaissent en page d'accueil.
-
-### 4. Site internet professionnel
-
-Ce projet **est** le site web du centre. Il inclut :
-
-- **Site web complet** avec 7 pages principales :
-  - Accueil (`/`) - Hero, stats, apercu des joueurs et du programme
-  - Le Centre (`/about`) - Vision, objectifs, methodologie, infrastructures, staff, partenaires
-  - Joueurs (`/players`) - Catalogue filtrable de tous les joueurs
-  - Programme (`/program`) - Planning hebdomadaire, axes de developpement, categories
-  - Galerie (`/gallery`) - Galerie photos/videos
-  - Tournois (`/tournaments`) - Evenements et journees de detection
-  - Contact (`/contact`) - Formulaire de contact et informations
-
-- **Liens reseaux sociaux** dans le footer :
-  - Instagram
-  - YouTube
-  - LinkedIn
-
-> Design responsive (mobile, tablette, desktop), professionnel et moderne avec les couleurs vert/or.
-
-### 5. Programme sportif annuel
-
-La page **Programme** (`/program`) explique en detail :
-
-- **Nombre d'entrainements par semaine** : 5 seances + match le week-end
-  - Lundi : Technique (16h-18h)
-  - Mardi : Physique (7h-8h) + Tactique (16h-18h)
-  - Mercredi : Match/Jeu reduit (10h-12h) + Analyse video (14h-15h)
-  - Jeudi : Technique (16h-18h)
-  - Vendredi : Physique (7h-8h) + Tactique (16h-18h)
-  - Samedi : Match officiel ou amical
-  - Dimanche : Repos/Recuperation
-
-- **Competitions jouees** : championnat, tournois nationaux et internationaux
-- **Suivi scolaire** : cours du matin obligatoires, aide aux devoirs, langues
-- **Developpement individuel** :
-  - Plan de progression avec objectifs individuels
-  - Rapport mensuel (technique, physique, comportemental)
-  - Analyse video personnalisee
-
-### 6. Strategie de contact avec les clubs
-
-La page **Contact** (`/contact`) permet de :
-
-- Envoyer un message directement (formulaire avec sujets : partenariat, scouting, inscription, tournoi)
-- Voir la liste des **clubs cibles** :
-  - RSC Anderlecht (Belgique)
-  - PSV Eindhoven (Pays-Bas)
-  - Borussia Monchengladbach (Allemagne)
-  - KRC Genk (Belgique)
-  - Club Brugge (Belgique)
-  - Standard de Liege (Belgique)
-  - Ajax Amsterdam (Pays-Bas)
-  - FC Metz (France)
-
-> En base de donnees, un modele `ContactClub` permet de suivre les contacts avec les clubs (statut : prospect, contacte, en discussion, partenariat).
-
-### 7. Tournois et journees de detection
-
-La page **Tournois** (`/tournaments`) permet de :
-
-- Lister tous les evenements a venir, en cours et termines
-- Presenter les details : nom, categorie, dates, lieu, description
-- Inviter les scouts europeens a :
-  - Tournoi U17 / U19
-  - Matchs amicaux internationaux
-  - Stages
+- [Fonctionnalites publiques](#fonctionnalites-publiques)
+- [Espace administration](#espace-administration)
+- [Pages publiques en detail](#pages-publiques-en-detail)
+- [Pages admin en detail](#pages-admin-en-detail)
+- [Generation de PDF](#generation-de-pdf)
+- [Systeme bilingue](#systeme-bilingue)
+- [API - Endpoints](#api---endpoints)
+- [Base de donnees](#base-de-donnees)
+- [Partie technique](#partie-technique)
 
 ---
 
-## Les 3 choses les plus importantes pour la visibilite
+## Fonctionnalites publiques
 
-1. **Video professionnelle du centre** - A uploader dans la galerie
-2. **Highlights des meilleurs joueurs** - Champ `highlight_video` dans chaque fiche joueur
-3. **Dossier PDF professionnel** - Le site lui-meme fait office de dossier digital ; un PDF peut etre genere a partir du contenu
-
----
-
-## Architecture & Stack technique
-
-```
-football_academy/
-├── backend/          # Laravel 12 - API REST
-├── frontend/         # React 19 + TypeScript + Tailwind CSS 4
-└── README.md
-```
-
-| Technologie | Version | Role |
-|-------------|---------|------|
-| Laravel | 12 | Backend PHP, API REST |
-| React | 19 | Frontend SPA |
-| TypeScript | 5.7 | Typage statique frontend |
-| Tailwind CSS | 4.0 | Styles et design responsive |
-| Vite | 7 | Build tool et HMR |
-| React Router | 7 | Navigation client-side |
-| Axios | 1.x | Client HTTP pour l'API |
-| SQLite | 3 | Base de donnees (dev) |
-
-### Communication Frontend / Backend
-
-- Le frontend tourne sur `http://localhost:3000`
-- Le backend tourne sur `http://localhost:8000`
-- Vite proxy automatiquement les requetes `/api/*` vers le backend
-- En production, configurer un reverse proxy (Nginx) ou deployer separement
+- **Page d'accueil** avec hero anime, statistiques, joueurs vedettes, programme, tournois a venir et CTA pour recruteurs
+- **Presentation du centre** (vision, objectifs, methodologie, infrastructures, encadrement, partenaires)
+- **Catalogue de joueurs** filtrable par categorie (U13, U15, U17, U19) et par poste (Gardien, Defenseur, Milieu, Attaquant)
+- **Fiche joueur detaillee** avec photo, stats, biographie et video highlights
+- **Programme d'entrainement** avec planning hebdomadaire visuel (grille 7 jours)
+- **Galerie media** avec filtres par type (photos/videos) et par categorie
+- **Tournois et evenements** avec statut (a venir, en cours, termine)
+- **Formulaire de contact** pour les demandes de renseignements
+- **Video de presentation** integree sur la page d'accueil (YouTube/embed)
+- **Export PDF** du dossier de presentation du centre et des profils joueurs
+- **Bilingue FR/EN** sur toutes les pages publiques avec switcher de langue
+- **Design responsive** adapte mobile, tablette et desktop
+- **Animations au scroll** (fade-in, slide) pour une navigation fluide
+- **Scroll automatique** vers le haut lors de la navigation entre pages
 
 ---
 
-## Installation
+## Espace administration
 
-### Prerequis
+Accessible apres connexion (`/login`), l'espace admin permet de gerer l'integralite du contenu du site :
 
-- PHP 8.2+
-- Composer
-- Node.js 18+
-- npm
+| Section | Route | Description |
+|---------|-------|-------------|
+| **Dashboard** | `/dashboard` | Vue d'ensemble avec statistiques rapides (joueurs, staff, tournois, galerie) |
+| **Joueurs** | `/dashboard/players` | CRUD complet avec upload photo, stats, bio FR/EN, video highlights, statut vedette |
+| **Planning** | `/dashboard/planning` | Gestion des seances d'entrainement par jour, heure, categorie, lieu, coach et couleur |
+| **Galerie** | `/dashboard/gallery` | Upload et gestion des photos/videos avec categories |
+| **Tournois** | `/dashboard/tournaments` | Creation d'evenements avec dates, lieu, description FR/EN et statut |
+| **Partenaires** | `/dashboard/partners` | Gestion des clubs et partenaires avec logo, site web et description |
+| **Encadrement** | `/dashboard/staff` | Gestion du staff technique avec photo, role, qualification et bio FR/EN |
+| **Parametres** | `/dashboard/settings` | Personnalisation du site (nom, logo, couleurs, hero, contact, reseaux sociaux, video) |
 
-### Backend (Laravel API)
-
-```bash
-cd backend
-
-# Installer les dependances PHP
-composer install
-
-# Configurer l'environnement
-cp .env.example .env
-php artisan key:generate
-
-# Creer la base de donnees et migrer
-touch database/database.sqlite
-php artisan migrate
-
-# Remplir la base avec des donnees d'exemple
-php artisan db:seed
-
-# Lancer le serveur API
-php artisan serve
-```
-
-L'API sera accessible sur `http://localhost:8000/api/`.
-
-### Frontend (React TypeScript)
-
-```bash
-cd frontend
-
-# Installer les dependances
-npm install
-
-# Lancer le serveur de developpement
-npm run dev
-```
-
-Le site sera accessible sur `http://localhost:3000`.
-
-### Build de production
-
-```bash
-cd frontend
-npm run build
-```
-
-Les fichiers de production seront dans `frontend/dist/`.
+Un bouton flottant (AdminFab) apparait sur les pages publiques lorsqu'un admin est connecte pour acceder rapidement au dashboard.
 
 ---
 
-## Structure du projet
+## Pages publiques en detail
 
-### Backend (`backend/`)
+### Accueil (`/`)
+- Hero plein ecran avec image de fond, titre, sous-titre et badge configurables depuis les parametres
+- Section statistiques (joueurs formes, entrainements/semaine, partenariats)
+- Apercu de la vision du centre
+- Grille des joueurs vedettes (6 max, marques `is_featured`)
+- Apercu du programme sportif
+- Prochains tournois (3 max)
+- Section video de presentation (affichee si URL configuree dans les parametres)
+- CTA pour recruteurs et clubs
 
-```
-backend/
-├── app/
-│   ├── Http/Controllers/Api/
-│   │   ├── HomeController.php          # Donnees page d'accueil
-│   │   ├── PlayerController.php        # CRUD joueurs
-│   │   ├── StaffController.php         # Liste staff
-│   │   ├── PartnerController.php       # Liste partenaires
-│   │   ├── GalleryController.php       # Galerie media
-│   │   ├── TournamentController.php    # Tournois et evenements
-│   │   └── ContactController.php       # Envoi message contact
-│   └── Models/
-│       ├── Player.php
-│       ├── Staff.php
-│       ├── Partner.php
-│       ├── GalleryItem.php
-│       ├── Tournament.php
-│       └── ContactClub.php
-├── database/
-│   ├── migrations/
-│   └── seeders/DatabaseSeeder.php
-├── routes/api.php                      # Routes API
-└── config/cors.php                     # Configuration CORS
-```
+### Le Centre (`/about`)
+- Presentation de la vision et des objectifs du centre
+- Methodologie d'entrainement en 4 axes (technique, tactique, physique, mental)
+- Infrastructures (terrains, internat, salle de musculation, salle d'etude, vestiaires, bureau medical)
+- Grille du staff avec photos et roles
+- Grille des partenaires avec logos
+- **Bouton "Telecharger le dossier PDF"** pour generer le dossier de presentation complet
 
-### API Endpoints
+### Joueurs (`/players`)
+- Grille responsive (2 a 4 colonnes)
+- Filtres par categorie d'age (U13, U15, U17, U19) et par poste (Gardien, Defenseur, Milieu, Attaquant)
+- Cartes joueurs avec photo, nom, position et categorie
+- Lien vers la fiche detaillee de chaque joueur
 
-| Methode | Endpoint | Description |
-|---------|----------|-------------|
-| GET | `/api/home` | Donnees page d'accueil (joueurs featured, staff, partenaires, tournois) |
+### Fiche Joueur (`/players/:id`)
+- Photo grand format avec gradient
+- Badge de position et categorie
+- Informations personnelles (age, taille, poids, pied fort, nationalite)
+- Statistiques (matchs joues, buts, passes decisives)
+- Biographie (affichee selon la langue active FR/EN)
+- Video highlights en iframe (YouTube/Vimeo)
+- **Bouton "Telecharger le profil PDF"** pour generer la fiche joueur
+
+### Programme (`/program`)
+- Planning hebdomadaire en grille visuelle (lundi a dimanche)
+- Seances avec code couleur, horaires, categorie, lieu et coach
+- Axes de developpement detailles :
+  - Technique (maitrise du ballon, passes, dribbles, frappes, jeu de tete)
+  - Tactique (systemes de jeu, transitions, pressing, placement, analyse video)
+  - Physique (endurance, vitesse, force, coordination, prevention des blessures)
+  - Suivi scolaire (cours, devoirs, valeurs, langues, nutrition)
+
+### Galerie (`/gallery`)
+- Grille de medias avec filtres par type (photos/videos) et par categorie
+- Titres bilingues FR/EN
+
+### Tournois (`/tournaments`)
+- Liste des evenements avec filtre par statut (a venir, en cours, termine)
+- Cartes avec nom, categorie, dates, lieu et description bilingue
+- Dates formatees selon la langue active
+
+### Contact (`/contact`)
+- Formulaire (nom, email, sujet au choix, message)
+- Sujets : partenariat, scouting, inscription, tournoi, autre
+- Coordonnees du centre (adresse, telephone, email)
+- Liste des clubs cibles (8 clubs europeens)
+- Liens vers les reseaux sociaux
+
+---
+
+## Pages admin en detail
+
+### Dashboard (`/dashboard`)
+- Message de bienvenue
+- Statistiques rapides (nombre de joueurs, staff, tournois, medias)
+- Cartes de navigation vers chaque section admin
+
+### Gestion des joueurs (`/dashboard/players`)
+- Tableau avec recherche par nom et filtre par categorie
+- Modal de creation/edition avec tous les champs :
+  - Infos personnelles (nom, prenom, date de naissance, nationalite)
+  - Donnees physiques (taille, poids, poste, pied fort)
+  - Statistiques (buts, passes, matchs joues)
+  - Media (upload photo, URL video highlights)
+  - Biographie FR et EN
+  - Statut joueur vedette (is_featured)
+- Suppression avec confirmation
+
+### Gestion du planning (`/dashboard/planning`)
+- Grille 7 jours avec toutes les seances d'entrainement
+- Modal de creation/edition (jour, horaires debut/fin, titre, description, categorie, lieu, coach, couleur, ordre)
+- Reordonnancement par drag & drop
+- Suppression avec confirmation
+
+### Gestion de la galerie (`/dashboard/gallery`)
+- Liste des medias avec creation et upload
+- Edition des titres FR/EN, type (photo/video), categorie, fichier et miniature
+
+### Gestion des tournois (`/dashboard/tournaments`)
+- Liste avec creation/edition/suppression
+- Champs : nom, categorie, dates debut/fin, lieu, description FR/EN, statut (a venir, en cours, termine)
+
+### Gestion des partenaires (`/dashboard/partners`)
+- Liste avec creation/edition/suppression
+- Champs : nom, type, logo (upload), site web, description FR/EN
+
+### Gestion de l'encadrement (`/dashboard/staff`)
+- Grille de cartes avec photo, nom, role et qualification
+- Recherche par nom et filtre par role
+- Roles predefinies : Entraineur principal, Entraineur adjoint, Preparateur physique, Medecin sportif, Kinesitherapeute, Directeur technique, Intendant, Autre
+- Modal de creation/edition avec upload photo et bio FR/EN
+- Suppression avec confirmation
+
+### Parametres du site (`/dashboard/settings`)
+- **Identite** : Nom de l'academie, URL du logo
+- **Couleurs** : Principale, claire, foncee, accent, sombre
+- **Hero** : Image de fond, titre, sous-titre, badge, URL video de presentation
+- **Contact** : Email, telephone, adresse
+- **Reseaux sociaux** : Facebook, Instagram, YouTube, LinkedIn, TikTok, Snapchat, X
+
+---
+
+## Generation de PDF
+
+### Dossier de presentation du centre
+Accessible depuis la page "Le Centre" via le bouton de telechargement. Genere un document A4 multi-pages contenant :
+- Page de couverture avec nom de l'academie, slogan et coordonnees
+- Vision et objectifs du centre
+- Methodologie d'entrainement (technique, tactique, physique, mental)
+- Infrastructures disponibles
+- Programme sportif et categories d'age (U13, U15, U17, U19)
+- Liste de l'encadrement technique avec roles et qualifications
+- Liste des partenaires avec types
+- Coordonnees completes et liens reseaux sociaux
+
+### Profil joueur
+Accessible depuis chaque fiche joueur via le bouton de telechargement. Genere un document A4 contenant :
+- En-tete sombre avec nom, position, categorie et nationalite
+- Informations personnelles (age, date de naissance, taille, poids, pied fort)
+- Statistiques dans des boites colorees (matchs joues, buts, passes decisives)
+- Biographie complete
+- Pied de page avec coordonnees de l'academie
+
+Les deux PDF s'adaptent automatiquement a la langue active (francais ou anglais).
+
+---
+
+## Systeme bilingue
+
+Le site dispose d'un systeme de traduction francais/anglais complet :
+
+- **Switcher de langue** dans la navbar desktop (bouton EN/FR) et dans le menu mobile (avec icone globe)
+- **Persistance** du choix de langue dans le localStorage du navigateur
+- **Fonction `t(fr, en)`** fournie par le `LanguageContext`, utilisee dans tous les composants pour afficher le texte selon la langue
+- **Contenu dynamique bilingue** : les champs `bio_fr`/`bio_en`, `title_fr`/`title_en`, `description_fr`/`description_en` sont affiches selon la langue active
+- **PDF bilingues** : les exports PDF generent le contenu dans la langue selectionnee
+- **Dates localisees** : formatees en francais (01/03/2026) ou anglais (01/03/2026) selon la langue
+
+---
+
+## API - Endpoints
+
+### Publics (sans authentification)
+
+| Methode | Route | Description |
+|---------|-------|-------------|
+| GET | `/api/home` | Donnees de la page d'accueil (joueurs vedettes, staff, partenaires, tournois a venir) |
 | GET | `/api/players` | Liste de tous les joueurs |
 | GET | `/api/players/{id}` | Detail d'un joueur |
-| GET | `/api/staff` | Liste du staff |
+| GET | `/api/staff` | Liste du staff technique |
 | GET | `/api/partners` | Liste des partenaires |
-| GET | `/api/gallery` | Galerie media |
+| GET | `/api/gallery` | Liste des medias (galerie) |
 | GET | `/api/tournaments` | Liste des tournois |
-| POST | `/api/contact` | Envoyer un message de contact |
+| GET | `/api/training-sessions` | Planning hebdomadaire des seances |
+| GET | `/api/settings/public` | Parametres publics du site |
+| POST | `/api/contact` | Envoi du formulaire de contact |
+| POST | `/api/login` | Connexion administrateur |
+| POST | `/api/register` | Inscription administrateur |
 
-### Frontend (`frontend/`)
+### Proteges (authentification Sanctum requise)
 
-```
-frontend/
-├── src/
-│   ├── main.tsx                        # Point d'entree + Router
-│   ├── index.css                       # Tailwind CSS + theme
-│   ├── types/index.ts                  # Interfaces TypeScript
-│   ├── api/
-│   │   ├── client.ts                   # Instance Axios configuree
-│   │   └── endpoints.ts               # Fonctions d'appel API
-│   ├── layouts/
-│   │   └── MainLayout.tsx              # Layout principal (navbar + footer)
-│   ├── components/
-│   │   ├── SectionTitle.tsx            # Titre de section reutilisable
-│   │   └── PlayerCard.tsx              # Carte joueur
-│   └── pages/
-│       ├── Home.tsx                    # Page d'accueil
-│       ├── About.tsx                   # Presentation du centre
-│       ├── Players/
-│       │   ├── Index.tsx               # Liste des joueurs (filtrable)
-│       │   └── Show.tsx                # Fiche joueur detaillee
-│       ├── Gallery.tsx                 # Galerie photos/videos
-│       ├── Program.tsx                 # Programme sportif annuel
-│       ├── Tournaments.tsx             # Tournois et evenements
-│       └── Contact.tsx                 # Page de contact
-├── index.html
-├── vite.config.ts                      # Config Vite + proxy API
-├── tsconfig.json
-└── package.json
-```
+| Methode | Route | Description |
+|---------|-------|-------------|
+| POST | `/api/logout` | Deconnexion |
+| GET | `/api/user` | Informations de l'utilisateur connecte |
+| GET/PUT | `/api/settings` | Lecture et mise a jour des parametres du site |
+| POST | `/api/upload` | Upload de fichier image (max 5 Mo ; jpg, png, gif, svg, webp) |
+| POST/PUT/DELETE | `/api/players[/{id}]` | CRUD joueurs |
+| POST/PUT/DELETE | `/api/staff[/{id}]` | CRUD staff |
+| POST/PUT/DELETE | `/api/partners[/{id}]` | CRUD partenaires |
+| POST/PUT/DELETE | `/api/gallery[/{id}]` | CRUD galerie |
+| POST/PUT/DELETE | `/api/tournaments[/{id}]` | CRUD tournois |
+| POST/PUT/DELETE | `/api/training-sessions[/{id}]` | CRUD seances d'entrainement |
+| POST | `/api/training-sessions/reorder` | Reordonnancement des seances (drag & drop) |
 
 ---
 
 ## Base de donnees
 
-### Tables principales
+### Modeles
 
-- **players** : fiches joueurs (nom, poste, stats, video, bio FR/EN)
-- **staff** : encadrement technique (entraineurs, medecin, preparateur)
-- **partners** : clubs et organisations partenaires
-- **gallery_items** : photos et videos du centre
-- **tournaments** : tournois, stages et journees de detection
-- **contact_clubs** : suivi des contacts avec les clubs (CRM basique)
+| Modele | Description | Champs principaux |
+|--------|-------------|-------------------|
+| **Player** | Profils des joueurs | first_name, last_name, date_of_birth, position, preferred_foot, height, weight, nationality, category, goals, assists, matches_played, bio_fr, bio_en, photo, highlight_video, is_featured |
+| **Staff** | Encadrement technique | name, role, qualification, bio_fr, bio_en, photo |
+| **Partner** | Partenaires et clubs | name, type, logo, website, description_fr, description_en |
+| **GalleryItem** | Medias (photos/videos) | title_fr, title_en, type, category, file_path, thumbnail |
+| **Tournament** | Tournois et evenements | name, category, start_date, end_date, location, description_fr, description_en, status |
+| **TrainingSession** | Seances d'entrainement | day_of_week, start_time, end_time, title, description, category, location, coach, color, sort_order |
+| **ContactClub** | CRM clubs contacts | club_name, country, contact_name, contact_role, email, status, notes |
+| **SiteSetting** | Parametres du site | key, value (systeme cle-valeur) |
+| **User** | Comptes administrateur | name, email, password |
 
----
+### Donnees de demonstration (Seeder)
 
-## Personnalisation
-
-### Modifier les informations du centre
-
-- **Nom, adresse, contact** : modifier dans `frontend/src/layouts/MainLayout.tsx` et `frontend/src/pages/Contact.tsx`
-- **Couleurs** : modifier les variables CSS dans `frontend/src/index.css` :
-  - `--color-primary` : vert principal (#1B5E20)
-  - `--color-accent` : or/jaune (#FFD700)
-  - `--color-dark` : fond sombre (#1a1a2e)
-- **Clubs cibles** : modifier la liste dans `frontend/src/pages/Contact.tsx`
-
-### Ajouter du contenu
-
-Via le seeder (`backend/database/seeders/DatabaseSeeder.php`) ou directement via l'API.
-
-> Un panel d'administration (backoffice) pourra etre ajoute par la suite pour gerer le contenu sans code.
+Le seeder (`php artisan db:seed`) fournit des donnees de test :
+- 1 administrateur : `admin@football-academy.com` / `password`
+- 4 membres du staff (entraineurs, medecin, preparateur physique)
+- 8 joueurs repartis en U15, U17, U19
+- 3 partenaires (RSC Anderlecht, PSV Eindhoven, KRC Genk)
+- 3 tournois avec differents statuts
+- 4 contacts clubs dans le CRM
+- 10 seances d'entrainement reparties sur la semaine
 
 ---
 
-## Prochaines etapes
+## Partie technique
 
-- [ ] Panel d'administration (CRUD joueurs, staff, galerie, tournois)
-- [ ] Authentification admin (Laravel Sanctum)
-- [ ] Upload de photos et videos
-- [ ] Generation de PDF (dossier de presentation)
-- [ ] Version anglaise complete (i18n)
-- [ ] Integration YouTube pour les highlights
-- [ ] SEO et meta tags Open Graph
-- [ ] Formulaire d'inscription joueurs en ligne
-- [ ] Systeme de newsletter
-- [ ] Statistiques avancees par joueur (graphiques)
+### Stack technologique
+
+| Composant | Technologie | Version |
+|-----------|-------------|---------|
+| **Backend** | Laravel (PHP) | 12.x |
+| **Frontend** | React + TypeScript | 19.x / 5.9 |
+| **Styling** | Tailwind CSS | 4.2 |
+| **Build** | Vite | 7.3 |
+| **Authentification** | Laravel Sanctum | 4.x |
+| **Client HTTP** | Axios | 1.13 |
+| **PDF** | jsPDF | 4.2 |
+| **Base de donnees** | SQLite (dev) | - |
+| **Routing** | React Router | 7.x |
+
+### Architecture du projet
+
+```
+football_academy/
+├── backend/                        # API Laravel
+│   ├── app/
+│   │   ├── Http/Controllers/Api/   # 11 controllers API
+│   │   │   ├── AuthController.php
+│   │   │   ├── HomeController.php
+│   │   │   ├── PlayerController.php
+│   │   │   ├── StaffController.php
+│   │   │   ├── PartnerController.php
+│   │   │   ├── GalleryController.php
+│   │   │   ├── TournamentController.php
+│   │   │   ├── TrainingSessionController.php
+│   │   │   ├── ContactController.php
+│   │   │   ├── UploadController.php
+│   │   │   └── SiteSettingsController.php
+│   │   └── Models/                 # 9 modeles Eloquent
+│   ├── database/
+│   │   ├── migrations/             # 12 migrations
+│   │   └── seeders/                # Donnees de demonstration
+│   ├── routes/api.php              # Definition des routes API
+│   └── .env                        # Configuration environnement
+│
+├── frontend/                       # SPA React
+│   ├── src/
+│   │   ├── api/
+│   │   │   ├── client.ts           # Instance Axios (base URL, token)
+│   │   │   └── endpoints.ts        # Fonctions d'appel API typees
+│   │   ├── components/             # 6 composants reutilisables
+│   │   │   ├── PlayerCard.tsx      # Carte joueur
+│   │   │   ├── SectionTitle.tsx    # Titre de section
+│   │   │   ├── Reveal.tsx          # Animation au scroll
+│   │   │   ├── ScrollToTop.tsx     # Scroll haut sur navigation
+│   │   │   ├── ProtectedRoute.tsx  # Protection routes admin
+│   │   │   └── AdminFab.tsx        # Bouton flottant admin
+│   │   ├── contexts/               # 3 contexts React
+│   │   │   ├── AuthContext.tsx      # Authentification + token
+│   │   │   ├── SettingsContext.tsx  # Parametres du site
+│   │   │   └── LanguageContext.tsx  # Langue FR/EN + fonction t()
+│   │   ├── hooks/
+│   │   │   └── useReveal.ts        # Hook animation au scroll
+│   │   ├── layouts/
+│   │   │   ├── MainLayout.tsx      # Navbar + footer (pages publiques)
+│   │   │   └── AdminLayout.tsx     # Sidebar (pages admin)
+│   │   ├── pages/
+│   │   │   ├── Home.tsx            # Page d'accueil
+│   │   │   ├── About.tsx           # Presentation du centre
+│   │   │   ├── Players/
+│   │   │   │   ├── Index.tsx       # Liste joueurs filtrable
+│   │   │   │   └── Show.tsx        # Fiche joueur detaillee
+│   │   │   ├── Gallery.tsx         # Galerie photos/videos
+│   │   │   ├── Program.tsx         # Programme sportif
+│   │   │   ├── Tournaments.tsx     # Tournois et evenements
+│   │   │   ├── Contact.tsx         # Formulaire de contact
+│   │   │   ├── Login.tsx           # Connexion
+│   │   │   ├── Register.tsx        # Inscription
+│   │   │   ├── Dashboard.tsx       # Tableau de bord admin
+│   │   │   └── admin/
+│   │   │       ├── Players.tsx     # CRUD joueurs
+│   │   │       ├── Planning.tsx    # CRUD planning
+│   │   │       ├── Gallery.tsx     # CRUD galerie
+│   │   │       ├── Tournaments.tsx # CRUD tournois
+│   │   │       ├── Partners.tsx    # CRUD partenaires
+│   │   │       ├── Staff.tsx       # CRUD encadrement
+│   │   │       └── Settings.tsx    # Parametres du site
+│   │   ├── types/
+│   │   │   └── index.ts            # Interfaces TypeScript
+│   │   ├── utils/
+│   │   │   ├── generateCenterPdf.ts  # PDF dossier du centre
+│   │   │   └── generatePlayerPdf.ts  # PDF profil joueur
+│   │   └── main.tsx                # Point d'entree + routes
+│   ├── vite.config.ts              # Proxy API + plugins
+│   └── package.json
+│
+└── README.md
+```
+
+### Installation et lancement
+
+**Prerequis** : PHP 8.2+, Composer, Node.js 18+, npm
+
+**Backend :**
+```bash
+cd backend
+composer install
+cp .env.example .env
+php artisan key:generate
+touch database/database.sqlite
+php artisan migrate
+php artisan db:seed
+php artisan serve                   # http://localhost:8000
+```
+
+**Frontend :**
+```bash
+cd frontend
+npm install
+npm run dev                         # http://localhost:3000
+```
+
+Le frontend est configure avec un proxy Vite qui redirige `/api` et `/storage` vers `http://localhost:8000`.
+
+### Build de production
+
+```bash
+cd frontend
+npm run build                       # Genere frontend/dist/
+```
+
+### Compte admin par defaut
+
+| Email | Mot de passe |
+|-------|-------------|
+| `admin@football-academy.com` | `password` |
+
+### Communication Frontend / Backend
+
+- Le frontend (React) tourne sur `http://localhost:3000` en developpement
+- Le backend (Laravel) tourne sur `http://localhost:8000`
+- Vite proxy les requetes `/api/*` et `/storage/*` vers le backend
+- L'authentification utilise des tokens Bearer via Laravel Sanctum, stockes dans le localStorage
+- Toutes les reponses API sont typees avec des interfaces TypeScript
+
+### Gestion des fichiers
+
+- Les fichiers sont uploades vers `/storage/uploads/` sur le serveur Laravel
+- Formats acceptes : jpg, jpeg, png, gif, svg, webp
+- Taille maximale : 5 Mo
+- URL servie : `/storage/{chemin}`
+
+### Theme et couleurs
+
+Le theme est entierement personnalisable depuis les parametres admin. Couleurs par defaut :
+
+| Variable CSS | Valeur | Usage |
+|-------------|--------|-------|
+| `--color-primary` | `#1B5E20` | Couleur principale (vert) |
+| `--color-primary-light` | `#4CAF50` | Variante claire |
+| `--color-primary-dark` | `#0D3B0F` | Variante foncee |
+| `--color-accent` | `#FFD700` | Couleur d'accent (or) |
+| `--color-dark` | `#1a1a2e` | Fond sombre (navbar, footer, hero) |
+
+### Dependances principales
+
+**Backend (Composer) :**
+- `laravel/framework` ^12.0
+- `laravel/sanctum` ^4.0
+
+**Frontend (npm) :**
+- `react` ^19.2.0
+- `react-dom` ^19.2.0
+- `react-router-dom` ^7.13.1
+- `axios` ^1.13.6
+- `tailwindcss` ^4.2.1
+- `jspdf` ^4.2.0
+- `jspdf-autotable` ^5.0.7
+- `vite` ^7.3.1
+- `typescript` ~5.9.3
 
 ---
 

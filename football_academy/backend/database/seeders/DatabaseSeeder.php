@@ -17,6 +17,7 @@ class DatabaseSeeder extends Seeder
         User::factory()->create([
             'name' => 'Admin',
             'email' => 'admin@football-academy.com',
+            'password' => 'password',
         ]);
 
         // Staff
@@ -56,5 +57,42 @@ class DatabaseSeeder extends Seeder
         ContactClub::create(['club_name' => 'PSV Eindhoven', 'country' => 'Pays-Bas', 'contact_role' => 'Scout Afrique', 'status' => 'contacted']);
         ContactClub::create(['club_name' => 'Borussia Monchengladbach', 'country' => 'Allemagne', 'contact_role' => 'Directeur centre de formation', 'status' => 'contacted']);
         ContactClub::create(['club_name' => 'KRC Genk', 'country' => 'Belgique', 'contact_role' => 'Directeur du recrutement', 'status' => 'in_discussion']);
+
+        // Training sessions
+        $sessions = [
+            ['day_of_week' => 0, 'start_time' => '16:00', 'end_time' => '18:00', 'title' => 'Entrainement technique', 'category' => 'Tous', 'location' => 'Terrain principal', 'coach' => 'Jean Dupont', 'color' => 'green', 'sort_order' => 0],
+            ['day_of_week' => 1, 'start_time' => '07:00', 'end_time' => '08:00', 'title' => 'Preparation physique', 'category' => 'U17-U19', 'location' => 'Salle de musculation', 'coach' => 'Pierre Martin', 'color' => 'orange', 'sort_order' => 0],
+            ['day_of_week' => 1, 'start_time' => '16:00', 'end_time' => '18:00', 'title' => 'Entrainement tactique', 'category' => 'Tous', 'location' => 'Terrain principal', 'coach' => 'Jean Dupont', 'color' => 'blue', 'sort_order' => 1],
+            ['day_of_week' => 2, 'start_time' => '10:00', 'end_time' => '12:00', 'title' => 'Match / Jeu reduit', 'category' => 'Tous', 'location' => 'Terrain principal', 'coach' => 'Jean Dupont', 'color' => 'purple', 'sort_order' => 0],
+            ['day_of_week' => 2, 'start_time' => '14:00', 'end_time' => '15:00', 'title' => 'Analyse video', 'category' => 'U17-U19', 'location' => 'Salle video', 'coach' => 'Alain Moreau', 'color' => 'gray', 'sort_order' => 1],
+            ['day_of_week' => 3, 'start_time' => '16:00', 'end_time' => '18:00', 'title' => 'Entrainement technique', 'category' => 'Tous', 'location' => 'Terrain principal', 'coach' => 'Jean Dupont', 'color' => 'green', 'sort_order' => 0],
+            ['day_of_week' => 4, 'start_time' => '07:00', 'end_time' => '08:00', 'title' => 'Preparation physique', 'category' => 'U17-U19', 'location' => 'Salle de musculation', 'coach' => 'Pierre Martin', 'color' => 'orange', 'sort_order' => 0],
+            ['day_of_week' => 4, 'start_time' => '16:00', 'end_time' => '18:00', 'title' => 'Entrainement tactique', 'category' => 'Tous', 'location' => 'Terrain principal', 'coach' => 'Jean Dupont', 'color' => 'blue', 'sort_order' => 1],
+            ['day_of_week' => 5, 'start_time' => '10:00', 'end_time' => '12:00', 'title' => 'Match officiel', 'description' => 'Match de championnat ou amical', 'category' => 'Tous', 'location' => 'Stade', 'color' => 'red', 'sort_order' => 0],
+            ['day_of_week' => 6, 'start_time' => '10:00', 'end_time' => '11:00', 'title' => 'Repos / Recuperation', 'description' => 'Stretching et soins', 'category' => 'Tous', 'location' => 'Centre', 'color' => 'gray', 'sort_order' => 0],
+        ];
+        foreach ($sessions as $s) {
+            \App\Models\TrainingSession::create($s);
+        }
+
+        // Site settings defaults
+        $defaults = [
+            'academy_name' => 'Football Academy',
+            'logo_url' => '',
+            'primary_color' => '#1B5E20',
+            'primary_light_color' => '#4CAF50',
+            'primary_dark_color' => '#0D3B0F',
+            'accent_color' => '#FFD700',
+            'dark_color' => '#1a1a2e',
+            'hero_image_url' => 'https://images.unsplash.com/photo-1574629810360-7efbbe195018?auto=format&fit=crop&w=1920&q=80',
+            'hero_title' => 'Former les champions de demain',
+            'hero_subtitle' => "Notre centre de formation combine excellence sportive, education et developpement personnel pour preparer les jeunes talents au plus haut niveau du football professionnel.",
+            'hero_badge' => "Centre de Formation d'Excellence",
+            'contact_email' => 'contact@football-academy.com',
+            'contact_phone' => '+32 XXX XXX XXX',
+        ];
+        foreach ($defaults as $key => $value) {
+            \App\Models\SiteSetting::set($key, $value);
+        }
     }
 }

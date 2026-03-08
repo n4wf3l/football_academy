@@ -74,3 +74,65 @@ export interface ContactForm {
   subject: string;
   message: string;
 }
+
+export interface User {
+  id: number;
+  name: string;
+  email: string;
+}
+
+export interface AuthResponse {
+  user: User;
+  token: string;
+}
+
+export interface LoginForm {
+  email: string;
+  password: string;
+}
+
+export interface RegisterForm {
+  name: string;
+  email: string;
+  password: string;
+  password_confirmation: string;
+}
+
+export interface SiteSettings {
+  academy_name: string;
+  logo_url: string;
+  primary_color: string;
+  primary_light_color: string;
+  primary_dark_color: string;
+  accent_color: string;
+  dark_color: string;
+  hero_image_url: string;
+  hero_title: string;
+  hero_subtitle: string;
+  hero_badge: string;
+  hero_video_url: string;
+  contact_email: string;
+  contact_phone: string;
+  contact_address: string;
+  social_facebook: string;
+  social_instagram: string;
+  social_youtube: string;
+  social_linkedin: string;
+  social_tiktok: string;
+  social_snapchat: string;
+  social_x: string;
+}
+
+export interface TrainingSession {
+  id: number;
+  day_of_week: number;
+  start_time: string;
+  end_time: string;
+  title: string;
+  description: string | null;
+  category: string | null;
+  location: string | null;
+  coach: string | null;
+  color: string;
+  sort_order: number;
+}

@@ -3,6 +3,7 @@ import {
   fetchTrainingSessions, createTrainingSession, updateTrainingSession,
   deleteTrainingSession, reorderTrainingSessions,
 } from '../../api/endpoints';
+import { useToast } from '../../contexts/ToastContext';
 import type { TrainingSession } from '../../types';
 
 const DAYS = ['Lundi', 'Mardi', 'Mercredi', 'Jeudi', 'Vendredi', 'Samedi', 'Dimanche'];
@@ -32,6 +33,7 @@ export default function Planning() {
   const [deleteConfirm, setDeleteConfirm] = useState<TrainingSession | null>(null);
   const dragItem = useRef<TrainingSession | null>(null);
   const [dragOverDay, setDragOverDay] = useState<number | null>(null);
+  const toast = useToast();
 
   const load = () => {
     setLoading(true);
@@ -63,12 +65,16 @@ export default function Planning() {
     try {
       if (editing) {
         await updateTrainingSession(editing.id, form);
+        toast.success('Seance mise a jour');
       } else {
         await createTrainingSession(form);
+        toast.success('Seance creee', form.title || '');
       }
       setShowModal(false);
       load();
-    } catch {}
+    } catch {
+      toast.error('Erreur', 'Impossible de sauvegarder la seance');
+    }
     setSaving(false);
   };
 
@@ -76,9 +82,12 @@ export default function Planning() {
     if (!deleteConfirm) return;
     try {
       await deleteTrainingSession(deleteConfirm.id);
+      toast.success('Seance supprimee');
       setDeleteConfirm(null);
       load();
-    } catch {}
+    } catch {
+      toast.error('Erreur', 'Impossible de supprimer la seance');
+    }
   };
 
   const set = (key: string, value: any) => setForm((prev) => ({ ...prev, [key]: value }));

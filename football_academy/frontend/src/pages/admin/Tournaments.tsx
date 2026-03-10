@@ -1,8 +1,8 @@
 import { useState, useEffect } from 'react';
 import api from '../../api/client';
-import type { Tournament } from '../../types';
-
-const categories = ['U13', 'U15', 'U17', 'Seniors', 'Tous'];
+import { fetchActiveCategories } from '../../api/endpoints';
+import { useToast } from '../../contexts/ToastContext';
+import type { Tournament, Category } from '../../types';
 const statuses: Tournament['status'][] = ['upcoming', 'ongoing', 'completed'];
 const statusLabels: Record<Tournament['status'], string> = {
   upcoming: 'A venir',
@@ -28,6 +28,7 @@ const emptyTournament: Partial<Tournament> = {
 
 export default function Tournaments() {
   const [tournaments, setTournaments] = useState<Tournament[]>([]);
+  const [categories, setCategories] = useState<Category[]>([]);
   const [loading, setLoading] = useState(true);
   const [search, setSearch] = useState('');
   const [filterStatus, setFilterStatus] = useState<string>('');
@@ -37,11 +38,13 @@ export default function Tournaments() {
   const [form, setForm] = useState<Partial<Tournament>>(emptyTournament);
   const [saving, setSaving] = useState(false);
   const [deleteConfirm, setDeleteConfirm] = useState<Tournament | null>(null);
+  const toast = useToast();
 
   const load = () => {
     setLoading(true);
-    api.get<Tournament[]>('/tournaments').then((res) => {
+    Promise.all([api.get<Tournament[]>('/tournaments'), fetchActiveCategories()]).then(([res, cats]) => {
       setTournaments(res.data);
+      setCategories(cats);
       setLoading(false);
     });
   };
@@ -77,12 +80,16 @@ export default function Tournaments() {
     try {
       if (editing) {
         await api.put<Tournament>(`/tournaments/${editing.id}`, form);
+        toast.success('Tournoi mis a jour');
       } else {
         await api.post<Tournament>('/tournaments', form);
+        toast.success('Tournoi cree', form.name || '');
       }
       setShowModal(false);
       load();
-    } catch {}
+    } catch {
+      toast.error('Erreur', 'Impossible de sauvegarder le tournoi');
+    }
     setSaving(false);
   };
 
@@ -90,9 +97,12 @@ export default function Tournaments() {
     if (!deleteConfirm) return;
     try {
       await api.delete(`/tournaments/${deleteConfirm.id}`);
+      toast.success('Tournoi supprime');
       setDeleteConfirm(null);
       load();
-    } catch {}
+    } catch {
+      toast.error('Erreur', 'Impossible de supprimer le tournoi');
+    }
   };
 
   const set = (key: string, value: any) => setForm((prev) => ({ ...prev, [key]: value }));
@@ -187,7 +197,7 @@ export default function Tournaments() {
         >
           <option value="">Toutes categories</option>
           {categories.map((cat) => (
-            <option key={cat} value={cat}>{cat}</option>
+            <option key={cat.id} value={cat.name}>{cat.name}</option>
           ))}
         </select>
       </div>
@@ -306,7 +316,7 @@ export default function Tournaments() {
                     className="w-full border border-gray-300 rounded-lg px-4 py-2.5 focus:ring-2 focus:ring-primary focus:border-transparent outline-none bg-white"
                   >
                     {categories.map((c) => (
-                      <option key={c} value={c}>{c}</option>
+                      <option key={c.id} value={c.name}>{c.name}</option>
                     ))}
                   </select>
                 </div>

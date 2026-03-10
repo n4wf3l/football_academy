@@ -1,6 +1,7 @@
 import { useState, useEffect, useRef } from 'react';
 import { fetchGallery, uploadFile } from '../../api/endpoints';
 import api from '../../api/client';
+import { useToast } from '../../contexts/ToastContext';
 import type { GalleryItem } from '../../types';
 
 const predefinedCategories = ['Entrainement', 'Match', 'Evenement', 'Infrastructure'];
@@ -27,6 +28,7 @@ export default function Gallery() {
   const [uploading, setUploading] = useState(false);
   const [deleteConfirm, setDeleteConfirm] = useState<GalleryItem | null>(null);
   const fileRef = useRef<HTMLInputElement>(null);
+  const toast = useToast();
 
   const load = () => {
     setLoading(true);
@@ -78,12 +80,16 @@ export default function Gallery() {
     try {
       if (editing) {
         await api.put<GalleryItem>(`/gallery/${editing.id}`, form);
+        toast.success('Media mis a jour');
       } else {
         await api.post<GalleryItem>('/gallery', form);
+        toast.success('Media ajoute', form.title_fr || '');
       }
       setShowModal(false);
       load();
-    } catch { /* handled by interceptor */ }
+    } catch {
+      toast.error('Erreur', 'Impossible de sauvegarder le media');
+    }
     setSaving(false);
   };
 
@@ -91,9 +97,12 @@ export default function Gallery() {
     if (!deleteConfirm) return;
     try {
       await api.delete(`/gallery/${deleteConfirm.id}`);
+      toast.success('Media supprime');
       setDeleteConfirm(null);
       load();
-    } catch { /* handled by interceptor */ }
+    } catch {
+      toast.error('Erreur', 'Impossible de supprimer le media');
+    }
   };
 
   const set = (key: string, value: any) => setForm((prev) => ({ ...prev, [key]: value }));

@@ -2,6 +2,7 @@
 
 namespace Database\Seeders;
 
+use App\Models\Category;
 use App\Models\ContactClub;
 use App\Models\Player;
 use App\Models\Staff;
@@ -19,6 +20,17 @@ class DatabaseSeeder extends Seeder
             'email' => 'admin@football-academy.com',
             'password' => 'password',
         ]);
+
+        // Categories
+        $cats = [
+            ['name' => 'U13', 'description' => '11-12 ans', 'sort_order' => 1, 'is_active' => true],
+            ['name' => 'U15', 'description' => '13-14 ans', 'sort_order' => 2, 'is_active' => true],
+            ['name' => 'U17', 'description' => '15-16 ans', 'sort_order' => 3, 'is_active' => true],
+            ['name' => 'U19', 'description' => '17-18 ans', 'sort_order' => 4, 'is_active' => true],
+        ];
+        foreach ($cats as $cat) {
+            Category::create($cat);
+        }
 
         // Staff
         Staff::create(['name' => 'Coach Ibrahim', 'role' => 'Entraineur principal', 'qualification' => 'Licence CAF A']);

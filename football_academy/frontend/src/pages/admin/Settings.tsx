@@ -1,10 +1,12 @@
 import { useState, useEffect, useRef } from 'react';
 import { useSettings } from '../../contexts/SettingsContext';
 import { fetchSettings, updateSettings, uploadFile } from '../../api/endpoints';
+import { useToast } from '../../contexts/ToastContext';
 import type { SiteSettings } from '../../types';
 
 export default function Settings() {
   const { refreshSettings } = useSettings();
+  const toast = useToast();
   const [form, setForm] = useState<Partial<SiteSettings>>({});
   const [saving, setSaving] = useState(false);
   const [saved, setSaved] = useState(false);
@@ -51,8 +53,11 @@ export default function Settings() {
       setForm(updated);
       await refreshSettings();
       setSaved(true);
+      toast.success('Parametres sauvegardes', 'Les modifications ont ete appliquees');
       setTimeout(() => setSaved(false), 3000);
-    } catch {}
+    } catch {
+      toast.error('Erreur', 'Impossible de sauvegarder les parametres');
+    }
     setSaving(false);
   };
 

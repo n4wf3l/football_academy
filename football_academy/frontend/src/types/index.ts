@@ -123,6 +123,14 @@ export interface SiteSettings {
   social_x: string;
 }
 
+export interface Category {
+  id: number;
+  name: string;
+  description: string | null;
+  sort_order: number;
+  is_active: boolean;
+}
+
 export interface TrainingSession {
   id: number;
   day_of_week: number;

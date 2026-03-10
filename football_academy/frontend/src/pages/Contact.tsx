@@ -2,12 +2,14 @@ import { useState, useEffect } from 'react';
 import { sendContact, fetchPartners } from '../api/endpoints';
 import { useSettings } from '../contexts/SettingsContext';
 import { useLang } from '../contexts/LanguageContext';
+import { useToast } from '../contexts/ToastContext';
 import Reveal from '../components/Reveal';
 import type { ContactForm, Partner } from '../types';
 
 export default function Contact() {
   const { settings } = useSettings();
   const { lang, t } = useLang();
+  const toast = useToast();
   const [form, setForm] = useState<ContactForm>({ name: '', email: '', subject: '', message: '' });
   const [sending, setSending] = useState(false);
   const [success, setSuccess] = useState(false);
@@ -26,10 +28,15 @@ export default function Contact() {
       await sendContact(form);
       setSuccess(true);
       setForm({ name: '', email: '', subject: '', message: '' });
+      toast.success(
+        t('Message envoye', 'Message sent'),
+        t('Nous vous repondrons dans les plus brefs delais', 'We will respond as soon as possible')
+      );
     } catch (err: any) {
       if (err.response?.status === 422) {
         setErrors(err.response.data.errors || {});
       }
+      toast.error(t('Erreur', 'Error'), t("Impossible d'envoyer le message", 'Failed to send message'));
     } finally {
       setSending(false);
     }

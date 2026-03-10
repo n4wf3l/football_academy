@@ -1,5 +1,6 @@
 import { useState, useEffect, useRef } from 'react';
 import { fetchStaff, createStaff, updateStaff, deleteStaff, uploadFile } from '../../api/endpoints';
+import { useToast } from '../../contexts/ToastContext';
 import type { Staff } from '../../types';
 
 const roles = ['Entraineur principal', 'Entraineur adjoint', 'Preparateur physique', 'Medecin sportif', 'Kinesitherapeute', 'Directeur technique', 'Intendant', 'Autre'];
@@ -24,6 +25,7 @@ export default function AdminStaff() {
   const [deleteTarget, setDeleteTarget] = useState<Staff | null>(null);
   const [uploading, setUploading] = useState(false);
   const fileRef = useRef<HTMLInputElement>(null);
+  const toast = useToast();
 
   const load = () => {
     fetchStaff().then((data) => {
@@ -63,12 +65,16 @@ export default function AdminStaff() {
       if (editing) {
         const updated = await updateStaff(editing.id, form);
         setStaff((prev) => prev.map((s) => (s.id === editing.id ? updated : s)));
+        toast.success('Staff mis a jour');
       } else {
         const created = await createStaff(form);
         setStaff((prev) => [created, ...prev]);
+        toast.success('Staff ajoute', form.name || '');
       }
       setModalOpen(false);
-    } catch {}
+    } catch {
+      toast.error('Erreur', 'Impossible de sauvegarder le staff');
+    }
     setSaving(false);
   };
 
@@ -77,7 +83,10 @@ export default function AdminStaff() {
     try {
       await deleteStaff(deleteTarget.id);
       setStaff((prev) => prev.filter((s) => s.id !== deleteTarget.id));
-    } catch {}
+      toast.success('Staff supprime');
+    } catch {
+      toast.error('Erreur', 'Impossible de supprimer le staff');
+    }
     setDeleteTarget(null);
   };
 

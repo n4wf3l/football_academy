@@ -9,6 +9,7 @@ use App\Http\Controllers\Api\StaffController;
 use App\Http\Controllers\Api\PartnerController;
 use App\Http\Controllers\Api\SiteSettingsController;
 use App\Http\Controllers\Api\TournamentController;
+use App\Http\Controllers\Api\CategoryController;
 use Illuminate\Support\Facades\Route;
 
 // Auth routes
@@ -55,6 +56,13 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::post('/staff', [StaffController::class, 'store']);
     Route::put('/staff/{staff}', [StaffController::class, 'update']);
     Route::delete('/staff/{staff}', [StaffController::class, 'destroy']);
+
+    // Category CRUD (admin)
+    Route::get('/categories', [CategoryController::class, 'index']);
+    Route::post('/categories', [CategoryController::class, 'store']);
+    Route::put('/categories/{category}', [CategoryController::class, 'update']);
+    Route::delete('/categories/{category}', [CategoryController::class, 'destroy']);
+    Route::patch('/categories/{category}/toggle', [CategoryController::class, 'toggleActive']);
 });
 
 // Public routes
@@ -68,3 +76,4 @@ Route::get('/tournaments', [TournamentController::class, 'index']);
 Route::post('/contact', [ContactController::class, 'send']);
 Route::get('/training-sessions', [\App\Http\Controllers\Api\TrainingSessionController::class, 'index']);
 Route::get('/settings/public', [SiteSettingsController::class, 'index']);
+Route::get('/categories/active', [CategoryController::class, 'active']);

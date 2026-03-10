@@ -5,6 +5,8 @@ import './index.css'
 import { AuthProvider } from './contexts/AuthContext'
 import { SettingsProvider } from './contexts/SettingsContext'
 import { LanguageProvider } from './contexts/LanguageContext'
+import { ToastProvider } from './contexts/ToastContext'
+import { ThemeProvider } from './contexts/ThemeContext'
 import MainLayout from './layouts/MainLayout'
 import AdminLayout from './layouts/AdminLayout'
 import ProtectedRoute from './components/ProtectedRoute'
@@ -27,6 +29,7 @@ import AdminGallery from './pages/admin/Gallery'
 import AdminTournaments from './pages/admin/Tournaments'
 import AdminPartners from './pages/admin/Partners'
 import AdminStaff from './pages/admin/Staff'
+import AdminCategories from './pages/admin/Categories'
 import ScrollToTop from './components/ScrollToTop'
 
 createRoot(document.getElementById('root')!).render(
@@ -35,6 +38,8 @@ createRoot(document.getElementById('root')!).render(
       <ScrollToTop />
       <AuthProvider>
         <LanguageProvider>
+        <ToastProvider>
+        <ThemeProvider>
         <SettingsProvider>
           <Routes>
             {/* Public pages with layout */}
@@ -62,6 +67,7 @@ createRoot(document.getElementById('root')!).render(
               <Route path="/dashboard/tournaments" element={<AdminTournaments />} />
               <Route path="/dashboard/partners" element={<AdminPartners />} />
               <Route path="/dashboard/staff" element={<AdminStaff />} />
+              <Route path="/dashboard/categories" element={<AdminCategories />} />
               <Route path="/dashboard/settings" element={<Settings />} />
             </Route>
           </Routes>
@@ -69,6 +75,8 @@ createRoot(document.getElementById('root')!).render(
           {/* Floating admin button (visible on public pages when logged in) */}
           <AdminFab />
         </SettingsProvider>
+        </ThemeProvider>
+        </ToastProvider>
         </LanguageProvider>
       </AuthProvider>
     </BrowserRouter>

@@ -1,5 +1,6 @@
 import { useState, useEffect, useRef } from 'react';
 import { fetchPartners, createPartner, updatePartner, deletePartner, uploadFile } from '../../api/endpoints';
+import { useToast } from '../../contexts/ToastContext';
 import type { Partner } from '../../types';
 
 const partnerTypes = ['Club', 'Sponsor', 'Institution', 'Federation', 'ONG', 'Autre'];
@@ -24,6 +25,7 @@ export default function AdminPartners() {
   const [deleteTarget, setDeleteTarget] = useState<Partner | null>(null);
   const [uploading, setUploading] = useState(false);
   const fileRef = useRef<HTMLInputElement>(null);
+  const toast = useToast();
 
   const load = () => {
     fetchPartners().then((data) => {
@@ -63,12 +65,16 @@ export default function AdminPartners() {
       if (editing) {
         const updated = await updatePartner(editing.id, form);
         setPartners((prev) => prev.map((p) => (p.id === editing.id ? updated : p)));
+        toast.success('Partenaire mis a jour');
       } else {
         const created = await createPartner(form);
         setPartners((prev) => [created, ...prev]);
+        toast.success('Partenaire ajoute', form.name || '');
       }
       setModalOpen(false);
-    } catch {}
+    } catch {
+      toast.error('Erreur', 'Impossible de sauvegarder le partenaire');
+    }
     setSaving(false);
   };
 
@@ -77,7 +83,10 @@ export default function AdminPartners() {
     try {
       await deletePartner(deleteTarget.id);
       setPartners((prev) => prev.filter((p) => p.id !== deleteTarget.id));
-    } catch {}
+      toast.success('Partenaire supprime');
+    } catch {
+      toast.error('Erreur', 'Impossible de supprimer le partenaire');
+    }
     setDeleteTarget(null);
   };
 

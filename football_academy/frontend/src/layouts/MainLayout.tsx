@@ -2,15 +2,16 @@ import { Link, NavLink, Outlet, useLocation } from 'react-router-dom';
 import { useState, useEffect } from 'react';
 import { useSettings } from '../contexts/SettingsContext';
 import { useLang } from '../contexts/LanguageContext';
+import { useAuth } from '../contexts/AuthContext';
 
 const navLinks = [
-  { href: '/', fr: 'Accueil', en: 'Home', icon: 'M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-4 0a1 1 0 01-1-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 01-1 1' },
-  { href: '/about', fr: 'Le Centre', en: 'About', icon: 'M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4' },
-  { href: '/players', fr: 'Joueurs', en: 'Players', icon: 'M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z' },
-  { href: '/program', fr: 'Programme', en: 'Program', icon: 'M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-3 7h3m-3 4h3m-6-4h.01M9 16h.01' },
-  { href: '/gallery', fr: 'Galerie', en: 'Gallery', icon: 'M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z' },
-  { href: '/tournaments', fr: 'Tournois', en: 'Tournaments', icon: 'M11.049 2.927c.3-.921 1.603-.921 1.902 0l1.519 4.674a1 1 0 00.95.69h4.915c.969 0 1.371 1.24.588 1.81l-3.976 2.888a1 1 0 00-.363 1.118l1.518 4.674c.3.922-.755 1.688-1.538 1.118l-3.976-2.888a1 1 0 00-1.176 0l-3.976 2.888c-.783.57-1.838-.197-1.538-1.118l1.518-4.674a1 1 0 00-.363-1.118l-3.976-2.888c-.784-.57-.38-1.81.588-1.81h4.914a1 1 0 00.951-.69l1.519-4.674z' },
-  { href: '/contact', fr: 'Contact', en: 'Contact', icon: 'M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z' },
+  { href: '/', fr: 'Accueil', en: 'Home' },
+  { href: '/about', fr: 'Le Centre', en: 'About' },
+  { href: '/players', fr: 'Joueurs', en: 'Players' },
+  { href: '/program', fr: 'Programme', en: 'Program' },
+  { href: '/gallery', fr: 'Galerie', en: 'Gallery' },
+  { href: '/tournaments', fr: 'Tournois', en: 'Tournaments' },
+  { href: '/contact', fr: 'Contact', en: 'Contact' },
 ];
 
 export default function MainLayout() {
@@ -20,119 +21,188 @@ export default function MainLayout() {
   const isHome = location.pathname === '/';
   const { settings } = useSettings();
   const { lang, setLang, t } = useLang();
+  const { user } = useAuth();
 
   useEffect(() => {
-    const handleScroll = () => setScrolled(window.scrollY > 50);
+    const handleScroll = () => setScrolled(window.scrollY > 20);
     window.addEventListener('scroll', handleScroll);
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
+
+  useEffect(() => {
+    setMobileMenuOpen(false);
+  }, [location.pathname]);
 
   const isActive = (href: string) => {
     if (href === '/') return location.pathname === '/';
     return location.pathname.startsWith(href);
   };
 
-  const navBg = isHome && !scrolled ? 'bg-transparent' : 'bg-dark/95 backdrop-blur-md shadow-lg';
-  const navHeight = scrolled ? 'h-16' : 'h-20';
-
   return (
     <div className="min-h-screen bg-gray-50 overflow-x-hidden">
       {/* Navbar */}
-      <nav className={`${navBg} text-white fixed top-0 left-0 right-0 z-50 transition-all duration-500`}>
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className={`flex items-center justify-between ${navHeight} transition-all duration-500`}>
-            <Link to="/" className="flex items-center gap-3 group">
+      <nav
+        className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 ${
+          scrolled || !isHome
+            ? 'bg-dark/90 backdrop-blur-xl shadow-[0_1px_0_rgba(255,255,255,0.05)]'
+            : 'bg-gradient-to-b from-black/60 to-transparent'
+        }`}
+      >
+        <div className="max-w-[1400px] mx-auto px-5 sm:px-8">
+          <div className={`flex items-center justify-between transition-all duration-500 ${scrolled ? 'h-[60px]' : 'h-[72px]'}`}>
+
+            {/* Logo */}
+            <Link to="/" className="flex items-center gap-2.5 group shrink-0">
               {settings.logo_url ? (
-                <img src={settings.logo_url} alt="Logo" className="w-10 h-10 rounded-full object-cover ring-2 ring-primary/50 group-hover:ring-primary transition-all duration-300 group-hover:scale-110" />
+                <img
+                  src={settings.logo_url}
+                  alt="Logo"
+                  className={`rounded-full object-cover transition-all duration-500 ${scrolled ? 'w-8 h-8' : 'w-9 h-9'}`}
+                />
               ) : (
-                <div className="w-10 h-10 bg-primary rounded-full flex items-center justify-center font-bold text-lg ring-2 ring-primary/50 group-hover:ring-primary transition-all duration-300 group-hover:scale-110">
+                <div className={`bg-primary rounded-full flex items-center justify-center font-bold text-white transition-all duration-500 ${scrolled ? 'w-8 h-8 text-sm' : 'w-9 h-9 text-base'}`}>
                   {settings.academy_name.substring(0, 2)}
                 </div>
               )}
-              <span className="text-xl font-bold tracking-tight group-hover:text-primary-light transition-colors duration-300">{settings.academy_name}</span>
+              <span className="text-white font-semibold text-[15px] tracking-tight hidden sm:block group-hover:text-primary-light transition-colors duration-300">
+                {settings.academy_name}
+              </span>
             </Link>
 
-            {/* Desktop nav */}
-            <div className="hidden lg:flex items-center gap-0.5">
+            {/* Desktop nav - centered */}
+            <div className="hidden lg:flex items-center gap-1 absolute left-1/2 -translate-x-1/2">
               {navLinks.map((link) => (
                 <NavLink
                   key={link.href}
                   to={link.href}
                   end={link.href === '/'}
-                  className={`relative flex items-center gap-1.5 px-3 py-2 rounded-lg text-sm font-medium transition-all duration-300 group ${
+                  className={`relative px-3.5 py-1.5 text-[13px] font-medium tracking-wide transition-all duration-300 rounded-full ${
                     isActive(link.href)
-                      ? 'bg-primary/20 text-white'
-                      : 'text-gray-300 hover:bg-white/10 hover:text-white'
+                      ? 'text-white'
+                      : 'text-white/60 hover:text-white'
                   }`}
                 >
-                  <svg className={`w-4 h-4 transition-all duration-300 ${isActive(link.href) ? 'text-primary-light' : 'text-gray-500 group-hover:text-primary-light'}`} fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={1.5}>
-                    <path strokeLinecap="round" strokeLinejoin="round" d={link.icon} />
-                  </svg>
-                  <span>{lang === 'en' ? link.en : link.fr}</span>
-                  {/* Active indicator line */}
+                  {lang === 'en' ? link.en : link.fr}
                   {isActive(link.href) && (
-                    <span className="absolute bottom-0 left-3 right-3 h-0.5 bg-primary-light rounded-full" />
+                    <span className="absolute inset-0 bg-white/[0.08] rounded-full border border-white/[0.08]" />
                   )}
                 </NavLink>
               ))}
             </div>
 
-            {/* Language switcher */}
-            <button
-              onClick={() => setLang(lang === 'fr' ? 'en' : 'fr')}
-              className="hidden lg:block ml-2 px-2.5 py-1.5 rounded-lg text-xs font-bold border border-white/20 hover:bg-white/10 transition-all duration-300 uppercase tracking-wider"
-              title={lang === 'fr' ? 'Switch to English' : 'Passer en Français'}
-            >
-              {lang === 'fr' ? 'EN' : 'FR'}
-            </button>
+            {/* Right actions */}
+            <div className="hidden lg:flex items-center gap-3 shrink-0">
+              {/* Lang toggle */}
+              <button
+                onClick={() => setLang(lang === 'fr' ? 'en' : 'fr')}
+                className="w-8 h-8 flex items-center justify-center rounded-full text-[11px] font-bold text-white/50 hover:text-white hover:bg-white/[0.08] transition-all duration-300 uppercase"
+                title={lang === 'fr' ? 'Switch to English' : 'Passer en Francais'}
+              >
+                {lang === 'fr' ? 'EN' : 'FR'}
+              </button>
+
+              {/* Divider */}
+              <div className="w-px h-5 bg-white/10" />
+
+              {/* Admin CTA */}
+              <Link
+                to={user ? '/dashboard' : '/login'}
+                className={`group flex items-center gap-2 pl-4 pr-5 py-2 rounded-full text-[13px] font-semibold transition-all duration-300 ${
+                  user
+                    ? 'bg-white/[0.08] text-white hover:bg-white/[0.15] border border-white/[0.06]'
+                    : 'bg-primary text-white hover:bg-primary-light hover:shadow-[0_0_20px_rgba(76,175,80,0.3)]'
+                }`}
+              >
+                {user ? (
+                  <svg className="w-3.5 h-3.5 text-primary-light" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={2}>
+                    <path strokeLinecap="round" strokeLinejoin="round" d="M3.75 6A2.25 2.25 0 016 3.75h2.25A2.25 2.25 0 0110.5 6v2.25a2.25 2.25 0 01-2.25 2.25H6a2.25 2.25 0 01-2.25-2.25V6zM3.75 15.75A2.25 2.25 0 016 13.5h2.25a2.25 2.25 0 012.25 2.25V18a2.25 2.25 0 01-2.25 2.25H6A2.25 2.25 0 013.75 18v-2.25zM13.5 6a2.25 2.25 0 012.25-2.25H18A2.25 2.25 0 0120.25 6v2.25A2.25 2.25 0 0118 10.5h-2.25a2.25 2.25 0 01-2.25-2.25V6zM13.5 15.75a2.25 2.25 0 012.25-2.25H18a2.25 2.25 0 012.25 2.25V18A2.25 2.25 0 0118 20.25h-2.25A2.25 2.25 0 0113.5 18v-2.25z" />
+                  </svg>
+                ) : (
+                  <svg className="w-3.5 h-3.5 opacity-80 group-hover:opacity-100 transition-opacity" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={2}>
+                    <path strokeLinecap="round" strokeLinejoin="round" d="M15.75 6a3.75 3.75 0 11-7.5 0 3.75 3.75 0 017.5 0zM4.501 20.118a7.5 7.5 0 0114.998 0A17.933 17.933 0 0112 21.75c-2.676 0-5.216-.584-7.499-1.632z" />
+                  </svg>
+                )}
+                {user ? 'Dashboard' : t('Espace Admin', 'Admin')}
+              </Link>
+            </div>
 
             {/* Mobile menu button */}
             <button
-              className="lg:hidden relative w-10 h-10 flex items-center justify-center rounded-lg hover:bg-white/10 transition-colors duration-300"
+              className="lg:hidden relative w-10 h-10 flex items-center justify-center rounded-full hover:bg-white/[0.08] transition-colors duration-300"
               onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
               aria-label="Toggle menu"
             >
-              <span className={`absolute w-5 h-0.5 bg-white rounded-full transition-all duration-300 ${mobileMenuOpen ? 'rotate-45' : '-translate-y-1.5'}`} />
-              <span className={`absolute w-5 h-0.5 bg-white rounded-full transition-all duration-300 ${mobileMenuOpen ? 'opacity-0 scale-0' : 'opacity-100'}`} />
-              <span className={`absolute w-5 h-0.5 bg-white rounded-full transition-all duration-300 ${mobileMenuOpen ? '-rotate-45' : 'translate-y-1.5'}`} />
+              <span className={`absolute w-[18px] h-[1.5px] bg-white rounded-full transition-all duration-300 ${mobileMenuOpen ? 'rotate-45' : '-translate-y-[5px]'}`} />
+              <span className={`absolute w-[18px] h-[1.5px] bg-white rounded-full transition-all duration-300 ${mobileMenuOpen ? 'opacity-0 scale-0' : 'opacity-100'}`} />
+              <span className={`absolute w-[18px] h-[1.5px] bg-white rounded-full transition-all duration-300 ${mobileMenuOpen ? '-rotate-45' : 'translate-y-[5px]'}`} />
             </button>
           </div>
+        </div>
 
-          {/* Mobile nav */}
-          <div className={`lg:hidden overflow-hidden transition-all duration-400 ease-in-out ${mobileMenuOpen ? 'max-h-[500px] opacity-100 pb-4' : 'max-h-0 opacity-0'}`}>
-            <div className="space-y-1 bg-dark/95 backdrop-blur-md rounded-xl p-3 border border-white/10">
-              {navLinks.map((link, i) => (
-                <NavLink
-                  key={link.href}
-                  to={link.href}
-                  end={link.href === '/'}
-                  className={`flex items-center gap-3 px-4 py-3 rounded-lg text-base font-medium transition-all duration-300 ${
-                    isActive(link.href)
-                      ? 'bg-primary/20 text-white'
-                      : 'text-gray-300 hover:bg-white/10 hover:text-white'
-                  }`}
-                  style={{ transitionDelay: mobileMenuOpen ? `${i * 50}ms` : '0ms' }}
-                  onClick={() => setMobileMenuOpen(false)}
-                >
-                  <svg className={`w-5 h-5 ${isActive(link.href) ? 'text-primary-light' : 'text-gray-500'}`} fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={1.5}>
-                    <path strokeLinecap="round" strokeLinejoin="round" d={link.icon} />
-                  </svg>
-                  <span>{lang === 'en' ? link.en : link.fr}</span>
-                  {isActive(link.href) && (
-                    <span className="ml-auto w-1.5 h-1.5 bg-primary-light rounded-full" />
-                  )}
-                </NavLink>
-              ))}
-              {/* Mobile language switcher */}
+        {/* Mobile nav overlay */}
+        <div
+          className={`lg:hidden fixed inset-0 bg-black/60 backdrop-blur-sm transition-opacity duration-300 ${
+            mobileMenuOpen ? 'opacity-100 pointer-events-auto' : 'opacity-0 pointer-events-none'
+          }`}
+          style={{ top: scrolled ? '60px' : '72px' }}
+          onClick={() => setMobileMenuOpen(false)}
+        />
+
+        {/* Mobile nav panel */}
+        <div
+          className={`lg:hidden absolute left-0 right-0 bg-dark/98 backdrop-blur-2xl border-t border-white/[0.05] transition-all duration-400 ease-[cubic-bezier(0.16,1,0.3,1)] overflow-hidden ${
+            mobileMenuOpen ? 'max-h-[80vh] opacity-100' : 'max-h-0 opacity-0'
+          }`}
+        >
+          <div className="px-5 py-4 space-y-0.5">
+            {navLinks.map((link, i) => (
+              <NavLink
+                key={link.href}
+                to={link.href}
+                end={link.href === '/'}
+                className={`flex items-center justify-between px-4 py-3 rounded-xl text-[15px] font-medium transition-all duration-300 ${
+                  isActive(link.href)
+                    ? 'bg-white/[0.06] text-white'
+                    : 'text-white/60 hover:text-white hover:bg-white/[0.04]'
+                }`}
+                style={{ transitionDelay: mobileMenuOpen ? `${i * 30}ms` : '0ms' }}
+                onClick={() => setMobileMenuOpen(false)}
+              >
+                <span>{lang === 'en' ? link.en : link.fr}</span>
+                {isActive(link.href) && (
+                  <span className="w-1.5 h-1.5 bg-primary-light rounded-full" />
+                )}
+              </NavLink>
+            ))}
+
+            {/* Mobile bottom actions */}
+            <div className="pt-3 mt-3 border-t border-white/[0.06] flex gap-2">
               <button
                 onClick={() => { setLang(lang === 'fr' ? 'en' : 'fr'); setMobileMenuOpen(false); }}
-                className="w-full flex items-center gap-3 px-4 py-3 rounded-lg text-base font-medium text-gray-300 hover:bg-white/10 hover:text-white transition-all duration-300"
+                className="flex-1 flex items-center justify-center gap-2 px-4 py-3 rounded-xl text-sm font-medium text-white/60 bg-white/[0.04] hover:bg-white/[0.08] hover:text-white transition-all duration-300"
               >
-                <svg className="w-5 h-5 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={1.5}>
+                <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={1.5}>
                   <path strokeLinecap="round" strokeLinejoin="round" d="M12 21a9.004 9.004 0 008.716-6.747M12 21a9.004 9.004 0 01-8.716-6.747M12 21c2.485 0 4.5-4.03 4.5-9S14.485 3 12 3m0 18c-2.485 0-4.5-4.03-4.5-9S9.515 3 12 3m0 0a8.997 8.997 0 017.843 4.582M12 3a8.997 8.997 0 00-7.843 4.582m15.686 0A11.953 11.953 0 0112 10.5c-2.998 0-5.74-1.1-7.843-2.918m15.686 0A8.959 8.959 0 0121 12c0 .778-.099 1.533-.284 2.253m0 0A17.919 17.919 0 0112 16.5c-3.162 0-6.133-.815-8.716-2.247m0 0A9.015 9.015 0 003 12c0-1.605.42-3.113 1.157-4.418" />
                 </svg>
-                <span>{lang === 'fr' ? 'English' : 'Français'}</span>
+                {lang === 'fr' ? 'English' : 'Francais'}
               </button>
+
+              <Link
+                to={user ? '/dashboard' : '/login'}
+                onClick={() => setMobileMenuOpen(false)}
+                className="flex-1 flex items-center justify-center gap-2 px-4 py-3 rounded-xl text-sm font-semibold bg-primary text-white hover:bg-primary-light transition-all duration-300"
+              >
+                {user ? (
+                  <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={2}>
+                    <path strokeLinecap="round" strokeLinejoin="round" d="M3.75 6A2.25 2.25 0 016 3.75h2.25A2.25 2.25 0 0110.5 6v2.25a2.25 2.25 0 01-2.25 2.25H6a2.25 2.25 0 01-2.25-2.25V6zM3.75 15.75A2.25 2.25 0 016 13.5h2.25a2.25 2.25 0 012.25 2.25V18a2.25 2.25 0 01-2.25 2.25H6A2.25 2.25 0 013.75 18v-2.25zM13.5 6a2.25 2.25 0 012.25-2.25H18A2.25 2.25 0 0120.25 6v2.25A2.25 2.25 0 0118 10.5h-2.25a2.25 2.25 0 01-2.25-2.25V6zM13.5 15.75a2.25 2.25 0 012.25-2.25H18a2.25 2.25 0 012.25 2.25V18A2.25 2.25 0 0118 20.25h-2.25A2.25 2.25 0 0113.5 18v-2.25z" />
+                  </svg>
+                ) : (
+                  <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={2}>
+                    <path strokeLinecap="round" strokeLinejoin="round" d="M15.75 6a3.75 3.75 0 11-7.5 0 3.75 3.75 0 017.5 0zM4.501 20.118a7.5 7.5 0 0114.998 0A17.933 17.933 0 0112 21.75c-2.676 0-5.216-.584-7.499-1.632z" />
+                  </svg>
+                )}
+                {user ? 'Dashboard' : t('Admin', 'Admin')}
+              </Link>
             </div>
           </div>
         </div>

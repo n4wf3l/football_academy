@@ -41,3 +41,52 @@
 }
 .animate-page-hero { animation: page-hero-in 0.7s ease-out 0.2s both; }
 .animate-page-hero-sub { animation: page-hero-in 0.7s ease-out 0.4s both; }
+
+/* Admin dark mode overrides for non-dark-aware pages */
+.admin-dark .bg-white { background-color: #0f172a; }
+.admin-dark .bg-gray-100 { background-color: #020617; }
+.admin-dark .bg-gray-50 { background-color: #1e293b; }
+.admin-dark .bg-gray-50\/80 { background-color: rgb(30 41 59 / 0.8); }
+.admin-dark .border-gray-100,
+.admin-dark .border-gray-200 { border-color: #1e293b; }
+.admin-dark .divide-gray-100 > :not([hidden]) ~ :not([hidden]) { border-color: #1e293b; }
+.admin-dark .border-gray-300 { border-color: #334155; }
+.admin-dark .text-gray-900 { color: #f1f5f9; }
+.admin-dark .text-gray-800 { color: #e2e8f0; }
+.admin-dark .text-gray-700 { color: #cbd5e1; }
+.admin-dark .text-gray-600 { color: #94a3b8; }
+.admin-dark .text-gray-500 { color: #64748b; }
+.admin-dark .text-gray-400 { color: #475569; }
+.admin-dark .text-gray-300 { color: #334155; }
+.admin-dark .hover\:bg-gray-50:hover { background-color: #1e293b; }
+.admin-dark .hover\:bg-gray-100:hover { background-color: #1e293b; }
+.admin-dark .hover\:bg-gray-200:hover { background-color: #334155; }
+.admin-dark .bg-gray-200 { background-color: #334155; }
+.admin-dark .shadow-sm { box-shadow: 0 1px 2px rgba(0,0,0,0.3); }
+.admin-dark .shadow-2xl { box-shadow: 0 25px 50px rgba(0,0,0,0.5); }
+.admin-dark input,
+.admin-dark select,
+.admin-dark textarea {
+  background-color: #1e293b !important;
+  border-color: #334155 !important;
+  color: #f1f5f9 !important;
+}
+.admin-dark input::placeholder,
+.admin-dark textarea::placeholder {
+  color: #475569 !important;
+}
+.admin-dark .bg-red-100 { background-color: rgb(239 68 68 / 0.15); }
+.admin-dark .text-red-600 { color: #f87171; }
+.admin-dark .hover\:bg-red-50:hover { background-color: rgb(239 68 68 / 0.1); }
+.admin-dark .bg-amber-50 { background-color: rgb(245 158 11 / 0.1); }
+.admin-dark .text-amber-600 { color: #fbbf24; }
+
+/* Toast animations */
+@keyframes slideInRight {
+  from { opacity: 0; transform: translateX(100%) scale(0.95); }
+  to { opacity: 1; transform: translateX(0) scale(1); }
+}
+@keyframes shrink {
+  from { width: 100%; }
+  to { width: 0%; }
+}

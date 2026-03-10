@@ -2,12 +2,14 @@ import { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { register } from '../api/endpoints';
 import { useAuth } from '../contexts/AuthContext';
+import { useToast } from '../contexts/ToastContext';
 
 export default function Register() {
   const [form, setForm] = useState({ name: '', email: '', password: '', password_confirmation: '' });
   const [errors, setErrors] = useState<Record<string, string[]>>({});
   const [sending, setSending] = useState(false);
   const { setAuth } = useAuth();
+  const toast = useToast();
   const navigate = useNavigate();
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -17,11 +19,13 @@ export default function Register() {
     try {
       const data = await register(form);
       setAuth(data.user, data.token);
+      toast.success('Compte cree', `Bienvenue, ${data.user.name}`);
       navigate('/dashboard');
     } catch (err: any) {
       if (err.response?.status === 422) {
         setErrors(err.response.data.errors || {});
       }
+      toast.error('Erreur', "Impossible de creer le compte");
     } finally {
       setSending(false);
     }

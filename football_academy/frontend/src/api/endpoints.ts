@@ -1,5 +1,5 @@
 import api from './client';
-import type { HomeData, Player, Staff, Partner, GalleryItem, Tournament, ContactForm, AuthResponse, LoginForm, RegisterForm, User, SiteSettings, TrainingSession } from '../types';
+import type { HomeData, Player, Staff, Partner, GalleryItem, Tournament, ContactForm, AuthResponse, LoginForm, RegisterForm, User, SiteSettings, TrainingSession, Category } from '../types';
 
 export const fetchHome = () => api.get<HomeData>('/home').then((r) => r.data);
 
@@ -63,6 +63,14 @@ export const deleteGalleryItem = (id: number) => api.delete(`/gallery/${id}`);
 export const createTournament = (data: Partial<Tournament>) => api.post<Tournament>('/tournaments', data).then((r) => r.data);
 export const updateTournament = (id: number, data: Partial<Tournament>) => api.put<Tournament>(`/tournaments/${id}`, data).then((r) => r.data);
 export const deleteTournament = (id: number) => api.delete(`/tournaments/${id}`);
+
+// Category CRUD
+export const fetchCategories = () => api.get<Category[]>('/categories').then((r) => r.data);
+export const fetchActiveCategories = () => api.get<Category[]>('/categories/active').then((r) => r.data);
+export const createCategory = (data: Partial<Category>) => api.post<Category>('/categories', data).then((r) => r.data);
+export const updateCategory = (id: number, data: Partial<Category>) => api.put<Category>(`/categories/${id}`, data).then((r) => r.data);
+export const deleteCategory = (id: number) => api.delete(`/categories/${id}`);
+export const toggleCategory = (id: number) => api.patch<Category>(`/categories/${id}/toggle`).then((r) => r.data);
 
 // Staff CRUD
 export const createStaff = (data: Partial<Staff>) => api.post<Staff>('/staff', data).then((r) => r.data);

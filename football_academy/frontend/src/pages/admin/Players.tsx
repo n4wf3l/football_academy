@@ -1,9 +1,9 @@
 import { useState, useEffect, useRef } from 'react';
-import { fetchPlayers, createPlayer, updatePlayer, deletePlayer, uploadFile } from '../../api/endpoints';
-import type { Player } from '../../types';
+import { fetchPlayers, createPlayer, updatePlayer, deletePlayer, uploadFile, fetchActiveCategories } from '../../api/endpoints';
+import { useToast } from '../../contexts/ToastContext';
+import type { Player, Category } from '../../types';
 
 const positions = ['Gardien', 'Defenseur', 'Milieu', 'Attaquant'];
-const categories = ['U13', 'U15', 'U17', 'U19'];
 const feet = ['right', 'left', 'both'];
 const footLabels: Record<string, string> = { right: 'Droit', left: 'Gauche', both: 'Les deux' };
 
@@ -16,6 +16,7 @@ const emptyPlayer: Partial<Player> = {
 
 export default function Players() {
   const [players, setPlayers] = useState<Player[]>([]);
+  const [categories, setCategories] = useState<Category[]>([]);
   const [loading, setLoading] = useState(true);
   const [search, setSearch] = useState('');
   const [filterCat, setFilterCat] = useState('');
@@ -26,11 +27,13 @@ export default function Players() {
   const [uploading, setUploading] = useState(false);
   const [deleteConfirm, setDeleteConfirm] = useState<Player | null>(null);
   const fileRef = useRef<HTMLInputElement>(null);
+  const toast = useToast();
 
   const load = () => {
     setLoading(true);
-    fetchPlayers().then((data) => {
-      setPlayers(data);
+    Promise.all([fetchPlayers(), fetchActiveCategories()]).then(([p, c]) => {
+      setPlayers(p);
+      setCategories(c);
       setLoading(false);
     });
   };
@@ -71,12 +74,16 @@ export default function Players() {
     try {
       if (editing) {
         await updatePlayer(editing.id, form);
+        toast.success('Joueur mis a jour');
       } else {
         await createPlayer(form);
+        toast.success('Joueur cree', `${form.first_name} ${form.last_name} a ete ajoute`);
       }
       setShowModal(false);
       load();
-    } catch {}
+    } catch {
+      toast.error('Erreur', 'Impossible de sauvegarder le joueur');
+    }
     setSaving(false);
   };
 
@@ -84,9 +91,12 @@ export default function Players() {
     if (!deleteConfirm) return;
     try {
       await deletePlayer(deleteConfirm.id);
+      toast.success('Joueur supprime', `${deleteConfirm.first_name} ${deleteConfirm.last_name}`);
       setDeleteConfirm(null);
       load();
-    } catch {}
+    } catch {
+      toast.error('Erreur', 'Impossible de supprimer le joueur');
+    }
   };
 
   const set = (key: string, value: any) => setForm((prev) => ({ ...prev, [key]: value }));
@@ -149,13 +159,13 @@ export default function Players() {
           </button>
           {categories.map((cat) => (
             <button
-              key={cat}
-              onClick={() => setFilterCat(cat)}
+              key={cat.id}
+              onClick={() => setFilterCat(cat.name)}
               className={`px-4 py-2.5 rounded-lg text-sm font-medium transition-colors ${
-                filterCat === cat ? 'bg-primary text-white' : 'bg-white border border-gray-300 text-gray-700 hover:bg-gray-50'
+                filterCat === cat.name ? 'bg-primary text-white' : 'bg-white border border-gray-300 text-gray-700 hover:bg-gray-50'
               }`}
             >
-              {cat}
+              {cat.name}
             </button>
           ))}
         </div>
@@ -335,7 +345,7 @@ export default function Players() {
                   <label className="block text-sm font-medium text-gray-700 mb-1">Categorie *</label>
                   <select value={form.category || ''} onChange={(e) => set('category', e.target.value)}
                     className="w-full border border-gray-300 rounded-lg px-4 py-2.5 focus:ring-2 focus:ring-primary focus:border-transparent outline-none bg-white">
-                    {categories.map((c) => <option key={c} value={c}>{c}</option>)}
+                    {categories.map((c) => <option key={c.id} value={c.name}>{c.name}</option>)}
                   </select>
                 </div>
                 <div>

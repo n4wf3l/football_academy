@@ -29,8 +29,8 @@ export default function Contact() {
       setSuccess(true);
       setForm({ name: '', email: '', subject: '', message: '' });
       toast.success(
-        t('Message envoye', 'Message sent'),
-        t('Nous vous repondrons dans les plus brefs delais', 'We will respond as soon as possible')
+        t('Message envoyé', 'Message sent'),
+        t('Nous vous répondrons dans les plus brefs délais', 'We will respond as soon as possible')
       );
     } catch (err: any) {
       if (err.response?.status === 422) {
@@ -48,10 +48,10 @@ export default function Contact() {
 
   return (
     <>
-      <section className="bg-gradient-to-br from-dark to-primary-dark text-white py-20">
+      <section className="bg-gradient-to-br from-dark to-primary-dark text-white py-20 pt-36">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <h1 className="animate-page-hero text-4xl md:text-5xl font-black mb-4">{t('Contactez-nous', 'Contact Us')}</h1>
-          <p className="animate-page-hero-sub text-xl text-gray-300">{t('Clubs, scouts, parents ou partenaires, ecrivez-nous', 'Clubs, scouts, parents or partners, write to us')}</p>
+          <p className="animate-page-hero-sub text-xl text-gray-300">{t('Clubs, scouts, parents ou partenaires, écrivez-nous', 'Clubs, scouts, parents or partners, write to us')}</p>
         </div>
       </section>
 
@@ -65,7 +65,7 @@ export default function Contact() {
 
                 {success && (
                   <div className="bg-green-50 border border-green-200 text-green-700 rounded-xl p-4 mb-6">
-                    {t('Votre message a ete envoye avec succes. Nous vous repondrons dans les plus brefs delais.', 'Your message has been sent successfully. We will respond as soon as possible.')}
+                    {t('Votre message a été envoyé avec succès. Nous vous répondrons dans les plus brefs délais.', 'Your message has been sent successfully. We will respond as soon as possible.')}
                   </div>
                 )}
 
@@ -103,7 +103,7 @@ export default function Contact() {
                       <option value="partnership">{t('Partenariat club', 'Club Partnership')}</option>
                       <option value="scouting">{t('Scouting / Recrutement', 'Scouting / Recruitment')}</option>
                       <option value="inscription">{t('Inscription joueur', 'Player Registration')}</option>
-                      <option value="tournament">{t('Tournoi / Evenement', 'Tournament / Event')}</option>
+                      <option value="tournament">{t('Tournoi / Événement', 'Tournament / Event')}</option>
                       <option value="other">{t('Autre', 'Other')}</option>
                     </select>
                     {errors.subject && <p className="text-red-500 text-sm mt-1">{errors.subject[0]}</p>}
@@ -144,7 +144,7 @@ export default function Contact() {
                     </div>
                     <div>
                       <h3 className="font-semibold text-gray-900">{t('Adresse', 'Address')}</h3>
-                      <p className="text-gray-600 text-sm mt-1">{settings.contact_address || t('Adresse a completer', 'Address to be completed')}</p>
+                      <p className="text-gray-600 text-sm mt-1">{settings.contact_address || t('Adresse à compléter', 'Address to be completed')}</p>
                     </div>
                   </div>
                   <div className="flex items-start gap-4">
@@ -165,7 +165,7 @@ export default function Contact() {
                       </svg>
                     </div>
                     <div>
-                      <h3 className="font-semibold text-gray-900">{t('Telephone', 'Phone')}</h3>
+                      <h3 className="font-semibold text-gray-900">{t('Téléphone', 'Phone')}</h3>
                       <p className="text-gray-600 text-sm mt-1">{settings.contact_phone || '+32 XXX XXX XXX'}</p>
                     </div>
                   </div>

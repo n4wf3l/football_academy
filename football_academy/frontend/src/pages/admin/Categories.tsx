@@ -39,22 +39,22 @@ export default function Categories() {
 
   const handleSave = async () => {
     if (!form.name?.trim()) {
-      toast.error('Erreur', 'Le nom de la categorie est requis');
+      toast.error('Erreur', 'Le nom de la catégorie est requis');
       return;
     }
     setSaving(true);
     try {
       if (editing) {
         await updateCategory(editing.id, form);
-        toast.success('Categorie mise a jour', `${form.name} a ete modifiee`);
+        toast.success('Catégorie mise à jour', `${form.name} a été modifiée`);
       } else {
         await createCategory(form);
-        toast.success('Categorie creee', `${form.name} a ete ajoutee`);
+        toast.success('Catégorie créée', `${form.name} a été ajoutée`);
       }
       setShowModal(false);
       load();
     } catch {
-      toast.error('Erreur', 'Impossible de sauvegarder la categorie');
+      toast.error('Erreur', 'Impossible de sauvegarder la catégorie');
     }
     setSaving(false);
   };
@@ -63,8 +63,8 @@ export default function Categories() {
     try {
       await toggleCategory(cat.id);
       toast.success(
-        cat.is_active ? 'Categorie desactivee' : 'Categorie activee',
-        `${cat.name} a ete ${cat.is_active ? 'desactivee' : 'activee'}`
+        cat.is_active ? 'Catégorie désactivée' : 'Catégorie activée',
+        `${cat.name} a été ${cat.is_active ? 'désactivée' : 'activée'}`
       );
       load();
     } catch {
@@ -76,11 +76,11 @@ export default function Categories() {
     if (!deleteConfirm) return;
     try {
       await deleteCategory(deleteConfirm.id);
-      toast.success('Categorie supprimee', `${deleteConfirm.name} a ete supprimee`);
+      toast.success('Catégorie supprimée', `${deleteConfirm.name} a été supprimée`);
       setDeleteConfirm(null);
       load();
     } catch {
-      toast.error('Erreur', 'Impossible de supprimer la categorie');
+      toast.error('Erreur', 'Impossible de supprimer la catégorie');
     }
   };
 
@@ -97,10 +97,10 @@ export default function Categories() {
   return (
     <div className="p-8">
       {/* Header */}
-      <div className="flex items-center justify-between mb-6">
+      <div className="flex items-center justify-between mb-6 animate-admin-fade" style={{ animationDelay: '0.05s' }}>
         <div>
-          <h1 className="text-3xl font-bold text-gray-900">Categories</h1>
-          <p className="text-gray-500 mt-1">{categories.length} categorie{categories.length > 1 ? 's' : ''} configurees</p>
+          <h1 className="text-3xl font-bold text-gray-900">Catégories</h1>
+          <p className="text-gray-500 mt-1">{categories.length} catégorie{categories.length > 1 ? 's' : ''} configurées</p>
         </div>
         <button
           onClick={openCreate}
@@ -109,12 +109,12 @@ export default function Categories() {
           <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4v16m8-8H4" />
           </svg>
-          Ajouter une categorie
+          Ajouter une catégorie
         </button>
       </div>
 
       {/* Categories list */}
-      <div className="bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden">
+      <div className="bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden animate-admin-fade" style={{ animationDelay: '0.15s' }}>
         <table className="w-full">
           <thead>
             <tr className="bg-gray-50 border-b border-gray-200">
@@ -176,7 +176,7 @@ export default function Categories() {
             <svg className="w-12 h-12 mx-auto mb-3 text-gray-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M3.75 12h16.5m-16.5 3.75h16.5M3.75 19.5h16.5M5.625 4.5h12.75a1.875 1.875 0 010 3.75H5.625a1.875 1.875 0 010-3.75z" />
             </svg>
-            Aucune categorie configuree
+            Aucune catégorie configurée
           </div>
         )}
       </div>
@@ -188,7 +188,7 @@ export default function Categories() {
           <div className="relative bg-white rounded-2xl shadow-2xl w-full max-w-md">
             <div className="border-b border-gray-200 px-6 py-4 rounded-t-2xl flex items-center justify-between">
               <h2 className="text-xl font-bold text-gray-900">
-                {editing ? 'Modifier la categorie' : 'Nouvelle categorie'}
+                {editing ? 'Modifier la catégorie' : 'Nouvelle catégorie'}
               </h2>
               <button onClick={() => setShowModal(false)} className="p-2 hover:bg-gray-100 rounded-lg transition-colors">
                 <svg className="w-5 h-5 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -218,7 +218,7 @@ export default function Categories() {
               <label className="flex items-center gap-3 cursor-pointer">
                 <input type="checkbox" checked={!!form.is_active} onChange={(e) => set('is_active', e.target.checked)}
                   className="w-5 h-5 rounded border-gray-300 text-primary focus:ring-primary" />
-                <span className="text-sm font-medium text-gray-700">Categorie active</span>
+                <span className="text-sm font-medium text-gray-700">Catégorie active</span>
               </label>
             </div>
 
@@ -229,7 +229,7 @@ export default function Categories() {
               </button>
               <button onClick={handleSave} disabled={saving}
                 className="bg-primary hover:bg-primary-dark text-white px-6 py-2.5 rounded-lg font-semibold transition-colors disabled:opacity-50">
-                {saving ? 'Sauvegarde...' : editing ? 'Mettre a jour' : 'Creer'}
+                {saving ? 'Sauvegarde...' : editing ? 'Mettre à jour' : 'Créer'}
               </button>
             </div>
           </div>
@@ -247,12 +247,12 @@ export default function Categories() {
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
                 </svg>
               </div>
-              <h3 className="text-lg font-bold text-gray-900 mb-2">Supprimer cette categorie ?</h3>
+              <h3 className="text-lg font-bold text-gray-900 mb-2">Supprimer cette catégorie ?</h3>
               <p className="text-gray-500 text-sm mb-2">
-                <strong>{deleteConfirm.name}</strong> sera supprimee definitivement.
+                <strong>{deleteConfirm.name}</strong> sera supprimée définitivement.
               </p>
               <p className="text-amber-600 text-xs mb-6 bg-amber-50 rounded-lg p-2">
-                Astuce : vous pouvez desactiver une categorie au lieu de la supprimer pour la masquer sans la perdre.
+                Astuce : vous pouvez désactiver une catégorie au lieu de la supprimer pour la masquer sans la perdre.
               </p>
               <div className="flex gap-3">
                 <button onClick={() => setDeleteConfirm(null)}

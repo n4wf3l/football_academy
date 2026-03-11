@@ -9,7 +9,7 @@ import type { Player, Staff, Partner, Tournament, GalleryItem, TrainingSession, 
 const DAYS_SHORT = ['Lun', 'Mar', 'Mer', 'Jeu', 'Ven', 'Sam', 'Dim'];
 const POSITION_COLORS: Record<string, string> = {
   Gardien: '#6366f1',
-  Defenseur: '#22c55e',
+  Défenseur: '#22c55e',
   Milieu: '#eab308',
   Attaquant: '#ef4444',
 };
@@ -85,7 +85,7 @@ export default function Dashboard() {
   const maxCat = Math.max(...catData.map((c) => c.count), 1);
 
   // Players by position
-  const positions = ['Gardien', 'Defenseur', 'Milieu', 'Attaquant'];
+  const positions = ['Gardien', 'Défenseur', 'Milieu', 'Attaquant'];
   const posData = positions.map((pos) => ({
     label: pos,
     count: players.filter((p) => p.position === pos).length,
@@ -105,18 +105,18 @@ export default function Dashboard() {
 
   // Greeting
   const hour = new Date().getHours();
-  const greeting = hour < 12 ? 'Bonjour' : hour < 18 ? 'Bon apres-midi' : 'Bonsoir';
+  const greeting = hour < 12 ? 'Bonjour' : hour < 18 ? 'Bon après-midi' : 'Bonsoir';
 
   return (
-    <div className="p-6 lg:p-8 space-y-6 max-w-[1400px]">
+    <div className="p-6 lg:p-8 space-y-6">
       {/* Header */}
-      <div className="flex items-start justify-between">
+      <div className="flex items-start justify-between animate-admin-fade" style={{ animationDelay: '0.05s' }}>
         <div>
           <h1 className={`text-2xl font-bold ${text}`}>
             {greeting}, <span className="text-primary">{user?.name || 'Admin'}</span>
           </h1>
           <p className={`text-sm mt-1 ${textMuted}`}>
-            Voici un apercu de {settings.academy_name}
+            Voici un aperçu de {settings.academy_name}
           </p>
         </div>
         <div className={`hidden sm:flex items-center gap-2 text-xs ${textMuted} ${subtleBg} rounded-lg px-3 py-2`}>
@@ -128,7 +128,7 @@ export default function Dashboard() {
       </div>
 
       {/* Stats cards */}
-      <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
+      <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 animate-admin-fade" style={{ animationDelay: '0.15s' }}>
         {[
           {
             label: 'Joueurs', value: players.length, sub: `${avgAge} ans de moyenne`,
@@ -136,7 +136,7 @@ export default function Dashboard() {
             href: '/dashboard/players',
           },
           {
-            label: 'Staff', value: staff.length, sub: `${new Set(staff.map((s) => s.role)).size} roles differents`,
+            label: 'Staff', value: staff.length, sub: `${new Set(staff.map((s) => s.role)).size} rôles différents`,
             icon: 'M4.26 10.147a60.438 60.438 0 00-.491 6.347A48.62 48.62 0 0112 20.904a48.62 48.62 0 018.232-4.41 60.46 60.46 0 00-.491-6.347m-15.482 0a50.636 50.636 0 00-2.658-.813A59.906 59.906 0 0112 3.493a59.903 59.903 0 0110.399 5.84c-.896.248-1.783.52-2.658.814m-15.482 0A50.717 50.717 0 0112 13.489a50.702 50.702 0 017.74-3.342',
             href: '/dashboard/staff',
           },
@@ -148,16 +148,17 @@ export default function Dashboard() {
           {
             label: 'Tournois', value: tournaments.length,
             sub: upcomingTournaments.length
-              ? `${upcomingTournaments.length} a venir`
-              : ongoingTournaments.length ? `${ongoingTournaments.length} en cours` : 'Aucun a venir',
+              ? `${upcomingTournaments.length} à venir`
+              : ongoingTournaments.length ? `${ongoingTournaments.length} en cours` : 'Aucun à venir',
             icon: 'M16.5 18.75h-9m9 0a3 3 0 013 3h-15a3 3 0 013-3m9 0v-3.375c0-.621-.503-1.125-1.125-1.125h-.871M7.5 18.75v-3.375c0-.621.504-1.125 1.125-1.125h.872m5.007 0H9.497m5.007 0a7.454 7.454 0 01-.982-3.172M9.497 14.25a7.454 7.454 0 00.981-3.172M5.25 4.236c-.982.143-1.954.317-2.916.52A6.003 6.003 0 007.73 9.728M5.25 4.236V4.5c0 2.108.966 3.99 2.48 5.228M5.25 4.236V2.721C7.456 2.41 9.71 2.25 12 2.25c2.291 0 4.545.16 6.75.47v1.516M18.75 4.236c.982.143 1.954.317 2.916.52A6.003 6.003 0 0016.27 9.728M18.75 4.236V4.5c0 2.108-.966 3.99-2.48 5.228m0 0a6.003 6.003 0 01-5.77 0',
             href: '/dashboard/tournaments',
           },
-        ].map((s) => (
+        ].map((s, i) => (
           <Link
             key={s.label}
             to={s.href}
-            className={`group rounded-2xl p-5 border transition-all duration-300 hover:-translate-y-0.5 ${card} ${cardHover}`}
+            className={`group rounded-2xl p-5 border transition-all duration-300 hover:-translate-y-0.5 animate-admin-card ${card} ${cardHover}`}
+            style={{ animationDelay: `${0.2 + i * 0.08}s` }}
           >
             <div className="flex items-start justify-between mb-3">
               <div className={`w-10 h-10 rounded-xl flex items-center justify-center group-hover:scale-110 transition-transform duration-300 ${
@@ -181,20 +182,20 @@ export default function Dashboard() {
       {/* Main grid */}
       <div className="grid lg:grid-cols-3 gap-6">
         {/* Performance overview - 2 cols */}
-        <div className={`lg:col-span-2 rounded-2xl border p-6 ${card}`}>
+        <div className={`lg:col-span-2 rounded-2xl border p-6 animate-admin-card ${card}`} style={{ animationDelay: '0.45s' }}>
           <div className="flex items-center justify-between mb-6">
             <div>
               <h2 className={`font-bold ${text}`}>Performance globale</h2>
-              <p className={`text-xs mt-0.5 ${textMuted}`}>Statistiques cumulees de tous les joueurs</p>
+              <p className={`text-xs mt-0.5 ${textMuted}`}>Statistiques cumulées de tous les joueurs</p>
             </div>
           </div>
 
           {/* Stats row - clean, monochrome with primary accent */}
           <div className="grid grid-cols-3 gap-4 mb-6">
             {[
-              { label: 'Buts marques', value: totalGoals, icon: 'M12 6v12m-3-2.818l.879.659c1.171.879 3.07.879 4.242 0 1.172-.879 1.172-2.303 0-3.182C13.536 12.219 12.768 12 12 12c-.725 0-1.45-.22-2.003-.659-1.106-.879-1.106-2.303 0-3.182s2.9-.879 4.006 0l.415.33M21 12a9 9 0 11-18 0 9 9 0 0118 0z' },
-              { label: 'Passes decisives', value: totalAssists, icon: 'M7.5 21L3 16.5m0 0L7.5 12M3 16.5h13.5m0-13.5L21 7.5m0 0L16.5 12M21 7.5H7.5' },
-              { label: 'Matchs joues', value: totalMatches, icon: 'M3 3v1.5M3 21v-6m0 0l2.77-.693a9 9 0 016.208.682l.108.054a9 9 0 006.086.71l3.114-.732a48.524 48.524 0 01-.005-10.499l-3.11.732a9 9 0 01-6.085-.711l-.108-.054a9 9 0 00-6.208-.682L3 4.5M3 15V4.5' },
+              { label: 'Buts marqués', value: totalGoals, icon: 'M12 6v12m-3-2.818l.879.659c1.171.879 3.07.879 4.242 0 1.172-.879 1.172-2.303 0-3.182C13.536 12.219 12.768 12 12 12c-.725 0-1.45-.22-2.003-.659-1.106-.879-1.106-2.303 0-3.182s2.9-.879 4.006 0l.415.33M21 12a9 9 0 11-18 0 9 9 0 0118 0z' },
+              { label: 'Passes décisives', value: totalAssists, icon: 'M7.5 21L3 16.5m0 0L7.5 12M3 16.5h13.5m0-13.5L21 7.5m0 0L16.5 12M21 7.5H7.5' },
+              { label: 'Matchs joués', value: totalMatches, icon: 'M3 3v1.5M3 21v-6m0 0l2.77-.693a9 9 0 016.208.682l.108.054a9 9 0 006.086.71l3.114-.732a48.524 48.524 0 01-.005-10.499l-3.11.732a9 9 0 01-6.085-.711l-.108-.054a9 9 0 00-6.208-.682L3 4.5M3 15V4.5' },
             ].map((stat) => (
               <div key={stat.label} className={`rounded-xl p-4 border ${isDark ? 'bg-slate-800/50 border-slate-700/50' : 'bg-gray-50/80 border-gray-100'}`}>
                 <div className={`w-8 h-8 rounded-lg flex items-center justify-center mb-2.5 ${isDark ? 'bg-primary/15' : 'bg-primary/10'}`}>
@@ -210,7 +211,7 @@ export default function Dashboard() {
 
           {/* Category bar chart */}
           <div className="mb-1">
-            <h3 className={`text-sm font-semibold mb-4 ${isDark ? 'text-slate-300' : 'text-gray-700'}`}>Joueurs par categorie</h3>
+            <h3 className={`text-sm font-semibold mb-4 ${isDark ? 'text-slate-300' : 'text-gray-700'}`}>Joueurs par catégorie</h3>
             <div className="space-y-3">
               {catData.map((cat) => (
                 <div key={cat.label} className="flex items-center gap-3">
@@ -232,8 +233,8 @@ export default function Dashboard() {
         {/* Right column */}
         <div className="space-y-6">
           {/* Position donut */}
-          <div className={`rounded-2xl border p-6 ${card}`}>
-            <h2 className={`font-bold mb-4 ${text}`}>Repartition par poste</h2>
+          <div className={`rounded-2xl border p-6 animate-admin-card ${card}`} style={{ animationDelay: '0.55s' }}>
+            <h2 className={`font-bold mb-4 ${text}`}>Répartition par poste</h2>
             <div className="flex items-center gap-6">
               <div className="relative w-28 h-28 shrink-0">
                 <div
@@ -268,9 +269,9 @@ export default function Dashboard() {
           </div>
 
           {/* Weekly schedule mini chart */}
-          <div className={`rounded-2xl border p-6 ${card}`}>
+          <div className={`rounded-2xl border p-6 animate-admin-card ${card}`} style={{ animationDelay: '0.65s' }}>
             <div className="flex items-center justify-between mb-4">
-              <h2 className={`font-bold ${text}`}>Seances / semaine</h2>
+              <h2 className={`font-bold ${text}`}>Séances / semaine</h2>
               <span className="text-xs font-bold text-primary bg-primary/10 px-2 py-1 rounded-md">{sessions.length} total</span>
             </div>
             <div className="flex items-end gap-2 h-24">
@@ -293,7 +294,7 @@ export default function Dashboard() {
       {/* Bottom row */}
       <div className="grid lg:grid-cols-3 gap-6">
         {/* Top scorers */}
-        <div className={`rounded-2xl border p-6 ${card}`}>
+        <div className={`rounded-2xl border p-6 animate-admin-card ${card}`} style={{ animationDelay: '0.7s' }}>
           <div className="flex items-center justify-between mb-4">
             <h2 className={`font-bold ${text}`}>Meilleurs buteurs</h2>
             <Link to="/dashboard/players" className="text-xs text-primary hover:text-primary-light transition-colors font-medium">
@@ -340,7 +341,7 @@ export default function Dashboard() {
         </div>
 
         {/* Upcoming tournaments */}
-        <div className={`rounded-2xl border p-6 ${card}`}>
+        <div className={`rounded-2xl border p-6 animate-admin-card ${card}`} style={{ animationDelay: '0.8s' }}>
           <div className="flex items-center justify-between mb-4">
             <h2 className={`font-bold ${text}`}>Prochains tournois</h2>
             <Link to="/dashboard/tournaments" className="text-xs text-primary hover:text-primary-light transition-colors font-medium">
@@ -373,7 +374,7 @@ export default function Dashboard() {
                           : isDark ? 'bg-blue-500/15 text-blue-400' : 'bg-blue-100 text-blue-700'
                       }`}>
                         {isOngoing && <span className="w-1.5 h-1.5 bg-green-500 rounded-full animate-pulse" />}
-                        {isOngoing ? 'En cours' : 'A venir'}
+                        {isOngoing ? 'En cours' : 'À venir'}
                       </span>
                       <span className={`text-[10px] ${textSub}`}>
                         {new Date(t.start_date).toLocaleDateString('fr-FR', { day: 'numeric', month: 'short' })}
@@ -384,21 +385,21 @@ export default function Dashboard() {
               );
             })}
             {upcomingTournaments.length === 0 && ongoingTournaments.length === 0 && (
-              <p className={`text-sm text-center py-4 ${textSub}`}>Aucun tournoi a venir</p>
+              <p className={`text-sm text-center py-4 ${textSub}`}>Aucun tournoi à venir</p>
             )}
           </div>
         </div>
 
         {/* Quick actions */}
-        <div className={`rounded-2xl border p-6 ${card}`}>
+        <div className={`rounded-2xl border p-6 animate-admin-card ${card}`} style={{ animationDelay: '0.9s' }}>
           <h2 className={`font-bold mb-4 ${text}`}>Actions rapides</h2>
           <div className="space-y-2">
             {[
               { label: 'Ajouter un joueur', href: '/dashboard/players', icon: 'M18 7.5v3m0 0v3m0-3h3m-3 0h-3m-2.25-4.125a3.375 3.375 0 11-6.75 0 3.375 3.375 0 016.75 0zM3 19.235v-.11a6.375 6.375 0 0112.75 0v.109A12.318 12.318 0 019.374 21c-2.331 0-4.512-.645-6.374-1.766z' },
-              { label: 'Gerer le planning', href: '/dashboard/planning', icon: 'M6.75 3v2.25M17.25 3v2.25M3 18.75V7.5a2.25 2.25 0 012.25-2.25h13.5A2.25 2.25 0 0121 7.5v11.25m-18 0A2.25 2.25 0 005.25 21h13.5A2.25 2.25 0 0021 18.75m-18 0v-7.5A2.25 2.25 0 015.25 9h13.5A2.25 2.25 0 0121 11.25v7.5' },
-              { label: 'Ajouter un media', href: '/dashboard/gallery', icon: 'M2.25 15.75l5.159-5.159a2.25 2.25 0 013.182 0l5.159 5.159m-1.5-1.5l1.409-1.409a2.25 2.25 0 013.182 0l2.909 2.909M18 3.75H6A2.25 2.25 0 003.75 6v12A2.25 2.25 0 006 20.25h12A2.25 2.25 0 0020.25 18V6A2.25 2.25 0 0018 3.75z' },
-              { label: 'Creer un tournoi', href: '/dashboard/tournaments', icon: 'M16.5 18.75h-9m9 0a3 3 0 013 3h-15a3 3 0 013-3m9 0v-3.375c0-.621-.503-1.125-1.125-1.125h-.871M7.5 18.75v-3.375c0-.621.504-1.125 1.125-1.125h.872m5.007 0H9.497m5.007 0a7.454 7.454 0 01-.982-3.172M9.497 14.25a7.454 7.454 0 00.981-3.172' },
-              { label: 'Parametres du site', href: '/dashboard/settings', icon: 'M9.594 3.94c.09-.542.56-.94 1.11-.94h2.593c.55 0 1.02.398 1.11.94l.213 1.281c.063.374.313.686.645.87.074.04.147.083.22.127.325.196.72.257 1.075.124l1.217-.456a1.125 1.125 0 011.37.49l1.296 2.247a1.125 1.125 0 01-.26 1.431l-1.003.827c-.293.241-.438.613-.43.992a7.723 7.723 0 010 .255c-.008.378.137.75.43.991l1.004.827c.424.35.534.955.26 1.43l-1.298 2.247a1.125 1.125 0 01-1.369.491l-1.217-.456c-.355-.133-.75-.072-1.076.124a6.47 6.47 0 01-.22.128c-.331.183-.581.495-.644.869l-.213 1.281c-.09.543-.56.941-1.11.941h-2.594c-.55 0-1.019-.398-1.11-.94l-.213-1.281c-.062-.374-.312-.686-.644-.87a6.52 6.52 0 01-.22-.127c-.325-.196-.72-.257-1.076-.124l-1.217.456a1.125 1.125 0 01-1.369-.49l-1.297-2.247a1.125 1.125 0 01.26-1.431l1.004-.827c.292-.24.437-.613.43-.991a6.932 6.932 0 010-.255c.007-.38-.138-.751-.43-.992l-1.004-.827a1.125 1.125 0 01-.26-1.43l1.297-2.247a1.125 1.125 0 011.37-.491l1.216.456c.356.133.751.072 1.076-.124.072-.044.146-.086.22-.128.332-.183.582-.495.644-.869l.214-1.28z M15 12a3 3 0 11-6 0 3 3 0 016 0z' },
+              { label: 'Gérer le planning', href: '/dashboard/planning', icon: 'M6.75 3v2.25M17.25 3v2.25M3 18.75V7.5a2.25 2.25 0 012.25-2.25h13.5A2.25 2.25 0 0121 7.5v11.25m-18 0A2.25 2.25 0 005.25 21h13.5A2.25 2.25 0 0021 18.75m-18 0v-7.5A2.25 2.25 0 015.25 9h13.5A2.25 2.25 0 0121 11.25v7.5' },
+              { label: 'Ajouter un média', href: '/dashboard/gallery', icon: 'M2.25 15.75l5.159-5.159a2.25 2.25 0 013.182 0l5.159 5.159m-1.5-1.5l1.409-1.409a2.25 2.25 0 013.182 0l2.909 2.909M18 3.75H6A2.25 2.25 0 003.75 6v12A2.25 2.25 0 006 20.25h12A2.25 2.25 0 0020.25 18V6A2.25 2.25 0 0018 3.75z' },
+              { label: 'Créer un tournoi', href: '/dashboard/tournaments', icon: 'M16.5 18.75h-9m9 0a3 3 0 013 3h-15a3 3 0 013-3m9 0v-3.375c0-.621-.503-1.125-1.125-1.125h-.871M7.5 18.75v-3.375c0-.621.504-1.125 1.125-1.125h.872m5.007 0H9.497m5.007 0a7.454 7.454 0 01-.982-3.172M9.497 14.25a7.454 7.454 0 00.981-3.172' },
+              { label: 'Paramètres du site', href: '/dashboard/settings', icon: 'M9.594 3.94c.09-.542.56-.94 1.11-.94h2.593c.55 0 1.02.398 1.11.94l.213 1.281c.063.374.313.686.645.87.074.04.147.083.22.127.325.196.72.257 1.075.124l1.217-.456a1.125 1.125 0 011.37.49l1.296 2.247a1.125 1.125 0 01-.26 1.431l-1.003.827c-.293.241-.438.613-.43.992a7.723 7.723 0 010 .255c-.008.378.137.75.43.991l1.004.827c.424.35.534.955.26 1.43l-1.298 2.247a1.125 1.125 0 01-1.369.491l-1.217-.456c-.355-.133-.75-.072-1.076.124a6.47 6.47 0 01-.22.128c-.331.183-.581.495-.644.869l-.213 1.281c-.09.543-.56.941-1.11.941h-2.594c-.55 0-1.019-.398-1.11-.94l-.213-1.281c-.062-.374-.312-.686-.644-.87a6.52 6.52 0 01-.22-.127c-.325-.196-.72-.257-1.076-.124l-1.217.456a1.125 1.125 0 01-1.369-.49l-1.297-2.247a1.125 1.125 0 01.26-1.431l1.004-.827c.292-.24.437-.613.43-.991a6.932 6.932 0 010-.255c.007-.38-.138-.751-.43-.992l-1.004-.827a1.125 1.125 0 01-.26-1.43l1.297-2.247a1.125 1.125 0 011.37-.491l1.216.456c.356.133.751.072 1.076-.124.072-.044.146-.086.22-.128.332-.183.582-.495.644-.869l.214-1.28z M15 12a3 3 0 11-6 0 3 3 0 016 0z' },
             ].map((a) => (
               <Link
                 key={a.label}
@@ -430,11 +431,11 @@ export default function Dashboard() {
             </div>
             <div className={`flex-1 rounded-xl p-3 text-center ${subtleBg}`}>
               <div className={`text-lg font-bold ${text}`}>{gallery.filter((g) => g.type === 'video').length}</div>
-              <div className={`text-[10px] uppercase tracking-wider ${textMuted}`}>Videos</div>
+              <div className={`text-[10px] uppercase tracking-wider ${textMuted}`}>Vidéos</div>
             </div>
             <div className={`flex-1 rounded-xl p-3 text-center ${subtleBg}`}>
               <div className={`text-lg font-bold ${text}`}>{sessions.length}</div>
-              <div className={`text-[10px] uppercase tracking-wider ${textMuted}`}>Seances</div>
+              <div className={`text-[10px] uppercase tracking-wider ${textMuted}`}>Séances</div>
             </div>
           </div>
         </div>

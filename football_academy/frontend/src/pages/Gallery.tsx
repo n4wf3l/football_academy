@@ -28,7 +28,7 @@ export default function Gallery() {
 
   return (
     <>
-      <section className="bg-gradient-to-br from-dark to-primary-dark text-white py-20">
+      <section className="bg-gradient-to-br from-dark to-primary-dark text-white py-20 pt-36">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <h1 className="animate-page-hero text-4xl md:text-5xl font-black mb-4">{t('Galerie Media', 'Media Gallery')}</h1>
           <p className="animate-page-hero-sub text-xl text-gray-300">{t('Photos et videos de notre centre et de nos joueurs', 'Photos and videos of our center and players')}</p>
@@ -48,7 +48,7 @@ export default function Gallery() {
                       typeFilter === tp ? 'bg-primary text-white' : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
                     }`}
                   >
-                    {tp === 'all' ? t('Tout', 'All') : tp === 'photo' ? 'Photos' : t('Videos', 'Videos')}
+                    {tp === 'all' ? t('Tout', 'All') : tp === 'photo' ? 'Photos' : t('Vidéos', 'Videos')}
                   </button>
                 ))}
               </div>

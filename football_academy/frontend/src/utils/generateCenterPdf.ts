@@ -128,11 +128,11 @@ export function generateCenterPdf(
     'Place players in professional clubs',
     'Develop responsible and disciplined individuals',
   ] : [
-    'Former des joueurs techniquement et tactiquement competents',
-    'Assurer un suivi scolaire et educatif de qualite',
-    'Developper les qualites physiques et mentales',
+    'Former des joueurs techniquement et tactiquement compétents',
+    'Assurer un suivi scolaire et éducatif de qualité',
+    'Développer les qualités physiques et mentales',
     'Placer les joueurs dans des clubs professionnels',
-    'Former des hommes responsables et disciplines',
+    'Former des hommes responsables et disciplinés',
   ];
   objectives.forEach((obj) => bulletPoint(obj));
 
@@ -177,7 +177,7 @@ export function generateCenterPdf(
   y = 20;
   sectionHeader(t(lang, 'Programme Sportif', 'Sports Program'));
   paragraph(t(lang,
-    "5 entrainements par semaine avec des entraineurs diplomes. Travail technique, tactique et preparation physique. Suivi scolaire obligatoire. Participation a des championnats, tournois nationaux et internationaux.",
+    "5 entraînements par semaine avec des entraîneurs diplômés. Travail technique, tactique et préparation physique. Suivi scolaire obligatoire. Participation à des championnats, tournois nationaux et internationaux.",
     '5 training sessions per week with certified coaches. Technical, tactical and physical preparation. Mandatory academic support. Participation in championships, national and international tournaments.',
   ));
 

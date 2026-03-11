@@ -3,7 +3,7 @@ import { fetchStaff, createStaff, updateStaff, deleteStaff, uploadFile } from '.
 import { useToast } from '../../contexts/ToastContext';
 import type { Staff } from '../../types';
 
-const roles = ['Entraineur principal', 'Entraineur adjoint', 'Preparateur physique', 'Medecin sportif', 'Kinesitherapeute', 'Directeur technique', 'Intendant', 'Autre'];
+const roles = ['Entraîneur principal', 'Entraîneur adjoint', 'Préparateur physique', 'Médecin sportif', 'Kinésithérapeute', 'Directeur technique', 'Intendant', 'Autre'];
 
 const emptyStaff: Partial<Staff> = {
   name: '',
@@ -65,11 +65,11 @@ export default function AdminStaff() {
       if (editing) {
         const updated = await updateStaff(editing.id, form);
         setStaff((prev) => prev.map((s) => (s.id === editing.id ? updated : s)));
-        toast.success('Staff mis a jour');
+        toast.success('Staff mis à jour');
       } else {
         const created = await createStaff(form);
         setStaff((prev) => [created, ...prev]);
-        toast.success('Staff ajoute', form.name || '');
+        toast.success('Staff ajouté', form.name || '');
       }
       setModalOpen(false);
     } catch {
@@ -83,7 +83,7 @@ export default function AdminStaff() {
     try {
       await deleteStaff(deleteTarget.id);
       setStaff((prev) => prev.filter((s) => s.id !== deleteTarget.id));
-      toast.success('Staff supprime');
+      toast.success('Staff supprimé');
     } catch {
       toast.error('Erreur', 'Impossible de supprimer le staff');
     }
@@ -109,7 +109,7 @@ export default function AdminStaff() {
   return (
     <div className="p-8">
       {/* Header */}
-      <div className="flex items-center justify-between mb-8">
+      <div className="flex items-center justify-between mb-8 animate-admin-fade" style={{ animationDelay: '0.05s' }}>
         <div>
           <h1 className="text-3xl font-bold text-gray-900">Encadrement</h1>
           <p className="text-gray-500 mt-1">{staff.length} membre{staff.length !== 1 ? 's' : ''} du staff</p>
@@ -156,7 +156,7 @@ export default function AdminStaff() {
 
       {/* Grid */}
       {filtered.length > 0 ? (
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-5">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-5 animate-admin-fade" style={{ animationDelay: '0.15s' }}>
           {filtered.map((member) => (
             <div key={member.id} className="bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden group hover:shadow-md transition-shadow">
               {/* Photo area */}
@@ -215,7 +215,7 @@ export default function AdminStaff() {
           <svg className="w-16 h-16 text-gray-300 mx-auto mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M5.121 17.804A13.937 13.937 0 0112 16c2.5 0 4.847.655 6.879 1.804M15 10a3 3 0 11-6 0 3 3 0 016 0zm6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
           </svg>
-          <p className="text-gray-500 text-lg">Aucun membre trouve</p>
+          <p className="text-gray-500 text-lg">Aucun membre trouvé</p>
           <p className="text-gray-400 text-sm mt-1">Ajoutez votre premier membre du staff</p>
         </div>
       )}
@@ -283,19 +283,19 @@ export default function AdminStaff() {
                   value={form.name || ''}
                   onChange={(e) => setForm((prev) => ({ ...prev, name: e.target.value }))}
                   className="w-full border border-gray-300 rounded-lg px-4 py-2.5 focus:ring-2 focus:ring-primary focus:border-transparent outline-none"
-                  placeholder="Nom et prenom"
+                  placeholder="Nom et prénom"
                 />
               </div>
 
               {/* Role */}
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">Role / Poste *</label>
+                <label className="block text-sm font-medium text-gray-700 mb-1">Rôle / Poste *</label>
                 <select
                   value={form.role || ''}
                   onChange={(e) => setForm((prev) => ({ ...prev, role: e.target.value }))}
                   className="w-full border border-gray-300 rounded-lg px-4 py-2.5 focus:ring-2 focus:ring-primary focus:border-transparent outline-none"
                 >
-                  <option value="">-- Choisir un role --</option>
+                  <option value="">-- Choisir un rôle --</option>
                   {roles.map((r) => (
                     <option key={r} value={r}>{r}</option>
                   ))}
@@ -304,7 +304,7 @@ export default function AdminStaff() {
 
               {/* Qualification */}
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">Qualification / Diplome</label>
+                <label className="block text-sm font-medium text-gray-700 mb-1">Qualification / Diplôme</label>
                 <input
                   type="text"
                   value={form.qualification || ''}
@@ -322,7 +322,7 @@ export default function AdminStaff() {
                   onChange={(e) => setForm((prev) => ({ ...prev, bio_fr: e.target.value }))}
                   rows={3}
                   className="w-full border border-gray-300 rounded-lg px-4 py-2.5 focus:ring-2 focus:ring-primary focus:border-transparent outline-none"
-                  placeholder="Parcours, experience..."
+                  placeholder="Parcours, expérience..."
                 />
               </div>
             </div>
@@ -340,7 +340,7 @@ export default function AdminStaff() {
                 disabled={saving || !form.name || !form.role}
                 className="px-5 py-2.5 rounded-lg bg-primary hover:bg-primary-dark text-white font-semibold transition-colors disabled:opacity-50"
               >
-                {saving ? 'Sauvegarde...' : editing ? 'Modifier' : 'Creer'}
+                {saving ? 'Sauvegarde...' : editing ? 'Modifier' : 'Créer'}
               </button>
             </div>
           </div>
@@ -358,7 +358,7 @@ export default function AdminStaff() {
             </div>
             <h3 className="text-lg font-bold text-gray-900 text-center mb-2">Supprimer le membre</h3>
             <p className="text-gray-500 text-sm text-center mb-6">
-              Voulez-vous vraiment supprimer <strong>{deleteTarget.name}</strong> ? Cette action est irreversible.
+              Voulez-vous vraiment supprimer <strong>{deleteTarget.name}</strong> ? Cette action est irréversible.
             </p>
             <div className="flex gap-3">
               <button

@@ -25,7 +25,7 @@ export default function PlayerShow() {
 
   return (
     <>
-      <section className="bg-gradient-to-br from-dark to-primary-dark text-white py-12">
+      <section className="bg-gradient-to-br from-dark to-primary-dark text-white py-12 pt-28">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <Link to="/players" className="text-gray-400 hover:text-white text-sm mb-4 inline-block">
             &larr; {t('Retour aux joueurs', 'Back to players')}
@@ -71,7 +71,7 @@ export default function PlayerShow() {
                   <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
                   </svg>
-                  {t('Telecharger le profil PDF', 'Download PDF Profile')}
+                  {t('Télécharger le profil PDF', 'Download PDF Profile')}
                 </button>
 
                 <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-8">
@@ -94,9 +94,9 @@ export default function PlayerShow() {
                       <h2 className="text-xl font-bold text-gray-900 mb-4">{t('Statistiques', 'Statistics')}</h2>
                       <div className="grid grid-cols-3 gap-4">
                         {[
-                          { label: t('Matchs joues', 'Matches Played'), value: player.matches_played, color: 'text-blue-600' },
+                          { label: t('Matchs joués', 'Matches Played'), value: player.matches_played, color: 'text-blue-600' },
                           { label: t('Buts', 'Goals'), value: player.goals, color: 'text-green-600' },
-                          { label: t('Passes decisives', 'Assists'), value: player.assists, color: 'text-orange-600' },
+                          { label: t('Passes décisives', 'Assists'), value: player.assists, color: 'text-orange-600' },
                         ].map((stat) => (
                           <div key={stat.label} className="bg-gray-50 rounded-xl p-6 text-center">
                             <div className={`text-3xl font-black ${stat.color}`}>{stat.value}</div>

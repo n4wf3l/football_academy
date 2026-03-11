@@ -65,15 +65,15 @@ export default function Planning() {
     try {
       if (editing) {
         await updateTrainingSession(editing.id, form);
-        toast.success('Seance mise a jour');
+        toast.success('Séance mise à jour');
       } else {
         await createTrainingSession(form);
-        toast.success('Seance creee', form.title || '');
+        toast.success('Séance créée', form.title || '');
       }
       setShowModal(false);
       load();
     } catch {
-      toast.error('Erreur', 'Impossible de sauvegarder la seance');
+      toast.error('Erreur', 'Impossible de sauvegarder la séance');
     }
     setSaving(false);
   };
@@ -82,11 +82,11 @@ export default function Planning() {
     if (!deleteConfirm) return;
     try {
       await deleteTrainingSession(deleteConfirm.id);
-      toast.success('Seance supprimee');
+      toast.success('Séance supprimée');
       setDeleteConfirm(null);
       load();
     } catch {
-      toast.error('Erreur', 'Impossible de supprimer la seance');
+      toast.error('Erreur', 'Impossible de supprimer la séance');
     }
   };
 
@@ -143,10 +143,10 @@ export default function Planning() {
 
   return (
     <div className="p-8">
-      <div className="flex items-center justify-between mb-6">
+      <div className="flex items-center justify-between mb-6 animate-admin-fade" style={{ animationDelay: '0.05s' }}>
         <div>
           <h1 className="text-3xl font-bold text-gray-900">Planning Hebdomadaire</h1>
-          <p className="text-gray-500 mt-1">Glissez-deposez les seances pour les reorganiser</p>
+          <p className="text-gray-500 mt-1">Glissez-déposez les séances pour les réorganiser</p>
         </div>
         <button
           onClick={() => openCreate(0)}
@@ -155,12 +155,12 @@ export default function Planning() {
           <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4v16m8-8H4" />
           </svg>
-          Ajouter une seance
+          Ajouter une séance
         </button>
       </div>
 
       {/* Weekly Grid */}
-      <div className="grid grid-cols-7 gap-3">
+      <div className="grid grid-cols-7 gap-3 animate-admin-fade" style={{ animationDelay: '0.15s' }}>
         {DAYS.map((day, idx) => (
           <div
             key={day}
@@ -212,7 +212,7 @@ export default function Planning() {
       </div>
 
       {/* Legend */}
-      <div className="mt-4 flex flex-wrap gap-3">
+      <div className="mt-4 flex flex-wrap gap-3 animate-admin-fade" style={{ animationDelay: '0.25s' }}>
         {COLORS.map((c) => (
           <div key={c.value} className="flex items-center gap-1.5">
             <div className={`w-3 h-3 rounded-sm border ${c.bg}`} />
@@ -228,7 +228,7 @@ export default function Planning() {
           <div className="relative bg-white rounded-2xl shadow-2xl w-full max-w-lg max-h-[80vh] overflow-y-auto">
             <div className="sticky top-0 bg-white border-b border-gray-200 px-6 py-4 rounded-t-2xl flex items-center justify-between z-10">
               <h2 className="text-xl font-bold text-gray-900">
-                {editing ? 'Modifier la seance' : 'Nouvelle seance'}
+                {editing ? 'Modifier la séance' : 'Nouvelle séance'}
               </h2>
               <button onClick={() => setShowModal(false)} className="p-2 hover:bg-gray-100 rounded-lg">
                 <svg className="w-5 h-5 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -253,7 +253,7 @@ export default function Planning() {
                   </select>
                 </div>
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-1">Categorie</label>
+                  <label className="block text-sm font-medium text-gray-700 mb-1">Catégorie</label>
                   <select value={form.category || 'Tous'} onChange={(e) => set('category', e.target.value)}
                     className="w-full border border-gray-300 rounded-lg px-4 py-2.5 focus:ring-2 focus:ring-primary focus:border-transparent outline-none bg-white">
                     {['Tous', 'U13', 'U15', 'U17', 'U19', 'U17-U19', 'U13-U15'].map((c) => <option key={c} value={c}>{c}</option>)}
@@ -263,7 +263,7 @@ export default function Planning() {
 
               <div className="grid grid-cols-2 gap-4">
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-1">Debut *</label>
+                  <label className="block text-sm font-medium text-gray-700 mb-1">Début *</label>
                   <input type="time" value={form.start_time || ''} onChange={(e) => set('start_time', e.target.value)}
                     className="w-full border border-gray-300 rounded-lg px-4 py-2.5 focus:ring-2 focus:ring-primary focus:border-transparent outline-none" />
                 </div>
@@ -281,7 +281,7 @@ export default function Planning() {
                     className="w-full border border-gray-300 rounded-lg px-4 py-2.5 focus:ring-2 focus:ring-primary focus:border-transparent outline-none" />
                 </div>
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-1">Entraineur</label>
+                  <label className="block text-sm font-medium text-gray-700 mb-1">Entraîneur</label>
                   <input type="text" value={form.coach || ''} onChange={(e) => set('coach', e.target.value)}
                     className="w-full border border-gray-300 rounded-lg px-4 py-2.5 focus:ring-2 focus:ring-primary focus:border-transparent outline-none" />
                 </div>
@@ -316,7 +316,7 @@ export default function Planning() {
                 {editing && (
                   <button onClick={() => { setShowModal(false); setDeleteConfirm(editing); }}
                     className="text-red-500 hover:text-red-700 text-sm font-medium">
-                    Supprimer cette seance
+                    Supprimer cette séance
                   </button>
                 )}
               </div>
@@ -327,7 +327,7 @@ export default function Planning() {
                 </button>
                 <button onClick={handleSave} disabled={saving}
                   className="bg-primary hover:bg-primary-dark text-white px-6 py-2.5 rounded-lg font-semibold transition-colors disabled:opacity-50">
-                  {saving ? 'Sauvegarde...' : editing ? 'Mettre a jour' : 'Creer'}
+                  {saving ? 'Sauvegarde...' : editing ? 'Mettre à jour' : 'Créer'}
                 </button>
               </div>
             </div>
@@ -346,9 +346,9 @@ export default function Planning() {
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
                 </svg>
               </div>
-              <h3 className="text-lg font-bold text-gray-900 mb-2">Supprimer cette seance ?</h3>
+              <h3 className="text-lg font-bold text-gray-900 mb-2">Supprimer cette séance ?</h3>
               <p className="text-gray-500 text-sm mb-6">
-                <strong>{deleteConfirm.title}</strong> ({DAYS[deleteConfirm.day_of_week]}) sera supprimee definitivement.
+                <strong>{deleteConfirm.title}</strong> ({DAYS[deleteConfirm.day_of_week]}) sera supprimée définitivement.
               </p>
               <div className="flex gap-3">
                 <button onClick={() => setDeleteConfirm(null)}

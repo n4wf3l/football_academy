@@ -4,7 +4,7 @@ import api from '../../api/client';
 import { useToast } from '../../contexts/ToastContext';
 import type { GalleryItem } from '../../types';
 
-const predefinedCategories = ['Entrainement', 'Match', 'Evenement', 'Infrastructure'];
+const predefinedCategories = ['Entraînement', 'Match', 'Événement', 'Infrastructure'];
 
 const emptyItem: Partial<GalleryItem> = {
   title_fr: '',
@@ -80,15 +80,15 @@ export default function Gallery() {
     try {
       if (editing) {
         await api.put<GalleryItem>(`/gallery/${editing.id}`, form);
-        toast.success('Media mis a jour');
+        toast.success('Média mis à jour');
       } else {
         await api.post<GalleryItem>('/gallery', form);
-        toast.success('Media ajoute', form.title_fr || '');
+        toast.success('Média ajouté', form.title_fr || '');
       }
       setShowModal(false);
       load();
     } catch {
-      toast.error('Erreur', 'Impossible de sauvegarder le media');
+      toast.error('Erreur', 'Impossible de sauvegarder le média');
     }
     setSaving(false);
   };
@@ -97,11 +97,11 @@ export default function Gallery() {
     if (!deleteConfirm) return;
     try {
       await api.delete(`/gallery/${deleteConfirm.id}`);
-      toast.success('Media supprime');
+      toast.success('Média supprimé');
       setDeleteConfirm(null);
       load();
     } catch {
-      toast.error('Erreur', 'Impossible de supprimer le media');
+      toast.error('Erreur', 'Impossible de supprimer le média');
     }
   };
 
@@ -120,10 +120,10 @@ export default function Gallery() {
   return (
     <div className="p-8">
       {/* Header */}
-      <div className="flex items-center justify-between mb-6">
+      <div className="flex items-center justify-between mb-6 animate-admin-fade" style={{ animationDelay: '0.05s' }}>
         <div>
           <h1 className="text-3xl font-bold text-gray-900">Galerie</h1>
-          <p className="text-gray-500 mt-1">{items.length} element{items.length > 1 ? 's' : ''} dans la galerie</p>
+          <p className="text-gray-500 mt-1">{items.length} élément{items.length > 1 ? 's' : ''} dans la galerie</p>
         </div>
         <button
           onClick={openCreate}
@@ -132,12 +132,12 @@ export default function Gallery() {
           <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4v16m8-8H4" />
           </svg>
-          Ajouter un element
+          Ajouter un élément
         </button>
       </div>
 
       {/* Filters */}
-      <div className="flex flex-wrap gap-3 mb-6">
+      <div className="flex flex-wrap gap-3 mb-6 animate-admin-fade" style={{ animationDelay: '0.1s' }}>
         <div className="relative flex-1 min-w-[200px] max-w-md">
           <svg className="w-5 h-5 text-gray-400 absolute left-3 top-1/2 -translate-y-1/2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
@@ -181,7 +181,7 @@ export default function Gallery() {
             <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 10l4.553-2.276A1 1 0 0121 8.618v6.764a1 1 0 01-1.447.894L15 14M5 18h8a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z" />
             </svg>
-            Videos
+            Vidéos
           </button>
         </div>
 
@@ -191,7 +191,7 @@ export default function Gallery() {
           onChange={(e) => setFilterCategory(e.target.value)}
           className="px-4 py-2.5 rounded-lg text-sm font-medium bg-white border border-gray-300 text-gray-700 focus:ring-2 focus:ring-primary focus:border-transparent outline-none"
         >
-          <option value="">Toutes les categories</option>
+          <option value="">Toutes les catégories</option>
           {allCategories.map((cat) => (
             <option key={cat} value={cat}>{cat}</option>
           ))}
@@ -199,7 +199,7 @@ export default function Gallery() {
       </div>
 
       {/* Gallery Grid */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-5">
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-5 animate-admin-fade" style={{ animationDelay: '0.2s' }}>
         {filtered.map((item) => (
           <div key={item.id} className="bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden group">
             {/* Thumbnail */}
@@ -235,7 +235,7 @@ export default function Gallery() {
                   ? 'bg-blue-100 text-blue-700'
                   : 'bg-purple-100 text-purple-700'
               }`}>
-                {item.type === 'photo' ? 'Photo' : 'Video'}
+                {item.type === 'photo' ? 'Photo' : 'Vidéo'}
               </span>
 
               {/* Actions overlay */}
@@ -266,7 +266,7 @@ export default function Gallery() {
               <h3 className="font-semibold text-gray-900 truncate">{item.title_fr || 'Sans titre'}</h3>
               <div className="flex items-center gap-2 mt-2">
                 <span className="inline-block px-2.5 py-1 bg-primary/10 text-primary text-xs font-semibold rounded-full">
-                  {item.category || 'Non classe'}
+                  {item.category || 'Non classé'}
                 </span>
               </div>
             </div>
@@ -279,7 +279,7 @@ export default function Gallery() {
           <svg className="w-12 h-12 mx-auto mb-3 text-gray-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
           </svg>
-          Aucun element trouve
+          Aucun élément trouvé
         </div>
       )}
 
@@ -290,7 +290,7 @@ export default function Gallery() {
           <div className="relative bg-white rounded-2xl shadow-2xl w-full max-w-lg max-h-[85vh] overflow-y-auto">
             <div className="sticky top-0 bg-white border-b border-gray-200 px-6 py-4 rounded-t-2xl flex items-center justify-between z-10">
               <h2 className="text-xl font-bold text-gray-900">
-                {editing ? 'Modifier l\'element' : 'Nouvel element'}
+                {editing ? 'Modifier l\'élément' : 'Nouvel élément'}
               </h2>
               <button onClick={() => setShowModal(false)} className="p-2 hover:bg-gray-100 rounded-lg transition-colors">
                 <svg className="w-5 h-5 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -356,7 +356,7 @@ export default function Gallery() {
                   type="text"
                   value={form.title_fr || ''}
                   onChange={(e) => set('title_fr', e.target.value)}
-                  placeholder="Titre de l'element"
+                  placeholder="Titre de l'élément"
                   className="w-full border border-gray-300 rounded-lg px-4 py-2.5 focus:ring-2 focus:ring-primary focus:border-transparent outline-none"
                 />
               </div>
@@ -370,19 +370,19 @@ export default function Gallery() {
                   className="w-full border border-gray-300 rounded-lg px-4 py-2.5 focus:ring-2 focus:ring-primary focus:border-transparent outline-none bg-white"
                 >
                   <option value="photo">Photo</option>
-                  <option value="video">Video</option>
+                  <option value="video">Vidéo</option>
                 </select>
               </div>
 
               {/* Category */}
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">Categorie *</label>
+                <label className="block text-sm font-medium text-gray-700 mb-1">Catégorie *</label>
                 <input
                   type="text"
                   list="gallery-categories"
                   value={form.category || ''}
                   onChange={(e) => set('category', e.target.value)}
-                  placeholder="Ex: Entrainement, Match..."
+                  placeholder="Ex: Entraînement, Match..."
                   className="w-full border border-gray-300 rounded-lg px-4 py-2.5 focus:ring-2 focus:ring-primary focus:border-transparent outline-none"
                 />
                 <datalist id="gallery-categories">
@@ -406,7 +406,7 @@ export default function Gallery() {
                 disabled={saving || !form.title_fr || !form.file_path}
                 className="bg-primary hover:bg-primary-dark text-white px-6 py-2.5 rounded-lg font-semibold transition-colors disabled:opacity-50"
               >
-                {saving ? 'Sauvegarde...' : editing ? 'Mettre a jour' : 'Ajouter'}
+                {saving ? 'Sauvegarde...' : editing ? 'Mettre à jour' : 'Ajouter'}
               </button>
             </div>
           </div>
@@ -424,9 +424,9 @@ export default function Gallery() {
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
                 </svg>
               </div>
-              <h3 className="text-lg font-bold text-gray-900 mb-2">Supprimer cet element ?</h3>
+              <h3 className="text-lg font-bold text-gray-900 mb-2">Supprimer cet élément ?</h3>
               <p className="text-gray-500 text-sm mb-6">
-                <strong>{deleteConfirm.title_fr || 'Cet element'}</strong> sera supprime definitivement. Cette action est irreversible.
+                <strong>{deleteConfirm.title_fr || 'Cet élément'}</strong> sera supprimé définitivement. Cette action est irréversible.
               </p>
               <div className="flex gap-3">
                 <button

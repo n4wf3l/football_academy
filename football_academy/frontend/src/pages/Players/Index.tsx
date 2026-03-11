@@ -31,10 +31,14 @@ export default function PlayersIndex() {
 
   return (
     <>
-      <section className="bg-gradient-to-br from-dark to-primary-dark text-white py-20">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <section className="relative text-white py-20 pt-36 overflow-hidden">
+        <div className="absolute inset-0">
+          <img src="/player.jpg" alt="" className="w-full h-full object-cover" />
+          <div className="absolute inset-0 bg-gradient-to-r from-dark/85 to-primary-dark/70" />
+        </div>
+        <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <h1 className="animate-page-hero text-4xl md:text-5xl font-black mb-4">{t('Nos Joueurs', 'Our Players')}</h1>
-          <p className="animate-page-hero-sub text-xl text-gray-300">{t('Decouvrez les talents formes par notre centre', 'Discover the talents trained by our center')}</p>
+          <p className="animate-page-hero-sub text-xl text-gray-300">{t('Découvrez les talents formés par notre centre', 'Discover the talents trained by our center')}</p>
         </div>
       </section>
 
@@ -44,7 +48,7 @@ export default function PlayersIndex() {
           <Reveal>
             <div className="flex flex-wrap gap-4 mb-8">
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">{t('Categorie', 'Category')}</label>
+                <label className="block text-sm font-medium text-gray-700 mb-1">{t('Catégorie', 'Category')}</label>
                 <div className="flex flex-wrap gap-2">
                   {categories.map((cat) => (
                     <button
@@ -88,7 +92,7 @@ export default function PlayersIndex() {
             </div>
           ) : (
             <div className="text-center py-20 text-gray-500">
-              <p className="text-lg">{t('Aucun joueur trouve avec ces criteres.', 'No players found with these criteria.')}</p>
+              <p className="text-lg">{t('Aucun joueur trouvé avec ces critères.', 'No players found with these criteria.')}</p>
             </div>
           )}
         </div>

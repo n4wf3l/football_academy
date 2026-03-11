@@ -10,9 +10,9 @@ const defaults: SiteSettings = {
   primary_dark_color: '#0D3B0F',
   accent_color: '#FFD700',
   dark_color: '#1a1a2e',
-  hero_image_url: 'https://images.unsplash.com/photo-1574629810360-7efbbe195018?auto=format&fit=crop&w=1920&q=80',
+  hero_image_url: '/group-players.jpg',
   hero_title: 'Former les champions de demain',
-  hero_subtitle: "Notre centre de formation combine excellence sportive, education et developpement personnel pour preparer les jeunes talents au plus haut niveau du football professionnel.",
+  hero_subtitle: "Notre centre de formation combine excellence sportive, éducation et développement personnel pour préparer les jeunes talents au plus haut niveau du football professionnel.",
   hero_badge: "Centre de Formation d'Excellence",
   hero_video_url: '',
   contact_email: 'contact@football-academy.com',
@@ -39,6 +39,7 @@ const SettingsContext = createContext<SettingsContextType>({
 
 export function SettingsProvider({ children }: { children: React.ReactNode }) {
   const [settings, setSettings] = useState<SiteSettings>(defaults);
+  const [ready, setReady] = useState(false);
 
   const refreshSettings = async () => {
     try {
@@ -46,8 +47,9 @@ export function SettingsProvider({ children }: { children: React.ReactNode }) {
       setSettings({ ...defaults, ...data });
       applyColors({ ...defaults, ...data });
     } catch {
-      // use defaults
+      applyColors(defaults);
     }
+    setReady(true);
   };
 
   useEffect(() => {
@@ -56,7 +58,14 @@ export function SettingsProvider({ children }: { children: React.ReactNode }) {
 
   return (
     <SettingsContext.Provider value={{ settings, refreshSettings }}>
-      {children}
+      <div
+        style={{
+          opacity: ready ? 1 : 0,
+          transition: 'opacity 0.3s ease-out',
+        }}
+      >
+        {children}
+      </div>
     </SettingsContext.Provider>
   );
 }
@@ -68,6 +77,18 @@ function applyColors(s: SiteSettings) {
   root.style.setProperty('--color-primary-dark', s.primary_dark_color);
   root.style.setProperty('--color-accent', s.accent_color);
   root.style.setProperty('--color-dark', s.dark_color);
+
+  document.title = s.academy_name || 'Football Academy';
+
+  if (s.logo_url) {
+    let link = document.querySelector<HTMLLinkElement>("link[rel~='icon']");
+    if (!link) {
+      link = document.createElement('link');
+      link.rel = 'icon';
+      document.head.appendChild(link);
+    }
+    link.href = s.logo_url;
+  }
 }
 
 export const useSettings = () => useContext(SettingsContext);

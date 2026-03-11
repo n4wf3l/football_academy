@@ -51,7 +51,7 @@ export default function Home() {
             </p>
             <div className="animate-hero-buttons flex flex-wrap gap-4">
               <Link to="/players" className="bg-primary hover:bg-primary-dark text-white px-8 py-4 rounded-lg font-bold text-lg transition-all hover:scale-105">
-                {t('Decouvrir nos talents', 'Discover our talents')}
+                {t('Découvrir nos talents', 'Discover our talents')}
               </Link>
               <Link to="/about" className="border-2 border-white/40 hover:border-white hover:bg-white/10 text-white px-8 py-4 rounded-lg font-semibold text-lg transition-all">
                 {t('En savoir plus', 'Learn more')}
@@ -74,8 +74,8 @@ export default function Home() {
           <Reveal>
             <div className="bg-white rounded-2xl shadow-2xl p-8 grid grid-cols-2 md:grid-cols-4 gap-8">
               {[
-                { number: '50+', label: t('Joueurs formes', 'Trained Players') },
-                { number: '5', label: t('Entrainements / semaine', 'Training / week') },
+                { number: '50+', label: t('Joueurs formés', 'Trained Players') },
+                { number: '5', label: t('Entraînements / semaine', 'Training / week') },
                 { number: 'U13-U19', label: t('Categories', 'Categories') },
                 { number: '10+', label: t('Partenariats clubs', 'Club Partnerships') },
               ].map((stat, i) => (
@@ -101,29 +101,29 @@ export default function Home() {
                 <div className="space-y-4 text-gray-600">
                   <p>
                     {t(
-                      'Notre centre de formation a pour vocation de detecter, former et accompagner les jeunes talents vers le football professionnel europeen.',
+                      'Notre centre de formation a pour vocation de détecter, former et accompagner les jeunes talents vers le football professionnel européen.',
                       'Our training center is dedicated to detecting, developing and supporting young talents towards European professional football.'
                     )}
                   </p>
                   <p>
                     {t(
-                      'Nous offrons un encadrement complet : entrainement technique et tactique de haut niveau, preparation physique adaptee, suivi scolaire et education aux valeurs du sport.',
+                      'Nous offrons un encadrement complet : entraînement technique et tactique de haut niveau, préparation physique adaptée, suivi scolaire et éducation aux valeurs du sport.',
                       'We offer comprehensive support: high-level technical and tactical training, tailored physical preparation, academic monitoring and education in sports values.'
                     )}
                   </p>
                 </div>
                 <Link to="/about" className="inline-block mt-6 text-primary font-semibold hover:underline">
-                  {t('Decouvrir le centre', 'Discover the center')} &rarr;
+                  {t('Découvrir le centre', 'Discover the center')} &rarr;
                 </Link>
               </div>
             </Reveal>
             <Reveal direction="right" delay={0.2}>
               <div className="grid grid-cols-2 gap-4">
                 {[
-                  t("Terrain d'entrainement", 'Training Field'),
+                  t("Terrain d'entraînement", 'Training Field'),
                   t('Internat', 'Boarding House'),
                   t('Salle de musculation', 'Gym'),
-                  t("Salle d'etude", 'Study Room'),
+                  t("Salle d'étude", 'Study Room'),
                 ].map((item, i) => (
                   <div key={item} className="aspect-square bg-gradient-to-br from-primary to-primary-dark rounded-xl flex items-center justify-center p-4 text-white text-center text-sm font-medium hover:scale-105 transition-transform duration-300" style={{ animationDelay: `${i * 0.1}s` }}>
                     {item}
@@ -140,7 +140,7 @@ export default function Home() {
         <section className="py-20 bg-gray-50">
           <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
             <Reveal>
-              <SectionTitle title={t('Presentation du Centre', 'Center Presentation')} subtitle={t('Decouvrez notre centre de formation en video', 'Discover our training center in video')} />
+              <SectionTitle title={t('Présentation du Centre', 'Center Presentation')} subtitle={t('Découvrez notre centre de formation en vidéo', 'Discover our training center in video')} />
             </Reveal>
             <Reveal delay={0.2}>
               <div className="aspect-video rounded-2xl overflow-hidden shadow-2xl">
@@ -148,7 +148,7 @@ export default function Home() {
                   src={settings.hero_video_url}
                   className="w-full h-full"
                   allowFullScreen
-                  title={t('Video de presentation', 'Presentation video')}
+                  title={t('Vidéo de présentation', 'Presentation video')}
                   allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
                 />
               </div>
@@ -162,7 +162,7 @@ export default function Home() {
         <section className="py-20 bg-gray-50">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <Reveal>
-              <SectionTitle title={t('Nos Meilleurs Talents', 'Our Best Talents')} subtitle={t('Les joueurs qui font la fierte de notre centre', 'The players who are the pride of our center')} />
+              <SectionTitle title={t('Nos Meilleurs Talents', 'Our Best Talents')} subtitle={t('Les joueurs qui font la fierté de notre centre', 'The players who are the pride of our center')} />
             </Reveal>
             <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
               {data.featured_players.map((player, i) => (
@@ -186,13 +186,13 @@ export default function Home() {
       <section className="py-20 bg-dark text-white">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <Reveal>
-            <SectionTitle title={t('Programme Sportif', 'Sports Program')} subtitle={t('Un programme complet pour le developpement integral du joueur', "A comprehensive program for the player's integral development")} light />
+            <SectionTitle title={t('Programme Sportif', 'Sports Program')} subtitle={t('Un programme complet pour le développement intégral du joueur', "A comprehensive program for the player's integral development")} light />
           </Reveal>
           <div className="grid md:grid-cols-3 gap-8">
             {[
-              { title: t('Entrainement', 'Training'), desc: t('5 seances par semaine avec des entraineurs diplomes. Travail technique, tactique et preparation physique.', '5 sessions per week with certified coaches. Technical, tactical and physical preparation work.') },
+              { title: t('Entrainement', 'Training'), desc: t('5 séances par semaine avec des entraîneurs diplômés. Travail technique, tactique et préparation physique.', '5 sessions per week with certified coaches. Technical, tactical and physical preparation work.') },
               { title: t('Education', 'Education'), desc: t('Suivi scolaire obligatoire. Nous formons des joueurs mais aussi des hommes responsables.', 'Mandatory academic monitoring. We train players but also responsible individuals.') },
-              { title: t('Competitions', 'Competitions'), desc: t('Participation a des championnats, tournois nationaux et internationaux pour se confronter au haut niveau.', 'Participation in championships, national and international tournaments to compete at the highest level.') },
+              { title: t('Compétitions', 'Competitions'), desc: t('Participation à des championnats, tournois nationaux et internationaux pour se confronter au haut niveau.', 'Participation in championships, national and international tournaments to compete at the highest level.') },
             ].map((item, i) => (
               <Reveal key={item.title} delay={i * 0.15} direction="up">
                 <div className="bg-white/5 backdrop-blur rounded-xl p-8 border border-white/10 hover:border-primary hover:-translate-y-1 transition-all duration-300">
@@ -217,7 +217,7 @@ export default function Home() {
         <section className="py-20 bg-white">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <Reveal>
-              <SectionTitle title={t('Prochains Evenements', 'Upcoming Events')} subtitle={t('Tournois et journees de detection a venir', 'Upcoming tournaments and scouting days')} />
+              <SectionTitle title={t('Prochains Événements', 'Upcoming Events')} subtitle={t('Tournois et journées de détection à venir', 'Upcoming tournaments and scouting days')} />
             </Reveal>
             <div className="grid md:grid-cols-3 gap-6">
               {data.upcoming_tournaments.map((tournament, i) => (
@@ -242,11 +242,11 @@ export default function Home() {
         <section className="py-20 bg-gradient-to-r from-primary to-primary-dark text-white">
           <div className="max-w-4xl mx-auto px-4 text-center">
             <Reveal delay={0.1}>
-              <h2 className="text-3xl md:text-4xl font-bold mb-6">{t('Vous etes un club ou un scout ?', 'Are you a club or a scout?')}</h2>
+              <h2 className="text-3xl md:text-4xl font-bold mb-6">{t('Vous êtes un club ou un scout ?', 'Are you a club or a scout?')}</h2>
             </Reveal>
             <Reveal delay={0.2}>
               <p className="text-xl text-green-100 mb-8">
-                {t('Contactez-nous pour decouvrir nos talents et etablir un partenariat.', 'Contact us to discover our talents and establish a partnership.')}
+                {t('Contactez-nous pour découvrir nos talents et établir un partenariat.', 'Contact us to discover our talents and establish a partnership.')}
               </p>
             </Reveal>
             <Reveal delay={0.3}>

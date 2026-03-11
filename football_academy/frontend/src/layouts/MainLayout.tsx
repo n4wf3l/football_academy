@@ -96,7 +96,7 @@ export default function MainLayout() {
               <button
                 onClick={() => setLang(lang === 'fr' ? 'en' : 'fr')}
                 className="w-8 h-8 flex items-center justify-center rounded-full text-[11px] font-bold text-white/50 hover:text-white hover:bg-white/[0.08] transition-all duration-300 uppercase"
-                title={lang === 'fr' ? 'Switch to English' : 'Passer en Francais'}
+                title={lang === 'fr' ? 'Switch to English' : 'Passer en Français'}
               >
                 {lang === 'fr' ? 'EN' : 'FR'}
               </button>
@@ -184,7 +184,7 @@ export default function MainLayout() {
                 <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={1.5}>
                   <path strokeLinecap="round" strokeLinejoin="round" d="M12 21a9.004 9.004 0 008.716-6.747M12 21a9.004 9.004 0 01-8.716-6.747M12 21c2.485 0 4.5-4.03 4.5-9S14.485 3 12 3m0 18c-2.485 0-4.5-4.03-4.5-9S9.515 3 12 3m0 0a8.997 8.997 0 017.843 4.582M12 3a8.997 8.997 0 00-7.843 4.582m15.686 0A11.953 11.953 0 0112 10.5c-2.998 0-5.74-1.1-7.843-2.918m15.686 0A8.959 8.959 0 0121 12c0 .778-.099 1.533-.284 2.253m0 0A17.919 17.919 0 0112 16.5c-3.162 0-6.133-.815-8.716-2.247m0 0A9.015 9.015 0 003 12c0-1.605.42-3.113 1.157-4.418" />
                 </svg>
-                {lang === 'fr' ? 'English' : 'Francais'}
+                {lang === 'fr' ? 'English' : 'Français'}
               </button>
 
               <Link
@@ -209,12 +209,12 @@ export default function MainLayout() {
       </nav>
 
       {/* Main content */}
-      <main>
+      <main key={location.pathname} className="animate-page-enter">
         <Outlet />
       </main>
 
       {/* Footer */}
-      <footer className="bg-dark text-gray-400">
+      <footer className="bg-dark text-gray-400 animate-footer">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
           <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
             <div className="md:col-span-2">
@@ -230,7 +230,7 @@ export default function MainLayout() {
               </div>
               <p className="text-sm leading-relaxed">
                 {t(
-                  "Centre de formation de football d'excellence. Nous formons les joueurs et les hommes de demain a travers un programme sportif, educatif et humain de haut niveau.",
+                  "Centre de formation de football d'excellence. Nous formons les joueurs et les hommes de demain à travers un programme sportif, éducatif et humain de haut niveau.",
                   "A football training center of excellence. We develop players and future leaders through a high-level sports, educational, and personal development program."
                 )}
               </p>
@@ -279,7 +279,7 @@ export default function MainLayout() {
             </div>
           </div>
           <div className="border-t border-gray-700 mt-8 pt-8 text-center text-sm">
-            <p>&copy; {new Date().getFullYear()} {settings.academy_name}. {t('Tous droits reserves.', 'All rights reserved.')}</p>
+            <p>&copy; {new Date().getFullYear()} {settings.academy_name}. {t('Tous droits réservés.', 'All rights reserved.')}</p>
           </div>
         </div>
       </footer>

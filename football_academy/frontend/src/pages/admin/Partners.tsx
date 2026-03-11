@@ -3,7 +3,7 @@ import { fetchPartners, createPartner, updatePartner, deletePartner, uploadFile 
 import { useToast } from '../../contexts/ToastContext';
 import type { Partner } from '../../types';
 
-const partnerTypes = ['Club', 'Sponsor', 'Institution', 'Federation', 'ONG', 'Autre'];
+const partnerTypes = ['Club', 'Sponsor', 'Institution', 'Fédération', 'ONG', 'Autre'];
 
 const emptyPartner: Partial<Partner> = {
   name: '',
@@ -65,11 +65,11 @@ export default function AdminPartners() {
       if (editing) {
         const updated = await updatePartner(editing.id, form);
         setPartners((prev) => prev.map((p) => (p.id === editing.id ? updated : p)));
-        toast.success('Partenaire mis a jour');
+        toast.success('Partenaire mis à jour');
       } else {
         const created = await createPartner(form);
         setPartners((prev) => [created, ...prev]);
-        toast.success('Partenaire ajoute', form.name || '');
+        toast.success('Partenaire ajouté', form.name || '');
       }
       setModalOpen(false);
     } catch {
@@ -83,7 +83,7 @@ export default function AdminPartners() {
     try {
       await deletePartner(deleteTarget.id);
       setPartners((prev) => prev.filter((p) => p.id !== deleteTarget.id));
-      toast.success('Partenaire supprime');
+      toast.success('Partenaire supprimé');
     } catch {
       toast.error('Erreur', 'Impossible de supprimer le partenaire');
     }
@@ -109,7 +109,7 @@ export default function AdminPartners() {
   return (
     <div className="p-8">
       {/* Header */}
-      <div className="flex items-center justify-between mb-8">
+      <div className="flex items-center justify-between mb-8 animate-admin-fade" style={{ animationDelay: '0.05s' }}>
         <div>
           <h1 className="text-3xl font-bold text-gray-900">Partenaires</h1>
           <p className="text-gray-500 mt-1">{partners.length} partenaire{partners.length !== 1 ? 's' : ''}</p>
@@ -126,7 +126,7 @@ export default function AdminPartners() {
       </div>
 
       {/* Filters */}
-      <div className="flex flex-wrap items-center gap-4 mb-6">
+      <div className="flex flex-wrap items-center gap-4 mb-6 animate-admin-fade" style={{ animationDelay: '0.1s' }}>
         <div className="relative flex-1 min-w-[200px] max-w-md">
           <svg className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
@@ -156,7 +156,7 @@ export default function AdminPartners() {
 
       {/* Grid */}
       {filtered.length > 0 ? (
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-5">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-5 animate-admin-fade" style={{ animationDelay: '0.2s' }}>
           {filtered.map((partner) => (
             <div key={partner.id} className="bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden group hover:shadow-md transition-shadow">
               {/* Logo area */}
@@ -220,7 +220,7 @@ export default function AdminPartners() {
           <svg className="w-16 h-16 text-gray-300 mx-auto mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0z" />
           </svg>
-          <p className="text-gray-500 text-lg">Aucun partenaire trouve</p>
+          <p className="text-gray-500 text-lg">Aucun partenaire trouvé</p>
           <p className="text-gray-400 text-sm mt-1">Ajoutez votre premier partenaire</p>
         </div>
       )}
@@ -344,7 +344,7 @@ export default function AdminPartners() {
                 disabled={saving || !form.name || !form.type}
                 className="px-5 py-2.5 rounded-lg bg-primary hover:bg-primary-dark text-white font-semibold transition-colors disabled:opacity-50"
               >
-                {saving ? 'Sauvegarde...' : editing ? 'Modifier' : 'Creer'}
+                {saving ? 'Sauvegarde...' : editing ? 'Modifier' : 'Créer'}
               </button>
             </div>
           </div>
@@ -362,7 +362,7 @@ export default function AdminPartners() {
             </div>
             <h3 className="text-lg font-bold text-gray-900 text-center mb-2">Supprimer le partenaire</h3>
             <p className="text-gray-500 text-sm text-center mb-6">
-              Voulez-vous vraiment supprimer <strong>{deleteTarget.name}</strong> ? Cette action est irreversible.
+              Voulez-vous vraiment supprimer <strong>{deleteTarget.name}</strong> ? Cette action est irréversible.
             </p>
             <div className="flex gap-3">
               <button

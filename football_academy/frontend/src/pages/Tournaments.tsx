@@ -12,9 +12,9 @@ export default function Tournaments() {
   const [loading, setLoading] = useState(true);
 
   const statusLabels: Record<Tournament['status'], { label: string; color: string }> = {
-    upcoming: { label: t('A venir', 'Upcoming'), color: 'bg-blue-100 text-blue-800' },
+    upcoming: { label: t('À venir', 'Upcoming'), color: 'bg-blue-100 text-blue-800' },
     ongoing: { label: t('En cours', 'Ongoing'), color: 'bg-green-100 text-green-800' },
-    completed: { label: t('Termine', 'Completed'), color: 'bg-gray-100 text-gray-800' },
+    completed: { label: t('Terminé', 'Completed'), color: 'bg-gray-100 text-gray-800' },
   };
 
   useEffect(() => {
@@ -27,10 +27,10 @@ export default function Tournaments() {
 
   return (
     <>
-      <section className="bg-gradient-to-br from-dark to-primary-dark text-white py-20">
+      <section className="bg-gradient-to-br from-dark to-primary-dark text-white py-20 pt-36">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <h1 className="animate-page-hero text-4xl md:text-5xl font-black mb-4">{t('Tournois & Evenements', 'Tournaments & Events')}</h1>
-          <p className="animate-page-hero-sub text-xl text-gray-300">{t('Journees de detection, tournois et matchs amicaux internationaux', 'Scouting days, tournaments and international friendly matches')}</p>
+          <h1 className="animate-page-hero text-4xl md:text-5xl font-black mb-4">{t('Tournois & Événements', 'Tournaments & Events')}</h1>
+          <p className="animate-page-hero-sub text-xl text-gray-300">{t('Journées de détection, tournois et matchs amicaux internationaux', 'Scouting days, tournaments and international friendly matches')}</p>
         </div>
       </section>
 
@@ -64,8 +64,8 @@ export default function Tournaments() {
             </div>
           ) : (
             <div className="text-center py-20">
-              <p className="text-gray-500 text-lg">{t('Aucun evenement programme pour le moment.', 'No events scheduled at the moment.')}</p>
-              <p className="text-gray-400 text-sm mt-2">{t('Les prochains tournois et journees de detection seront annonces ici.', 'Upcoming tournaments and scouting days will be announced here.')}</p>
+              <p className="text-gray-500 text-lg">{t('Aucun événement programmé pour le moment.', 'No events scheduled at the moment.')}</p>
+              <p className="text-gray-400 text-sm mt-2">{t('Les prochains tournois et journées de détection seront annoncés ici.', 'Upcoming tournaments and scouting days will be announced here.')}</p>
             </div>
           )}
         </div>
@@ -74,11 +74,11 @@ export default function Tournaments() {
       <section className="py-20 bg-gray-50">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <Reveal>
-            <SectionTitle title={t('Pour les Scouts & Clubs', 'For Scouts & Clubs')} subtitle={t('Nous invitons les recruteurs a nos evenements', 'We invite recruiters to our events')} />
+            <SectionTitle title={t('Pour les Scouts & Clubs', 'For Scouts & Clubs')} subtitle={t('Nous invitons les recruteurs à nos événements', 'We invite recruiters to our events')} />
           </Reveal>
           <div className="max-w-2xl mx-auto text-center">
             <p className="text-gray-600 mb-6">
-              {t('Si vous etes un scout ou un directeur de recrutement et souhaitez assister a nos tournois ou organiser une journee de detection, contactez-nous.', 'If you are a scout or recruitment director and wish to attend our tournaments or organize a scouting day, contact us.')}
+              {t('Si vous êtes un scout ou un directeur de recrutement et souhaitez assister à nos tournois ou organiser une journée de détection, contactez-nous.', 'If you are a scout or recruitment director and wish to attend our tournaments or organize a scouting day, contact us.')}
             </p>
             <Link to="/contact" className="inline-block bg-primary hover:bg-primary-dark text-white px-8 py-3 rounded-lg font-semibold transition-colors">
               {t('Nous contacter', 'Contact Us')}

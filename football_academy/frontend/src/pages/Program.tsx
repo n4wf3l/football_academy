@@ -31,8 +31,12 @@ export default function Program() {
 
   return (
     <>
-      <section className="bg-gradient-to-br from-dark to-primary-dark text-white py-20 pt-36">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <section className="relative text-white py-20 pt-36 overflow-hidden">
+        <div className="absolute inset-0">
+          <img src="/entry-players.jpg" alt="" className="w-full h-full object-cover" />
+          <div className="absolute inset-0 bg-gradient-to-r from-dark/85 to-primary-dark/70" />
+        </div>
+        <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <h1 className="animate-page-hero text-4xl md:text-5xl font-black mb-4">{t('Programme Sportif Annuel', 'Annual Sports Program')}</h1>
           <p className="animate-page-hero-sub text-xl text-gray-300">{t("Former le joueur et l'homme", 'Developing the player and the person')}</p>
         </div>
@@ -42,7 +46,7 @@ export default function Program() {
       <section className="py-20 bg-white">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <Reveal>
-            <SectionTitle title={t('Planning Hebdomadaire', 'Weekly Schedule')} subtitle={t('5 entrainements par semaine + match le week-end', '5 training sessions per week + weekend match')} />
+            <SectionTitle title={t('Planning Hebdomadaire', 'Weekly Schedule')} subtitle={t('5 entraînements par semaine + match le week-end', '5 training sessions per week + weekend match')} />
           </Reveal>
           <div className="grid md:grid-cols-7 gap-3">
             {DAYS.map((day, idx) => (
@@ -64,7 +68,7 @@ export default function Program() {
                       </li>
                     ))}
                     {sessionsForDay(idx).length === 0 && (
-                      <li className="text-xs text-gray-400 italic">{t('Aucune seance', 'No session')}</li>
+                      <li className="text-xs text-gray-400 italic">{t('Aucune séance', 'No session')}</li>
                     )}
                   </ul>
                 </div>
@@ -78,14 +82,14 @@ export default function Program() {
       <section className="py-20 bg-gray-50">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <Reveal>
-            <SectionTitle title={t('Axes de Developpement', 'Development Areas')} subtitle={t('Un programme complet pour le developpement integral', 'A comprehensive program for integral development')} />
+            <SectionTitle title={t('Axes de Développement', 'Development Areas')} subtitle={t('Un programme complet pour le développement intégral', 'A comprehensive program for integral development')} />
           </Reveal>
           <div className="grid md:grid-cols-2 gap-8">
             {[
-              { title: t('Developpement Technique', 'Technical Development'), items: lang === 'en' ? ['Ball control and oriented control', 'Short and long passing technique', 'Dribbling and feints', 'Shooting and finishing', 'Heading'] : ['Maitrise du ballon et controle oriente', 'Technique de passe courte et longue', 'Dribble et feintes', 'Frappe de balle et finition', 'Jeu de tete'] },
-              { title: t('Developpement Tactique', 'Tactical Development'), items: lang === 'en' ? ['Understanding game systems', 'Offensive and defensive transitions', 'Pressing and counter-pressing', 'Positional play', 'Match video analysis'] : ['Comprehension des systemes de jeu', 'Transitions offensives et defensives', 'Pressing et contre-pressing', 'Jeu de position', 'Analyse video des matchs'] },
-              { title: t('Preparation Physique', 'Physical Conditioning'), items: lang === 'en' ? ['Aerobic and anaerobic endurance', 'Speed and acceleration', 'Strength and power', 'Coordination and agility', 'Injury prevention'] : ['Endurance aerobique et anaerobique', 'Vitesse et acceleration', 'Force et puissance', 'Coordination et agilite', 'Prevention des blessures'] },
-              { title: t('Suivi Scolaire & Education', 'Academic Support & Education'), items: lang === 'en' ? ['Mandatory morning classes', 'Homework assistance', 'Sports values education', 'Language learning (French, English)', 'Nutrition and lifestyle education'] : ['Cours du matin obligatoires', 'Aide aux devoirs', 'Formation aux valeurs du sport', 'Apprentissage des langues (francais, anglais)', "Education a la nutrition et a l'hygiene de vie"] },
+              { title: t('Développement Technique', 'Technical Development'), items: lang === 'en' ? ['Ball control and oriented control', 'Short and long passing technique', 'Dribbling and feints', 'Shooting and finishing', 'Heading'] : ['Maîtrise du ballon et contrôle orienté', 'Technique de passe courte et longue', 'Dribble et feintes', 'Frappe de balle et finition', 'Jeu de tête'] },
+              { title: t('Développement Tactique', 'Tactical Development'), items: lang === 'en' ? ['Understanding game systems', 'Offensive and defensive transitions', 'Pressing and counter-pressing', 'Positional play', 'Match video analysis'] : ['Compréhension des systèmes de jeu', 'Transitions offensives et défensives', 'Pressing et contre-pressing', 'Jeu de position', 'Analyse vidéo des matchs'] },
+              { title: t('Préparation Physique', 'Physical Conditioning'), items: lang === 'en' ? ['Aerobic and anaerobic endurance', 'Speed and acceleration', 'Strength and power', 'Coordination and agility', 'Injury prevention'] : ['Endurance aérobique et anaérobique', 'Vitesse et accélération', 'Force et puissance', 'Coordination et agilité', 'Prévention des blessures'] },
+              { title: t('Suivi Scolaire & Éducation', 'Academic Support & Education'), items: lang === 'en' ? ['Mandatory morning classes', 'Homework assistance', 'Sports values education', 'Language learning (French, English)', 'Nutrition and lifestyle education'] : ['Cours du matin obligatoires', 'Aide aux devoirs', 'Formation aux valeurs du sport', 'Apprentissage des langues (français, anglais)', "Éducation à la nutrition et à l'hygiène de vie"] },
             ].map((section, i) => (
               <Reveal key={section.title} delay={Math.min(i * 0.08, 0.5)} direction="up">
                 <div className="bg-white rounded-xl p-8 shadow-md hover:-translate-y-1 transition-all duration-300">
@@ -111,14 +115,14 @@ export default function Program() {
       <section className="py-20 bg-white">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <Reveal>
-            <SectionTitle title={t("Categories d'Age", 'Age Categories')} subtitle={t("Des programmes adaptes a chaque tranche d'age", 'Programs adapted to each age group')} />
+            <SectionTitle title={t("Catégories d'Âge", 'Age Categories')} subtitle={t("Des programmes adaptés à chaque tranche d'âge", 'Programs adapted to each age group')} />
           </Reveal>
           <div className="grid md:grid-cols-4 gap-6">
             {[
-              { cat: 'U13', age: t('11-12 ans', '11-12 years'), focus: t('Plaisir, technique individuelle, jeu reduit', 'Fun, individual technique, small-sided games') },
-              { cat: 'U15', age: t('13-14 ans', '13-14 years'), focus: t('Developpement technique et tactique, initiation physique', 'Technical and tactical development, physical initiation') },
-              { cat: 'U17', age: t('15-16 ans', '15-16 years'), focus: t('Perfectionnement tactique, preparation physique, competition', 'Tactical refinement, physical conditioning, competition') },
-              { cat: 'U19', age: t('17-18 ans', '17-18 years'), focus: t('Pre-professionnalisation, performance, placement en clubs', 'Pre-professionalization, performance, club placement') },
+              { cat: 'U13', age: t('11-12 ans', '11-12 years'), focus: t('Plaisir, technique individuelle, jeu réduit', 'Fun, individual technique, small-sided games') },
+              { cat: 'U15', age: t('13-14 ans', '13-14 years'), focus: t('Développement technique et tactique, initiation physique', 'Technical and tactical development, physical initiation') },
+              { cat: 'U17', age: t('15-16 ans', '15-16 years'), focus: t('Perfectionnement tactique, préparation physique, compétition', 'Tactical refinement, physical conditioning, competition') },
+              { cat: 'U19', age: t('17-18 ans', '17-18 years'), focus: t('Pré-professionnalisation, performance, placement en clubs', 'Pre-professionalization, performance, club placement') },
             ].map((item, i) => (
               <Reveal key={item.cat} delay={Math.min(i * 0.08, 0.5)} direction="up">
                 <div className="border-2 border-primary/20 rounded-xl p-6 hover:border-primary hover:-translate-y-1 transition-all duration-300">
@@ -136,13 +140,13 @@ export default function Program() {
       <section className="py-20 bg-dark text-white">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <Reveal>
-            <SectionTitle title={t('Suivi Individuel', 'Individual Monitoring')} subtitle={t("Chaque joueur beneficie d'un accompagnement personnalise", 'Each player benefits from personalized support')} light />
+            <SectionTitle title={t('Suivi Individuel', 'Individual Monitoring')} subtitle={t("Chaque joueur bénéficie d'un accompagnement personnalisé", 'Each player benefits from personalized support')} light />
           </Reveal>
           <div className="grid md:grid-cols-3 gap-8">
             {[
-              { title: t('Plan de progression', 'Progress Plan'), desc: t('Objectifs individuels definis en debut de saison et evalues trimestriellement.', 'Individual objectives defined at the start of the season and evaluated quarterly.') },
-              { title: t('Rapport mensuel', 'Monthly Report'), desc: t('Bilan technique, physique et comportemental envoye aux parents.', 'Technical, physical and behavioral report sent to parents.') },
-              { title: t('Video individuelle', 'Individual Video'), desc: t("Analyse video personnalisee pour identifier les axes d'amelioration.", 'Personalized video analysis to identify areas for improvement.') },
+              { title: t('Plan de progression', 'Progress Plan'), desc: t('Objectifs individuels définis en début de saison et évalués trimestriellement.', 'Individual objectives defined at the start of the season and evaluated quarterly.') },
+              { title: t('Rapport mensuel', 'Monthly Report'), desc: t('Bilan technique, physique et comportemental envoyé aux parents.', 'Technical, physical and behavioral report sent to parents.') },
+              { title: t('Vidéo individuelle', 'Individual Video'), desc: t("Analyse vidéo personnalisée pour identifier les axes d'amélioration.", 'Personalized video analysis to identify areas for improvement.') },
             ].map((item, i) => (
               <Reveal key={item.title} delay={Math.min(i * 0.08, 0.5)} direction="up">
                 <div className="bg-white/5 backdrop-blur rounded-xl p-8 border border-white/10 hover:-translate-y-1 transition-all duration-300">

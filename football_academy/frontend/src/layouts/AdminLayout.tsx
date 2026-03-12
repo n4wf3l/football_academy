@@ -38,6 +38,7 @@ export default function AdminLayout() {
   const [userMenuOpen, setUserMenuOpen] = useState(false);
   const [bugModalOpen, setBugModalOpen] = useState(false);
   const [bugMessage, setBugMessage] = useState('');
+  const [langModalOpen, setLangModalOpen] = useState(false);
   const userMenuRef = useRef<HTMLDivElement>(null);
   const sidebarMenuRef = useRef<HTMLDivElement>(null);
 
@@ -244,11 +245,13 @@ export default function AdminLayout() {
 
             {/* Language toggle */}
             <button
-              onClick={() => setLang(lang === 'fr' ? 'en' : 'fr')}
-              title={lang === 'fr' ? 'Switch to English' : 'Passer en français'}
+              onClick={() => setLangModalOpen(true)}
+              title={t('Changer la langue', 'Change language')}
               className={`${topBtnCls} text-xs font-bold w-8 h-8 flex items-center justify-center`}
             >
-              {lang === 'fr' ? 'EN' : 'FR'}
+              <svg className="w-[18px] h-[18px]" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={1.5}>
+                <path strokeLinecap="round" strokeLinejoin="round" d="M10.5 21l5.25-11.25L21 21m-9-3h7.5M3 5.621a48.474 48.474 0 016-.371m0 0c1.12 0 2.233.038 3.334.114M9 5.25V3m3.334 2.364C11.176 10.658 7.69 15.08 3 17.502m9.334-12.138c.896.061 1.785.147 2.666.257m-4.589 8.495a18.023 18.023 0 01-3.827-5.802" />
+              </svg>
             </button>
 
             {/* Dark/Light mode */}
@@ -346,6 +349,87 @@ export default function AdminLayout() {
           <Outlet />
         </div>
       </div>
+
+      {/* Language modal */}
+      {langModalOpen && (
+        <div className="fixed inset-0 z-[100] flex items-center justify-center">
+          <div className="absolute inset-0 bg-black/40 backdrop-blur-md animate-[fadeIn_0.2s_ease-out]" onClick={() => setLangModalOpen(false)} />
+          <div className={`relative w-full max-w-sm mx-4 rounded-3xl shadow-2xl border overflow-hidden animate-[scaleIn_0.3s_cubic-bezier(0.16,1,0.3,1)] ${
+            isDark ? 'bg-slate-900 border-slate-700' : 'bg-white border-gray-100'
+          }`}>
+            {/* Header */}
+            <div className={`px-6 pt-6 pb-4 text-center border-b ${isDark ? 'border-slate-800' : 'border-gray-100'}`}>
+              <div className="w-12 h-12 mx-auto mb-3 rounded-2xl bg-primary/10 flex items-center justify-center">
+                <svg className="w-6 h-6 text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={1.5}>
+                  <path strokeLinecap="round" strokeLinejoin="round" d="M10.5 21l5.25-11.25L21 21m-9-3h7.5M3 5.621a48.474 48.474 0 016-.371m0 0c1.12 0 2.233.038 3.334.114M9 5.25V3m3.334 2.364C11.176 10.658 7.69 15.08 3 17.502m9.334-12.138c.896.061 1.785.147 2.666.257m-4.589 8.495a18.023 18.023 0 01-3.827-5.802" />
+                </svg>
+              </div>
+              <h3 className={`text-lg font-bold ${isDark ? 'text-white' : 'text-gray-900'}`}>
+                {t('Choisir la langue', 'Choose language')}
+              </h3>
+              <p className={`text-sm mt-1 ${isDark ? 'text-slate-400' : 'text-gray-500'}`}>
+                {t('Sélectionnez votre langue préférée', 'Select your preferred language')}
+              </p>
+            </div>
+
+            {/* Options */}
+            <div className="p-4 space-y-2">
+              {[
+                { code: 'fr' as const, flag: '🇫🇷', name: 'Français', sub: 'French' },
+                { code: 'en' as const, flag: '🇬🇧', name: 'English', sub: 'Anglais' },
+              ].map((option) => (
+                <button
+                  key={option.code}
+                  onClick={() => {
+                    setLang(option.code);
+                    setLangModalOpen(false);
+                    toast.success(
+                      option.code === 'fr' ? 'Langue modifiée' : 'Language changed',
+                      option.code === 'fr' ? 'La langue a été changée en Français' : 'Language has been changed to English'
+                    );
+                  }}
+                  className={`w-full flex items-center gap-4 px-4 py-3.5 rounded-2xl transition-all duration-200 group ${
+                    lang === option.code
+                      ? 'bg-primary/10 ring-2 ring-primary/30'
+                      : isDark
+                        ? 'hover:bg-slate-800'
+                        : 'hover:bg-gray-50'
+                  }`}
+                >
+                  <span className="text-3xl leading-none">{option.flag}</span>
+                  <div className="text-left flex-1">
+                    <p className={`font-semibold text-[15px] ${
+                      lang === option.code
+                        ? 'text-primary'
+                        : isDark ? 'text-white' : 'text-gray-900'
+                    }`}>{option.name}</p>
+                    <p className={`text-xs ${isDark ? 'text-slate-500' : 'text-gray-400'}`}>{option.sub}</p>
+                  </div>
+                  {lang === option.code && (
+                    <div className="w-6 h-6 rounded-full bg-primary flex items-center justify-center shrink-0">
+                      <svg className="w-3.5 h-3.5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={3}>
+                        <path strokeLinecap="round" strokeLinejoin="round" d="M4.5 12.75l6 6 9-13.5" />
+                      </svg>
+                    </div>
+                  )}
+                </button>
+              ))}
+            </div>
+
+            {/* Footer */}
+            <div className={`px-6 py-4 border-t ${isDark ? 'border-slate-800' : 'border-gray-100'}`}>
+              <button
+                onClick={() => setLangModalOpen(false)}
+                className={`w-full py-2.5 rounded-xl text-sm font-medium transition-colors ${
+                  isDark ? 'text-slate-400 hover:bg-slate-800' : 'text-gray-500 hover:bg-gray-50'
+                }`}
+              >
+                {t('Fermer', 'Close')}
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
 
       {/* Bug report modal */}
       {bugModalOpen && (

@@ -3,6 +3,7 @@ import { useState, useEffect } from 'react';
 import { useSettings } from '../contexts/SettingsContext';
 import { useLang } from '../contexts/LanguageContext';
 import { useAuth } from '../contexts/AuthContext';
+import { useToast } from '../contexts/ToastContext';
 
 const navLinks = [
   { href: '/', fr: 'Accueil', en: 'Home' },
@@ -22,6 +23,8 @@ export default function MainLayout() {
   const { settings } = useSettings();
   const { lang, setLang, t } = useLang();
   const { user } = useAuth();
+  const toast = useToast();
+  const [langModalOpen, setLangModalOpen] = useState(false);
 
   useEffect(() => {
     const handleScroll = () => setScrolled(window.scrollY > 20);
@@ -32,6 +35,12 @@ export default function MainLayout() {
   useEffect(() => {
     setMobileMenuOpen(false);
   }, [location.pathname]);
+
+  // Lock body scroll when mobile menu is open
+  useEffect(() => {
+    document.body.style.overflow = mobileMenuOpen ? 'hidden' : '';
+    return () => { document.body.style.overflow = ''; };
+  }, [mobileMenuOpen]);
 
   const isActive = (href: string) => {
     if (href === '/') return location.pathname === '/';
@@ -94,11 +103,13 @@ export default function MainLayout() {
             <div className="hidden lg:flex items-center gap-3 shrink-0">
               {/* Lang toggle */}
               <button
-                onClick={() => setLang(lang === 'fr' ? 'en' : 'fr')}
-                className="w-8 h-8 flex items-center justify-center rounded-full text-[11px] font-bold text-white/50 hover:text-white hover:bg-white/[0.08] transition-all duration-300 uppercase"
-                title={lang === 'fr' ? 'Switch to English' : 'Passer en Français'}
+                onClick={() => setLangModalOpen(true)}
+                className="w-8 h-8 flex items-center justify-center rounded-full text-white/50 hover:text-white hover:bg-white/[0.08] transition-all duration-300"
+                title={t('Changer la langue', 'Change language')}
               >
-                {lang === 'fr' ? 'EN' : 'FR'}
+                <svg className="w-[18px] h-[18px]" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={1.5}>
+                  <path strokeLinecap="round" strokeLinejoin="round" d="M10.5 21l5.25-11.25L21 21m-9-3h7.5M3 5.621a48.474 48.474 0 016-.371m0 0c1.12 0 2.233.038 3.334.114M9 5.25V3m3.334 2.364C11.176 10.658 7.69 15.08 3 17.502m9.334-12.138c.896.061 1.785.147 2.666.257m-4.589 8.495a18.023 18.023 0 01-3.827-5.802" />
+                </svg>
               </button>
 
               {/* Divider */}
@@ -138,75 +149,82 @@ export default function MainLayout() {
             </button>
           </div>
         </div>
-
-        {/* Mobile nav overlay */}
-        <div
-          className={`lg:hidden fixed inset-0 bg-black/60 backdrop-blur-sm transition-opacity duration-300 ${
-            mobileMenuOpen ? 'opacity-100 pointer-events-auto' : 'opacity-0 pointer-events-none'
-          }`}
-          style={{ top: scrolled ? '60px' : '72px' }}
-          onClick={() => setMobileMenuOpen(false)}
-        />
-
-        {/* Mobile nav panel */}
-        <div
-          className={`lg:hidden absolute left-0 right-0 bg-dark/98 backdrop-blur-2xl border-t border-white/[0.05] transition-all duration-400 ease-[cubic-bezier(0.16,1,0.3,1)] overflow-hidden ${
-            mobileMenuOpen ? 'max-h-[80vh] opacity-100' : 'max-h-0 opacity-0'
-          }`}
-        >
-          <div className="px-5 py-4 space-y-0.5">
-            {navLinks.map((link, i) => (
-              <NavLink
-                key={link.href}
-                to={link.href}
-                end={link.href === '/'}
-                className={`flex items-center justify-between px-4 py-3 rounded-xl text-[15px] font-medium transition-all duration-300 ${
-                  isActive(link.href)
-                    ? 'bg-white/[0.06] text-white'
-                    : 'text-white/60 hover:text-white hover:bg-white/[0.04]'
-                }`}
-                style={{ transitionDelay: mobileMenuOpen ? `${i * 30}ms` : '0ms' }}
-                onClick={() => setMobileMenuOpen(false)}
-              >
-                <span>{lang === 'en' ? link.en : link.fr}</span>
-                {isActive(link.href) && (
-                  <span className="w-1.5 h-1.5 bg-primary-light rounded-full" />
-                )}
-              </NavLink>
-            ))}
-
-            {/* Mobile bottom actions */}
-            <div className="pt-3 mt-3 border-t border-white/[0.06] flex gap-2">
-              <button
-                onClick={() => { setLang(lang === 'fr' ? 'en' : 'fr'); setMobileMenuOpen(false); }}
-                className="flex-1 flex items-center justify-center gap-2 px-4 py-3 rounded-xl text-sm font-medium text-white/60 bg-white/[0.04] hover:bg-white/[0.08] hover:text-white transition-all duration-300"
-              >
-                <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={1.5}>
-                  <path strokeLinecap="round" strokeLinejoin="round" d="M12 21a9.004 9.004 0 008.716-6.747M12 21a9.004 9.004 0 01-8.716-6.747M12 21c2.485 0 4.5-4.03 4.5-9S14.485 3 12 3m0 18c-2.485 0-4.5-4.03-4.5-9S9.515 3 12 3m0 0a8.997 8.997 0 017.843 4.582M12 3a8.997 8.997 0 00-7.843 4.582m15.686 0A11.953 11.953 0 0112 10.5c-2.998 0-5.74-1.1-7.843-2.918m15.686 0A8.959 8.959 0 0121 12c0 .778-.099 1.533-.284 2.253m0 0A17.919 17.919 0 0112 16.5c-3.162 0-6.133-.815-8.716-2.247m0 0A9.015 9.015 0 003 12c0-1.605.42-3.113 1.157-4.418" />
-                </svg>
-                {lang === 'fr' ? 'English' : 'Français'}
-              </button>
-
-              <Link
-                to={user ? '/dashboard' : '/login'}
-                onClick={() => setMobileMenuOpen(false)}
-                className="flex-1 flex items-center justify-center gap-2 px-4 py-3 rounded-xl text-sm font-semibold bg-primary text-white hover:bg-primary-light transition-all duration-300"
-              >
-                {user ? (
-                  <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={2}>
-                    <path strokeLinecap="round" strokeLinejoin="round" d="M3.75 6A2.25 2.25 0 016 3.75h2.25A2.25 2.25 0 0110.5 6v2.25a2.25 2.25 0 01-2.25 2.25H6a2.25 2.25 0 01-2.25-2.25V6zM3.75 15.75A2.25 2.25 0 016 13.5h2.25a2.25 2.25 0 012.25 2.25V18a2.25 2.25 0 01-2.25 2.25H6A2.25 2.25 0 013.75 18v-2.25zM13.5 6a2.25 2.25 0 012.25-2.25H18A2.25 2.25 0 0120.25 6v2.25A2.25 2.25 0 0118 10.5h-2.25a2.25 2.25 0 01-2.25-2.25V6zM13.5 15.75a2.25 2.25 0 012.25-2.25H18a2.25 2.25 0 012.25 2.25V18A2.25 2.25 0 0118 20.25h-2.25A2.25 2.25 0 0113.5 18v-2.25z" />
-                  </svg>
-                ) : (
-                  <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={2}>
-                    <path strokeLinecap="round" strokeLinejoin="round" d="M15.75 6a3.75 3.75 0 11-7.5 0 3.75 3.75 0 017.5 0zM4.501 20.118a7.5 7.5 0 0114.998 0A17.933 17.933 0 0112 21.75c-2.676 0-5.216-.584-7.499-1.632z" />
-                  </svg>
-                )}
-                {user ? 'Dashboard' : t('Admin', 'Admin')}
-              </Link>
-            </div>
-          </div>
-        </div>
       </nav>
+
+      {/* Mobile fullscreen menu — outside nav to avoid backdrop-filter containing block issue */}
+      <div
+        className={`lg:hidden fixed inset-0 z-[60] flex flex-col overflow-hidden transition-all duration-400 ease-[cubic-bezier(0.16,1,0.3,1)] ${
+          mobileMenuOpen
+            ? 'opacity-100 pointer-events-auto'
+            : 'opacity-0 pointer-events-none'
+        }`}
+      >
+        {/* Blurred background */}
+        <div className="absolute inset-0 bg-dark/95 backdrop-blur-2xl" />
+
+        {/* Close button */}
+        <div className="relative flex justify-between items-center px-5 pt-5 pb-2">
+          <Link to="/" onClick={() => setMobileMenuOpen(false)} className="flex items-center gap-2.5">
+            {settings.logo_url ? (
+              <img src={settings.logo_url} alt="Logo" className="w-8 h-8 rounded-full object-cover" />
+            ) : (
+              <div className="w-8 h-8 bg-primary rounded-full flex items-center justify-center font-bold text-xs text-white">
+                {settings.academy_name.substring(0, 2)}
+              </div>
+            )}
+          </Link>
+          <button
+            onClick={() => setMobileMenuOpen(false)}
+            className="w-10 h-10 flex items-center justify-center rounded-full bg-white/[0.08] hover:bg-white/[0.15] transition-colors"
+          >
+            <svg className="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={2}>
+              <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
+            </svg>
+          </button>
+        </div>
+
+        {/* Centered nav links */}
+        <nav className="relative flex-1 flex flex-col items-center justify-center gap-1 px-8">
+          {navLinks.map((link, i) => (
+            <NavLink
+              key={link.href}
+              to={link.href}
+              end={link.href === '/'}
+              className={`w-full text-center px-6 py-3.5 rounded-2xl text-lg font-medium transition-all duration-300 ${
+                isActive(link.href)
+                  ? 'bg-white/[0.08] text-white'
+                  : 'text-white/50 hover:text-white hover:bg-white/[0.04]'
+              }`}
+              style={{
+                transform: mobileMenuOpen ? 'translateY(0)' : 'translateY(20px)',
+                opacity: mobileMenuOpen ? 1 : 0,
+                transition: `all 0.4s cubic-bezier(0.16, 1, 0.3, 1) ${i * 50}ms`,
+              }}
+              onClick={() => setMobileMenuOpen(false)}
+            >
+              {lang === 'en' ? link.en : link.fr}
+            </NavLink>
+          ))}
+        </nav>
+
+        {/* Bottom action */}
+        <div className="relative px-6 pb-8 pt-4">
+          <button
+            onClick={() => {
+              const newLang = lang === 'fr' ? 'en' : 'fr';
+              setLang(newLang);
+              toast.success(
+                newLang === 'fr' ? 'Langue modifiée' : 'Language changed',
+                newLang === 'fr' ? 'Français activé' : 'English activated'
+              );
+            }}
+            className="w-full flex items-center justify-center gap-2.5 py-3.5 rounded-2xl text-sm font-semibold text-white/70 bg-white/[0.06] hover:bg-white/[0.12] hover:text-white transition-all duration-300 border border-white/[0.06]"
+          >
+            <span className="text-base leading-none">{lang === 'fr' ? '🇬🇧' : '🇫🇷'}</span>
+            {lang === 'fr' ? 'English' : 'Français'}
+          </button>
+        </div>
+      </div>
 
       {/* Main content */}
       <main key={location.pathname} className="animate-page-enter">
@@ -283,6 +301,79 @@ export default function MainLayout() {
           </div>
         </div>
       </footer>
+
+      {/* Language modal */}
+      {langModalOpen && (
+        <div className="fixed inset-0 z-[100] flex items-center justify-center">
+          <div className="absolute inset-0 bg-black/40 backdrop-blur-md animate-[fadeIn_0.2s_ease-out]" onClick={() => setLangModalOpen(false)} />
+          <div className="relative w-full max-w-sm mx-4 rounded-3xl shadow-2xl border overflow-hidden bg-white border-gray-100 animate-[scaleIn_0.3s_cubic-bezier(0.16,1,0.3,1)]">
+            {/* Header */}
+            <div className="px-6 pt-6 pb-4 text-center border-b border-gray-100">
+              <div className="w-12 h-12 mx-auto mb-3 rounded-2xl bg-primary/10 flex items-center justify-center">
+                <svg className="w-6 h-6 text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={1.5}>
+                  <path strokeLinecap="round" strokeLinejoin="round" d="M10.5 21l5.25-11.25L21 21m-9-3h7.5M3 5.621a48.474 48.474 0 016-.371m0 0c1.12 0 2.233.038 3.334.114M9 5.25V3m3.334 2.364C11.176 10.658 7.69 15.08 3 17.502m9.334-12.138c.896.061 1.785.147 2.666.257m-4.589 8.495a18.023 18.023 0 01-3.827-5.802" />
+                </svg>
+              </div>
+              <h3 className="text-lg font-bold text-gray-900">
+                {t('Choisir la langue', 'Choose language')}
+              </h3>
+              <p className="text-sm mt-1 text-gray-500">
+                {t('Sélectionnez votre langue préférée', 'Select your preferred language')}
+              </p>
+            </div>
+
+            {/* Options */}
+            <div className="p-4 space-y-2">
+              {[
+                { code: 'fr' as const, flag: '🇫🇷', name: 'Français', sub: 'French' },
+                { code: 'en' as const, flag: '🇬🇧', name: 'English', sub: 'Anglais' },
+              ].map((option) => (
+                <button
+                  key={option.code}
+                  onClick={() => {
+                    setLang(option.code);
+                    setLangModalOpen(false);
+                    toast.success(
+                      option.code === 'fr' ? 'Langue modifiée' : 'Language changed',
+                      option.code === 'fr' ? 'La langue a été changée en Français' : 'Language has been changed to English'
+                    );
+                  }}
+                  className={`w-full flex items-center gap-4 px-4 py-3.5 rounded-2xl transition-all duration-200 group ${
+                    lang === option.code
+                      ? 'bg-primary/10 ring-2 ring-primary/30'
+                      : 'hover:bg-gray-50'
+                  }`}
+                >
+                  <span className="text-3xl leading-none">{option.flag}</span>
+                  <div className="text-left flex-1">
+                    <p className={`font-semibold text-[15px] ${
+                      lang === option.code ? 'text-primary' : 'text-gray-900'
+                    }`}>{option.name}</p>
+                    <p className="text-xs text-gray-400">{option.sub}</p>
+                  </div>
+                  {lang === option.code && (
+                    <div className="w-6 h-6 rounded-full bg-primary flex items-center justify-center shrink-0">
+                      <svg className="w-3.5 h-3.5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={3}>
+                        <path strokeLinecap="round" strokeLinejoin="round" d="M4.5 12.75l6 6 9-13.5" />
+                      </svg>
+                    </div>
+                  )}
+                </button>
+              ))}
+            </div>
+
+            {/* Footer */}
+            <div className="px-6 py-4 border-t border-gray-100">
+              <button
+                onClick={() => setLangModalOpen(false)}
+                className="w-full py-2.5 rounded-xl text-sm font-medium text-gray-500 hover:bg-gray-50 transition-colors"
+              >
+                {t('Fermer', 'Close')}
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 }

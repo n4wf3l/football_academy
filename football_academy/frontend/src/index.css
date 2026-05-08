@@ -158,6 +158,33 @@
   background: var(--color-primary-light);
 }
 
+/* Soft floating motion for decorative badges/accents (GPU-only) */
+@keyframes float-soft {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-6px); }
+}
+.animate-float-soft { animation: float-soft 4.5s ease-in-out infinite; }
+
+@keyframes float-slower {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-10px); }
+}
+.animate-float-slower { animation: float-slower 6.5s ease-in-out infinite; }
+
+/* Marquee for ticker strips */
+@keyframes marquee-x {
+  from { transform: translateX(0); }
+  to { transform: translateX(-50%); }
+}
+.animate-marquee-x { animation: marquee-x 35s linear infinite; }
+
+/* Subtle glow pulse */
+@keyframes glow-pulse {
+  0%, 100% { opacity: 0.4; }
+  50% { opacity: 0.7; }
+}
+.animate-glow-pulse { animation: glow-pulse 3.5s ease-in-out infinite; }
+
 /* Toast animations */
 @keyframes slideInRight {
   from { opacity: 0; transform: translateX(100%) scale(0.95); }

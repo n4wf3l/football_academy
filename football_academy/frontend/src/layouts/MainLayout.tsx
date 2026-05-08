@@ -6,18 +6,19 @@ import { useAuth } from '../contexts/AuthContext';
 import { useToast } from '../contexts/ToastContext';
 
 const navLinks = [
-  { href: '/', fr: 'Accueil', en: 'Home' },
-  { href: '/about', fr: 'Le Centre', en: 'About' },
-  { href: '/players', fr: 'Joueurs', en: 'Players' },
-  { href: '/program', fr: 'Programme', en: 'Program' },
-  { href: '/gallery', fr: 'Galerie', en: 'Gallery' },
-  { href: '/tournaments', fr: 'Tournois', en: 'Tournaments' },
-  { href: '/contact', fr: 'Contact', en: 'Contact' },
+  { href: '/', fr: 'Accueil', en: 'Home', icon: 'M2.25 12l8.954-8.955c.44-.439 1.152-.439 1.591 0L21.75 12M4.5 9.75v10.125c0 .621.504 1.125 1.125 1.125H9.75v-4.875c0-.621.504-1.125 1.125-1.125h2.25c.621 0 1.125.504 1.125 1.125V21h4.125c.621 0 1.125-.504 1.125-1.125V9.75' },
+  { href: '/about', fr: 'Le Centre', en: 'About', icon: 'M2.25 21h19.5m-18-18v18m10.5-18v18m6-13.5V21M6.75 6.75h.75m-.75 3h.75m-.75 3h.75m3-6h.75m-.75 3h.75m-.75 3h.75M6.75 21v-3.75a.75.75 0 01.75-.75h3a.75.75 0 01.75.75V21M3 3h12m-.75 4.5H21m-3.75 3.75h.008v.008h-.008v-.008zm0 3h.008v.008h-.008v-.008zm0 3h.008v.008h-.008v-.008z' },
+  { href: '/players', fr: 'Joueurs', en: 'Players', icon: 'M15 19.128a9.38 9.38 0 002.625.372 9.337 9.337 0 004.121-.952 4.125 4.125 0 00-7.533-2.493M15 19.128v-.003c0-1.113-.285-2.16-.786-3.07M15 19.128v.106A12.318 12.318 0 018.624 21c-2.331 0-4.512-.645-6.374-1.766l-.001-.109a6.375 6.375 0 0111.964-3.07M12 6.375a3.375 3.375 0 11-6.75 0 3.375 3.375 0 016.75 0zm8.25 2.25a2.625 2.625 0 11-5.25 0 2.625 2.625 0 015.25 0z' },
+  { href: '/program', fr: 'Programme', en: 'Program', icon: 'M6.75 3v2.25M17.25 3v2.25M3 18.75V7.5a2.25 2.25 0 012.25-2.25h13.5A2.25 2.25 0 0121 7.5v11.25m-18 0A2.25 2.25 0 005.25 21h13.5A2.25 2.25 0 0021 18.75m-18 0v-7.5A2.25 2.25 0 015.25 9h13.5A2.25 2.25 0 0121 11.25v7.5' },
+  { href: '/gallery', fr: 'Galerie', en: 'Gallery', icon: 'M2.25 15.75l5.159-5.159a2.25 2.25 0 013.182 0l5.159 5.159m-1.5-1.5l1.409-1.409a2.25 2.25 0 013.182 0l2.909 2.909m-18 3.75h16.5a1.5 1.5 0 001.5-1.5V6a1.5 1.5 0 00-1.5-1.5H3.75A1.5 1.5 0 002.25 6v12a1.5 1.5 0 001.5 1.5zm10.5-11.25h.008v.008h-.008V8.25zm.375 0a.375.375 0 11-.75 0 .375.375 0 01.75 0z' },
+  { href: '/tournaments', fr: 'Tournois', en: 'Tournaments', icon: 'M16.5 18.75h-9m9 0a3 3 0 013 3h-15a3 3 0 013-3m9 0v-3.375c0-.621-.503-1.125-1.125-1.125h-.871M7.5 18.75v-3.375c0-.621.504-1.125 1.125-1.125h.872m5.007 0H9.497m5.007 0a7.454 7.454 0 01-.982-3.172M9.497 14.25a7.454 7.454 0 00.981-3.172M5.25 4.236c-.982.143-1.954.317-2.916.52A6.003 6.003 0 007.73 9.728M5.25 4.236V4.5c0 2.108.966 3.99 2.48 5.228M5.25 4.236V2.721C7.456 2.41 9.71 2.25 12 2.25c2.291 0 4.545.16 6.75.47v1.516M7.73 9.728a6.726 6.726 0 002.748 1.35m8.272-6.842V4.5c0 2.108-.966 3.99-2.48 5.228m2.48-5.492a46.32 46.32 0 012.916.52 6.003 6.003 0 01-5.395 4.972m0 0a6.726 6.726 0 01-2.749 1.35m0 0a6.772 6.772 0 01-3.044 0' },
+  { href: '/contact', fr: 'Contact', en: 'Contact', icon: 'M21.75 6.75v10.5a2.25 2.25 0 01-2.25 2.25h-15a2.25 2.25 0 01-2.25-2.25V6.75m19.5 0A2.25 2.25 0 0019.5 4.5h-15a2.25 2.25 0 00-2.25 2.25m19.5 0v.243a2.25 2.25 0 01-1.07 1.916l-7.5 4.615a2.25 2.25 0 01-2.36 0L3.32 8.91a2.25 2.25 0 01-1.07-1.916V6.75' },
 ];
 
 export default function MainLayout() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
+  const [navHidden, setNavHidden] = useState(false);
   const location = useLocation();
   const isHome = location.pathname === '/';
   const { settings } = useSettings();
@@ -27,8 +28,20 @@ export default function MainLayout() {
   const [langModalOpen, setLangModalOpen] = useState(false);
 
   useEffect(() => {
-    const handleScroll = () => setScrolled(window.scrollY > 20);
-    window.addEventListener('scroll', handleScroll);
+    let lastY = window.scrollY;
+    const handleScroll = () => {
+      const y = window.scrollY;
+      setScrolled(y > 20);
+      if (y < 80) {
+        setNavHidden(false);
+      } else if (y > lastY + 4) {
+        setNavHidden(true);
+      } else if (y < lastY - 4) {
+        setNavHidden(false);
+      }
+      lastY = y;
+    };
+    window.addEventListener('scroll', handleScroll, { passive: true });
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
@@ -52,6 +65,8 @@ export default function MainLayout() {
       {/* Navbar */}
       <nav
         className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 ${
+          navHidden && !mobileMenuOpen ? '-translate-y-full' : 'translate-y-0'
+        } ${
           scrolled || !isHome
             ? 'bg-dark/90 backdrop-blur-xl shadow-[0_1px_0_rgba(255,255,255,0.05)]'
             : 'bg-gradient-to-b from-black/60 to-transparent'
@@ -150,6 +165,49 @@ export default function MainLayout() {
           </div>
         </div>
       </nav>
+
+      {/* Floating side rail — appears on scroll, alternative nav while navbar is hidden */}
+      <aside
+        className={`hidden lg:flex fixed left-4 top-1/2 -translate-y-1/2 z-40 flex-col gap-0.5 p-1.5 rounded-full bg-dark/85 backdrop-blur-xl border border-white/[0.08] shadow-2xl transition-all duration-500 ${
+          scrolled
+            ? 'opacity-100 translate-x-0'
+            : 'opacity-0 -translate-x-8 pointer-events-none'
+        }`}
+        aria-label={t('Navigation rapide', 'Quick navigation')}
+      >
+        {navLinks.map((link) => {
+          const active = isActive(link.href);
+          return (
+            <NavLink
+              key={link.href}
+              to={link.href}
+              end={link.href === '/'}
+              className="group relative w-9 h-9 flex items-center justify-center rounded-full transition-colors"
+              title={lang === 'en' ? link.en : link.fr}
+            >
+              {active && (
+                <span className="absolute inset-0 bg-white/[0.1] rounded-full border border-white/[0.08]" />
+              )}
+              <svg
+                className={`relative w-[17px] h-[17px] transition-colors ${
+                  active ? 'text-white' : 'text-white/45 group-hover:text-white'
+                }`}
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+                strokeWidth={1.7}
+              >
+                <path strokeLinecap="round" strokeLinejoin="round" d={link.icon} />
+              </svg>
+
+              {/* Tooltip label on hover */}
+              <span className="pointer-events-none absolute left-full ml-3 whitespace-nowrap px-2.5 py-1 rounded-md bg-dark/95 border border-white/[0.08] text-[11px] font-medium text-white/90 opacity-0 -translate-x-1 group-hover:opacity-100 group-hover:translate-x-0 transition-all duration-200 shadow-lg">
+                {lang === 'en' ? link.en : link.fr}
+              </span>
+            </NavLink>
+          );
+        })}
+      </aside>
 
       {/* Mobile fullscreen menu — outside nav to avoid backdrop-filter containing block issue */}
       <div
